@@ -17,7 +17,7 @@ exports.decrypt = (encryption) => {
         Buffer.from(secret),
         Buffer.from(encryption.iv, 'hex'));
     const decrypted = Buffer.concat([
-        decypher,update(Buffer.from(encryption.password,'hex')),
+        decypher.update(Buffer.from(encryption.password,'hex')),
         decypher.final(),
     ]);
     return decrypted.toString();
