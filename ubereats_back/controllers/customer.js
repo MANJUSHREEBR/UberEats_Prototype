@@ -5,6 +5,7 @@ const {errorHandler} = require('../helpers/dbErrorHandler');
 const jwt = require('jsonwebtoken'); //to generate signed token
 const expressJwt = require('express-jwt'); // for authorization check
 
+
 exports.customerSignup = (req, res) => {
     const {username, password,email} = req.body;
     const hashedPassword = encrypt(password);
@@ -60,7 +61,7 @@ exports.customerSignin = (req, res) => {
             
             // //if user is found authenticate the user 
             const token = jwt.sign({_id: customer[0].id}, process.env.JWT_SECRET)
-             res.cookie('t', token,{expire: new Date() + 9999});
+             res.cookie('tk', token,{expire: new Date() + 9999});
              res.json({token, customer})
              conn.release();
          })
@@ -68,3 +69,15 @@ exports.customerSignin = (req, res) => {
 
     })
 }
+
+exports.customerSignout = (req, res) => {
+    res.clearCookie('tk')
+    res.json({message: "Signout Success"})
+
+}
+
+exports.requireSignin = expressJwt({
+    secret: process.env.JWT_SECRTE || "dfhkjkyskdgjdflhklk",
+    algorithms: ["HS256"], // added later
+    userProperty: "auth",
+  });
