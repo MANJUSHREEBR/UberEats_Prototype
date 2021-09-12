@@ -1,13 +1,18 @@
 const express = require('express');
-const { customerSignup, customerSignin, customerSignout, requireSignin} = require('../controllers/customer');
-const {signupValidator} = require('../validator')
+const { requireSignin, isAuth, isRestaurant} = require('../controllers/customerAuth');
+
+const { findCustomerById} = require('../controllers/customer');
 const router = express.Router();
 
+router.get("/secret/:customerId", requireSignin, isAuth, isRestaurant, (req, res) =>{
+    res.json({
+        customer: req.profile
+    })
+} )
 
 
-router.post('/customer/signup',signupValidator, customerSignup);
-router.post('/customer/signin', customerSignin);
-router.get('/customer/signout', customerSignout);
+router.param('customerId', findCustomerById)
+
 
 
 module.exports = router;
