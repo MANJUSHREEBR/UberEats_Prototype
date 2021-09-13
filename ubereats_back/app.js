@@ -17,11 +17,12 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(expressValidator());
+app.use(cors());
 
 // routes
 app.use('/ubereats', customerAuthRoutes);
 app.use('/ubereats', customerRoutes);
-app.use(cors());
+
 
 const port = process.env.PORT || 8000;
 // eslint-disable-next-line no-console
