@@ -1,9 +1,12 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import './Menu.css';
+import { signout, isAuthenticated } from '../auth';
 
 const isActive = (history, path) => {
   if (history.location.pathname === path) {
@@ -19,12 +22,29 @@ const Menu = ({ history }) => (
     <li className="nav-item">
       <Link className="nav-link" to="/" style={isActive(history, '/')}> Home</Link>
     </li>
+    {!isAuthenticated() && (
+    <>
+      <li className="nav-item">
+        <Link className="nav-link" to="/customersignin" style={isActive(history, '/customersignin')}> Signin</Link>
+      </li>
+      <li className="nav-item">
+        <Link className="nav-link" to="/customersignup" style={isActive(history, '/customersignup')}> Signup</Link>
+      </li>
+    </>
+    )}
+    {isAuthenticated() && (
     <li className="nav-item">
-      <Link className="nav-link" to="/customersignin" style={isActive(history, '/customersignin')}> Signin</Link>
+      <span
+        className="nav-link"
+        style={{ cursor: 'pointer', color: 'black' }}
+        onClick={() => signout(() => {
+          history.push('/');
+        })}
+      >
+        Signout
+      </span>
     </li>
-    <li className="nav-item">
-      <Link className="nav-link" to="/customersignup" style={isActive(history, '/customersignup')}> Signup</Link>
-    </li>
+    )}
 
   </ul>
 );
