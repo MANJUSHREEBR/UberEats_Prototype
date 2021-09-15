@@ -39,7 +39,7 @@ exports.customerSignin = (req, res) => {
       res.send('Error occured');
     } else {
       conn.query(
-        'SELECT password,iv,id FROM customers where email = ? ',
+        'SELECT * FROM customers where email = ? ',
         [email],
         (err, customer) => {
           if (err || !customer.length) {

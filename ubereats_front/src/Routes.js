@@ -6,6 +6,8 @@ import Customersignin from './customer/Customersignin';
 import Customersignup from './customer/Customersignup';
 import Home from './core/Home';
 import Menu from './core/Menu';
+import PrivateRoute from './auth/PrivateRoute';
+import Customerdashboard from './customer/Customerdashboard';
 
 const Routes = () => (
   <BrowserRouter>
@@ -14,7 +16,7 @@ const Routes = () => (
       <Route path="/" exact component={Home} />
       <Route path="/customersignin" exact component={Customersignin} />
       <Route path="/customersignup" exact component={Customersignup} />
-      <Route path="/customersignout" exact component={Home} />
+      <PrivateRoute path="/customerdashboard" exact component={Customerdashboard} />
     </Switch>
   </BrowserRouter>
 );
