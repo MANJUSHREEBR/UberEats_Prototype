@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { signin, authenticate } from '../auth';
+import { signin, authenticate, isAuthenticated } from '../auth';
 
 const Customersignin = () => {
   const [values, setValues] = useState({
@@ -19,7 +19,7 @@ const Customersignin = () => {
   const {
     email, password, error, loading, redirectToReferrer,
   } = values;
-
+  const { customer } = isAuthenticated();
   const handleChange = (nameArg) => (event) => {
     setValues({ ...values, error: false, [nameArg]: event.target.value });
   };
@@ -69,6 +69,13 @@ const Customersignin = () => {
 
   const redirectUser = () => {
     if (redirectToReferrer) {
+      if (customer && customer[0].role === '0') {
+        return <Redirect to="/customerdashboard" />;
+      }
+
+      return <Redirect to="/restaurantdashboard" />;
+    }
+    if (isAuthenticated()) {
       return <Redirect to="/" />;
     }
   };
@@ -76,6 +83,13 @@ const Customersignin = () => {
   return (
     <div className="container col-md-8 offset-md-2">
       <img src="images/logo.png" alt="Uber Eats" style={{ height: '75px' }} />
+      <div className="switch switch-blue">
+        <input type="radio" className="switch-input radio-warning" name="userrole" value="customer" id="week2" checked />
+        <label htmlFor="week2" className="switch-label switch-label-off">Customer</label>
+        <input type="radio" className="switch-input" name="userrole" value="restaurant" id="month2" />
+        <label htmlFor="month2" className="switch-label switch-label-on">Restaurant</label>
+        <span className="switch-selection" />
+      </div>
       {showerror()}
       {showLoading()}
       {signUpForm()}

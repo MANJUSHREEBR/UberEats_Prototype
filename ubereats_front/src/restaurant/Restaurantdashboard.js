@@ -4,52 +4,43 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { isAuthenticated } from '../auth';
 
-const Customerdashboard = () => {
+const Restaurantdashboard = () => {
   const { customer } = isAuthenticated();
-  const userLinks = () => (
+  const adminLinks = () => (
     <div className="card">
-      <h4 className="card-header">User links</h4>
+      <h4 className="card-header">Admin links</h4>
       <ul className="list-group">
         <li className="list-group-item">
-          <Link className="nav-link" to="/cart">My Cart</Link>
+          <Link className="nav-link" to="/adddishes">Add dishes</Link>
         </li>
         <li className="list-group-item">
-          <Link className="nav-link" to="/cprofileUpdate">Update profile</Link>
+          <Link className="nav-link" to="/rprofileUpdate">Update profile</Link>
         </li>
       </ul>
     </div>
   );
-  const userInfo = () => (
+  const adminInfo = () => (
     <div className="card mb-5">
-      <h3>User Information</h3>
+      <h3>Resturant Information</h3>
       <ul className="list-group">
         <li className="list-group-item">{ customer[0].username }</li>
       </ul>
     </div>
   );
 
-  const purchaseHistory = () => (
-    <div className="card mb-5">
-      <h3>Orders</h3>
-      <ul className="list-group">
-        <li className="list-group-item">Orders</li>
-      </ul>
-    </div>
-  );
   return (
     <div className="container">
 
       <div className="row">
         <div className="col-3">
-          {userLinks()}
+          {adminLinks()}
         </div>
         <div className="col-9">
-          {userInfo()}
-          {purchaseHistory()}
+          {adminInfo()}
         </div>
 
       </div>
     </div>
   );
 };
-export default Customerdashboard;
+export default Restaurantdashboard;
