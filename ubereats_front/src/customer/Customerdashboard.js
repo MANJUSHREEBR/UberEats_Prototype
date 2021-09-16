@@ -23,7 +23,7 @@ const Customerdashboard = () => {
     <div className="card mb-5">
       <h3>User Information</h3>
       <ul className="list-group">
-        <li className="list-group-item">{ customer[0].username }</li>
+        <li className="list-group-item">{ customer[0].name }</li>
       </ul>
     </div>
   );

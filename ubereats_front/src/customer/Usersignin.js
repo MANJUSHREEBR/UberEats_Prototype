@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable consistent-return */
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable jsx-a11y/label-has-associated-control */
@@ -7,17 +8,18 @@ import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { signin, authenticate, isAuthenticated } from '../auth';
 
-const Customersignin = () => {
+const Usersignin = () => {
   const [values, setValues] = useState({
     email: 'kavyashree@gmail.com',
     password: 'kavya@123',
     error: '',
     loading: false,
     redirectToReferrer: false,
-
+    isCustomer: 'customer',
   });
   const {
     email, password, error, loading, redirectToReferrer,
+    isCustomer,
   } = values;
   const { customer } = isAuthenticated();
   const handleChange = (nameArg) => (event) => {
@@ -27,7 +29,7 @@ const Customersignin = () => {
   const clickSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: false, loading: true });
-    signin({ email, password })
+    signin({ email, password }, isCustomer)
       .then((data) => {
         if (data.error) {
           setValues({ ...values, error: data.error, loading: false });
@@ -44,6 +46,15 @@ const Customersignin = () => {
 
   const signUpForm = () => (
     <form>
+      <div className="form-group">
+        <div className="switch switch-green">
+          <input onChange={handleChange('isCustomer')} type="radio" className="switch-input radio-warning" name="userrole" value="customer" checked={isCustomer === 'customer'} />
+          <label htmlFor="week2" className="switch-label switch-label-off">Customer</label>
+          <input onChange={handleChange('isCustomer')} type="radio" className="switch-input" name="userrole" value="restaurant" checked={isCustomer === 'restaurant'} />
+          <label htmlFor="month2" className="switch-label switch-label-on">Restaurant</label>
+          <span className="switch-selection" />
+        </div>
+      </div>
       <div className="form-group">
         <label className="text-muted">Email</label>
         <input onChange={handleChange('email')} type="email" className="form-control" value={email} />
@@ -69,7 +80,7 @@ const Customersignin = () => {
 
   const redirectUser = () => {
     if (redirectToReferrer) {
-      if (customer && customer[0].role === '0') {
+      if (customer && customer[0].role === 0) {
         return <Redirect to="/customerdashboard" />;
       }
 
@@ -83,13 +94,6 @@ const Customersignin = () => {
   return (
     <div className="container col-md-8 offset-md-2">
       <img src="images/logo.png" alt="Uber Eats" style={{ height: '75px' }} />
-      <div className="switch switch-blue">
-        <input type="radio" className="switch-input radio-warning" name="userrole" value="customer" id="week2" checked />
-        <label htmlFor="week2" className="switch-label switch-label-off">Customer</label>
-        <input type="radio" className="switch-input" name="userrole" value="restaurant" id="month2" />
-        <label htmlFor="month2" className="switch-label switch-label-on">Restaurant</label>
-        <span className="switch-selection" />
-      </div>
       {showerror()}
       {showLoading()}
       {signUpForm()}
@@ -99,4 +103,4 @@ const Customersignin = () => {
   );
 };
 
-export default Customersignin;
+export default Usersignin;

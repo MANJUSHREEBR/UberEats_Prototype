@@ -9,7 +9,7 @@ const RestaurantPrivateRoute = ({ component: Component, ...rest }) => (
 
   <Route
     {...rest}
-    render={(props) => (isAuthenticated() && isAuthenticated().customer[0].role === '1' ? (
+    render={(props) => (isAuthenticated() && isAuthenticated().customer[0].role === 1 ? (
       <Component {...props} />
     ) : (
       <Redirect to={{ pathname: '/customersignin', state: { from: props.location } }} />

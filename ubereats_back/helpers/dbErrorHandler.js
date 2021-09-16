@@ -1,5 +1,3 @@
-"use strict";
-
 /**
  * Get unique error field name
  */
@@ -24,26 +22,24 @@
 /**
  * Get the erroror message from error object
  */
-exports.errorHandler = error => {
-    let message = "";
+exports.errorHandler = (error) => {
+  let message = '';
 
-    if (error.errno) {
-        switch (error.errno) {
-            case 1048:
-            case 1062:
-                message = error.sqlMessage;
-                break;
-            default:
-                message = error.sqlMessage;
-        }
+  if (error.errno) {
+    switch (error.errno) {
+      case 1048:
+      case 1062:
+        message = error.sqlMessage;
+        break;
+      default:
+        message = error.sqlMessage;
     }
-    else {
+  } else {
     //     // for (let errorName in error.errorors) {
     //     //     if (error.errorors[errorName].sqlMessage)
     //     //         message = error.errorors[errorName].sqlMessage;
     //     }
-    }
+  }
 
-    return message;
+  return message;
 };
-

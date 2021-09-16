@@ -7,7 +7,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 // import routes
-const customerAuthRoutes = require('./routes/customerAuth');
+const userAuthRoutes = require('./routes/userAuth');
 const customerRoutes = require('./routes/customer');
 
 const app = express();
@@ -20,7 +20,7 @@ app.use(expressValidator());
 app.use(cors());
 
 // routes
-app.use('/ubereats', customerAuthRoutes);
+app.use('/ubereats', userAuthRoutes);
 app.use('/ubereats', customerRoutes);
 
 

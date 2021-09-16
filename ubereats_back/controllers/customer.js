@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 const { errorHandler } = require('../helpers/dbErrorHandler');
 const { pool } = require('../helpers/dbConnectionHandler');
 
@@ -9,8 +10,8 @@ exports.findCustomerById = (req, res, next, id) => {
       conn.query(
         'SELECT * FROM customers where id = ?',
         [id],
-        (err, customer) => {
-          if (err || !customer.length) {
+        (error, customer) => {
+          if (error || !customer.length) {
             return res.status(400).json({
               error: errorHandler(err),
 

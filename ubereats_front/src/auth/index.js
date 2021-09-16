@@ -2,7 +2,7 @@
 /* eslint-disable import/prefer-default-export */
 import { API } from '../config';
 
-export const signUp = (user) => fetch(`${API}/customer/signup`, {
+export const signUp = (user, isCustomer) => fetch(`${API}/${isCustomer}/signup`, {
   method: 'POST',
   headers: {
     Accept: 'application/json',
@@ -16,7 +16,7 @@ export const signUp = (user) => fetch(`${API}/customer/signup`, {
     console.log(err);
   });
 
-export const signin = (user) => fetch(`${API}/customer/signin`, {
+export const signin = (user, isCustomer) => fetch(`${API}/${isCustomer}/signin`, {
   method: 'POST',
   headers: {
     Accept: 'application/json',

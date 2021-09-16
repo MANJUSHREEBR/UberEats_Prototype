@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/jsx-filename-extension */
 
@@ -5,17 +6,19 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { signUp } from '../auth';
 
-const Customersignup = () => {
+const Usersignup = () => {
   const [values, setValues] = useState({
     name: '',
     email: '',
     password: '',
     error: '',
     success: false,
+    isCustomer: 'customer',
+    location: '',
 
   });
   const {
-    name, email, password, error, success,
+    name, email, password, error, success, isCustomer, location,
   } = values;
 
   const handleChange = (nameArg) => (event) => {
@@ -24,7 +27,17 @@ const Customersignup = () => {
   const clickSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: false });
-    signUp({ username: name, email, password })
+    let user;
+    if (isCustomer === 'customer') {
+      user = {
+        name, email, password,
+      };
+    } else {
+      user = {
+        name, email, password, location,
+      };
+    }
+    signUp(user, isCustomer)
       .then((data) => {
         if (data.error) {
           setValues({ ...values, error: data.error, success: false });
@@ -35,6 +48,7 @@ const Customersignup = () => {
             email: '',
             password: '',
             error: '',
+            location: '',
             success: true,
           });
         }
@@ -43,6 +57,15 @@ const Customersignup = () => {
 
   const signUpForm = () => (
     <form>
+      <div className="form-group">
+        <div className="switch switch-green">
+          <input onChange={handleChange('isCustomer')} type="radio" className="switch-input radio-warning" name="userrole" value="customer" checked={isCustomer === 'customer'} />
+          <label htmlFor="week2" className="switch-label switch-label-off">Customer</label>
+          <input onChange={handleChange('isCustomer')} type="radio" className="switch-input" name="userrole" value="restaurant" checked={isCustomer === 'restaurant'} />
+          <label htmlFor="month2" className="switch-label switch-label-on">Restaurant</label>
+          <span className="switch-selection" />
+        </div>
+      </div>
       <div className="form-group">
         <label className="text-muted">Name</label>
         <input onChange={handleChange('name')} type="text" className="form-control" value={name} />
@@ -57,6 +80,12 @@ const Customersignup = () => {
         <label className="text-muted">Password</label>
         <input onChange={handleChange('password')} type="password" className="form-control" value={password} />
       </div>
+      {isCustomer === 'restaurant' && (
+      <div className="form-group">
+        <label className="text-muted">Location</label>
+        <input onChange={handleChange('location')} type="text" className="form-control" value={location} />
+      </div>
+      )}
       <button type="submit" className="btn btn-success" onClick={clickSubmit}>
         Submit
       </button>
@@ -69,7 +98,7 @@ const Customersignup = () => {
   );
   const showsucess = () => (
     <div className="alert alert-info" style={{ display: success ? '' : 'none' }}>
-      Successfullt signedup!
+      signeup successfull!
       {' '}
       <Link to="/customersignin"> Signin here</Link>
     </div>
@@ -86,4 +115,4 @@ const Customersignup = () => {
   );
 };
 
-export default Customersignup;
+export default Usersignup;
