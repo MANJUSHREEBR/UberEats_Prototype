@@ -11,10 +11,10 @@ const Restaurantdashboard = () => {
       <h4 className="card-header">Admin links</h4>
       <ul className="list-group">
         <li className="list-group-item">
-          <Link className="nav-link" to="/adddishes">Add dishes</Link>
+          <Link className="nav-link" to="/create/dishes">Add dishes</Link>
         </li>
         <li className="list-group-item">
-          <Link className="nav-link" to="/rprofileUpdate">Update profile</Link>
+          <Link className="nav-link" to="/rprofile/update">Update profile</Link>
         </li>
       </ul>
     </div>

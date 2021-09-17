@@ -10,6 +10,7 @@ import PrivateRoute from './auth/PrivateRoute';
 import RestaurantPrivateRoute from './auth/RestaurantPrivateRoute';
 import Customerdashboard from './customer/Customerdashboard';
 import Resturantdashboard from './restaurant/Restaurantdashboard';
+import Adddishes from './restaurant/Adddishes';
 
 const Routes = () => (
   <BrowserRouter>
@@ -20,6 +21,8 @@ const Routes = () => (
       <Route path="/customersignup" exact component={Usersignup} />
       <PrivateRoute path="/customerdashboard" exact component={Customerdashboard} />
       <RestaurantPrivateRoute path="/restaurantdashboard" exact component={Resturantdashboard} />
+      <RestaurantPrivateRoute path="/create/dishes" exact component={Adddishes} />
+
     </Switch>
   </BrowserRouter>
 );

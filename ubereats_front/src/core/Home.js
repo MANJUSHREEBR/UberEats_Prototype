@@ -1,13 +1,31 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-filename-extension */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 // import styles from './Home.module.css';
 import './Home.css';
 import Layout from './Footer';
+import { getDishes } from './Apicore';
 
-const Home = () => (
-  <div className="container-fluid">
-    <Layout title="Uber Eats" description="Food delivery service" />
-  </div>
-);
+const Home = () => {
+  const [dishes, setDishes] = useState([]);
+  const [error, setError] = useState(false);
+  const loadDishes = () => {
+    getDishes('id').then((data) => {
+      if (data.error) {
+        setError(data.error);
+      } else {
+        setDishes(data);
+      }
+    });
+  };
+  useEffect(() => {
+    loadDishes();
+  }, []);
+  return (
+    <div>
+      <Layout />
+    </div>
+  );
+};
 
 export default Home;

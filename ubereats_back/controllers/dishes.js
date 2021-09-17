@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable radix */
 /* eslint-disable consistent-return */
 const formidable = require('formidable');
@@ -40,8 +41,9 @@ exports.create = (req, res) => {
       });
     }
     // check for all fields
-    const { name, description } = fields;
-    if (!name || !description) {
+    const { name, description, price } = fields;
+    console.log(fields);
+    if (!name || !description || !price) {
       return res.status(400).json({
         error: 'All fields are required',
       });
@@ -58,7 +60,7 @@ exports.create = (req, res) => {
       item.contentType = files.photo.type;
     }
     dishes.photo = JSON.stringify(item);
-    dishes.restaurant_id = req.profile[0].id;
+    dishes.restaurant_id = req.restaurant[0].id;
     pool.getConnection((err, conn) => {
       if (err) {
         res.send('Error occured');
@@ -73,6 +75,7 @@ exports.create = (req, res) => {
 
               });
             }
+            result.name = dishes.name;
             res.json({
               result,
             });
@@ -153,7 +156,7 @@ exports.list = (req, res) => {
       res.send('Error occured');
     } else {
       conn.query(
-        'SELECT name, description FROM dishes ORDER BY ? ? LIMIT ? ',
+        'SELECT * FROM dishes ORDER BY ? ? LIMIT ? ',
         [sortBy, order, limit],
         (error, dishes) => {
           if (error || !dishes.length) {

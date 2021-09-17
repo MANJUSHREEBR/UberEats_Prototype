@@ -5,6 +5,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { signUp } from '../auth';
+import './UserSign.css';
 
 const Usersignup = () => {
   const [values, setValues] = useState({

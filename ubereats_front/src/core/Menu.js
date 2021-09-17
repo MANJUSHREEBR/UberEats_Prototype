@@ -29,7 +29,7 @@ const Menu = ({ history }) => (
     )}
     {isAuthenticated() && isAuthenticated().customer[0].role === 1 && (
     <li className="nav-item">
-      <Link className="nav-link" to="/customerdashboard" style={isActive(history, '/restaurantdashboard')}> Dashboard</Link>
+      <Link className="nav-link" to="/restaurantdashboard" style={isActive(history, '/restaurantdashboard')}> Dashboard</Link>
     </li>
     )}
     {!isAuthenticated() && (
