@@ -49,9 +49,9 @@ const Usersignin = () => {
       <div className="form-group">
         <div className="switch switch-green">
           <input onChange={handleChange('isCustomer')} type="radio" className="switch-input radio-warning" name="userrole" value="customer" checked={isCustomer === 'customer'} />
-          <label htmlFor="week2" className="switch-label switch-label-off">Customer</label>
+          <label htmlFor="week2" className="switch-label switch-label-off" style={{ paddingLeft: '4px', paddingRight: '11px' }}>Customer</label>
           <input onChange={handleChange('isCustomer')} type="radio" className="switch-input" name="userrole" value="restaurant" checked={isCustomer === 'restaurant'} />
-          <label htmlFor="month2" className="switch-label switch-label-on">Restaurant</label>
+          <label htmlFor="month2" className="switch-label switch-label-on" style={{ paddingLeft: '4px', paddingRight: '11px' }}>Restaurant</label>
           <span className="switch-selection" />
         </div>
       </div>

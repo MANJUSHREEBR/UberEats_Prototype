@@ -89,9 +89,17 @@ exports.isAuth = (req, res, next) => {
   }
   next();
 };
-
+exports.isAuthRestaurant = (req, res, next) => {
+  const restaurant = req.restaurant && req.auth && req.restaurant[0].id === req.auth._id;
+  if (!restaurant) {
+    return res.status(403).json({
+      error: 'Access denied',
+    });
+  }
+  next();
+};
 exports.isRestaurant = (req, res, next) => {
-  if (req.profile[0].role === 0) {
+  if (req.restaurant[0].role !== 1) {
     return res.status(403).json({
       error: 'Restaurant resource! Access denied',
     });

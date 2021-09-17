@@ -9,6 +9,8 @@ require('dotenv').config();
 // import routes
 const userAuthRoutes = require('./routes/userAuth');
 const customerRoutes = require('./routes/customer');
+const restaurantRoutes = require('./routes/restaurant');
+const dishesRoutes = require('./routes/dishes');
 
 const app = express();
 
@@ -22,7 +24,8 @@ app.use(cors());
 // routes
 app.use('/ubereats', userAuthRoutes);
 app.use('/ubereats', customerRoutes);
-
+app.use('/ubereats', dishesRoutes);
+app.use('/ubereats', restaurantRoutes);
 
 const port = process.env.PORT || 8000;
 // eslint-disable-next-line no-console

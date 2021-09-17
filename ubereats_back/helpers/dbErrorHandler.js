@@ -25,7 +25,7 @@
 exports.errorHandler = (error) => {
   let message = '';
 
-  if (error.errno) {
+  if (error && error.errno) {
     switch (error.errno) {
       case 1048:
       case 1062:
