@@ -6,6 +6,7 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import './Menu.css';
+import '../style.css';
 import { signout, isAuthenticated } from '../auth';
 
 const isActive = (history, path) => {

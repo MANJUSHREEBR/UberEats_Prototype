@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
 /* eslint-disable consistent-return */
 /* eslint-disable react/jsx-filename-extension */
@@ -6,42 +7,37 @@
 
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { signin, authenticate, isAuthenticated } from '../auth';
+import { actionCreators } from '../js/actions';
 
 const Usersignin = () => {
+  const disPatch = useDispatch();
+  const { customerSignin } = bindActionCreators(actionCreators, disPatch);
+
   const [values, setValues] = useState({
     email: 'kavyashree@gmail.com',
     password: 'kavya@123',
-    error: '',
-    loading: false,
     redirectToReferrer: false,
     isCustomer: 'customer',
   });
   const {
-    email, password, error, loading, redirectToReferrer,
+    email, password, redirectToReferrer,
     isCustomer,
   } = values;
-  const { customer } = isAuthenticated();
+  // const { customer } = isAuthenticated();
   const handleChange = (nameArg) => (event) => {
     setValues({ ...values, error: false, [nameArg]: event.target.value });
   };
+  const {
+    loadingFromState, errorFromState, customerSigninInfo, successFromState,
+  } = useSelector((state) => state.customer);
 
   const clickSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: false, loading: true });
-    signin({ email, password }, isCustomer)
-      .then((data) => {
-        if (data.error) {
-          setValues({ ...values, error: data.error, loading: false });
-        } else {
-          authenticate(data, () => {
-            setValues({
-              ...values,
-              redirectToReferrer: true,
-            });
-          });
-        }
-      });
+    customerSignin({ email, password }, isCustomer);
   };
 
   const signUpForm = () => (
@@ -70,25 +66,15 @@ const Usersignin = () => {
     </form>
   );
   const showerror = () => (
-    <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
-      {error}
+    <div className="alert alert-danger" style={{ display: errorFromState ? '' : 'none' }}>
+      {errorFromState}
     </div>
   );
   const showLoading = () => (
-    loading && (<div className="alert alert-info"><h2>Loading...</h2></div>)
+    loadingFromState && (<div className="alert alert-info"><h2>Loading...</h2></div>)
   );
 
   const redirectUser = () => {
-    if (redirectToReferrer) {
-      if (customer && customer[0].role === 0) {
-        return <Redirect to="/customerdashboard" />;
-      }
-
-      return <Redirect to="/restaurantdashboard" />;
-    }
-    if (isAuthenticated()) {
-      return <Redirect to="/" />;
-    }
   };
 
   return (
