@@ -1,3 +1,4 @@
+/* eslint-disable no-bitwise */
 /* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
 /* eslint-disable consistent-return */
@@ -6,8 +7,8 @@
 /* eslint-disable react/jsx-filename-extension */
 
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { signin, authenticate, isAuthenticated } from '../auth';
 import { actionCreators } from '../js/actions';
@@ -19,25 +20,25 @@ const Usersignin = () => {
   const [values, setValues] = useState({
     email: 'kavyashree@gmail.com',
     password: 'kavya@123',
-    redirectToReferrer: false,
     isCustomer: 'customer',
   });
   const {
-    email, password, redirectToReferrer,
+    email, password,
     isCustomer,
   } = values;
-  // const { customer } = isAuthenticated();
   const handleChange = (nameArg) => (event) => {
     setValues({ ...values, error: false, [nameArg]: event.target.value });
   };
   const {
     loadingFromState, errorFromState, customerSigninInfo, successFromState,
   } = useSelector((state) => state.customer);
-
+  const redirector = () => {
+    if (successFromState) return <Redirect to="/home" />;
+  };
   const clickSubmit = (event) => {
     event.preventDefault();
-    setValues({ ...values, error: false, loading: true });
     customerSignin({ email, password }, isCustomer);
+    redirector();
   };
 
   const signUpForm = () => (
@@ -74,16 +75,12 @@ const Usersignin = () => {
     loadingFromState && (<div className="alert alert-info"><h2>Loading...</h2></div>)
   );
 
-  const redirectUser = () => {
-  };
-
   return (
     <div className="container col-md-8 offset-md-2">
       <img src="images/logo.png" alt="Uber Eats" style={{ height: '75px' }} />
       {showerror()}
       {showLoading()}
       {signUpForm()}
-      {redirectUser()}
     </div>
 
   );

@@ -1,13 +1,20 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/jsx-filename-extension */
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { actionCreators } from '../js/actions';
+
 import { signUp } from '../auth';
 import './UserSign.css';
 
 const Usersignup = () => {
+  const disPatch = useDispatch();
+  const { customersignup } = bindActionCreators(actionCreators, disPatch);
   const [values, setValues] = useState({
     name: '',
     email: '',
@@ -21,6 +28,9 @@ const Usersignup = () => {
   const {
     name, email, password, error, success, isCustomer, location,
   } = values;
+  const {
+    loadingFromState, errorFromState, successFromState,
+  } = useSelector((state) => state.customer);
 
   const handleChange = (nameArg) => (event) => {
     setValues({ ...values, error: false, [nameArg]: event.target.value });
@@ -38,22 +48,23 @@ const Usersignup = () => {
         name, email, password, location,
       };
     }
-    signUp(user, isCustomer)
-      .then((data) => {
-        if (data.error) {
-          setValues({ ...values, error: data.error, success: false });
-        } else {
-          setValues({
-            ...values,
-            name: '',
-            email: '',
-            password: '',
-            error: '',
-            location: '',
-            success: true,
-          });
-        }
-      });
+    customersignup(user, isCustomer);
+    // signUp(user, isCustomer)
+    //   .then((data) => {
+    //     if (data.error) {
+    //       setValues({ ...values, error: data.error, success: false });
+    //     } else {
+    //       setValues({
+    //         ...values,
+    //         name: '',
+    //         email: '',
+    //         password: '',
+    //         error: '',
+    //         location: '',
+    //         success: true,
+    //       });
+    //     }
+    //   });
   };
 
   const signUpForm = () => (

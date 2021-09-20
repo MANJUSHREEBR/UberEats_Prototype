@@ -6,10 +6,9 @@ import { Route, Redirect } from 'react-router-dom';
 import { isAuthenticated } from './index';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
-
   <Route
     {...rest}
-    render={(props) => (isAuthenticated() && isAuthenticated().customer[0].role === 0 ? (
+    render={(props) => (isAuthenticated() ? (
       <Component {...props} />
     ) : (
       <Redirect to={{ pathname: '/customersignin', state: { from: props.location } }} />
