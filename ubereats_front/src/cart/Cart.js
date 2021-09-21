@@ -1,19 +1,24 @@
+/* eslint-disable max-len */
+/* eslint-disable no-return-assign */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-const-assign */
 /* eslint-disable array-callback-return */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
-  Row, Col, ListGroup, Image, Form, Button, Card,
+  Row, Col, ListGroup, Image, Form, Button, Card, Modal,
 } from 'react-bootstrap';
 import { addToCart } from '../js/actions/cartActions';
 import RestaurantPrivateRoute from '../auth/RestaurantPrivateRoute';
 import { API } from '../config';
 
 const Cart = ({ match, location, history }) => {
+  const [show, setShow] = useState(true);
   const dishId = match.params.id;
   const qty = location.search ? Number(location.search.split('=')[1]) : 1;
   const dispatch = useDispatch();
@@ -24,47 +29,97 @@ const Cart = ({ match, location, history }) => {
   }, [dispatch, qty, dishId]);
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
+
+  const handleClose = () => {
+    history.goBack();
+  };
+  const checkOutHandler = () => {
+    history.push('/login?redirect=shipping');
+  };
   return (
-    <Row>
-      <Col md={8}>
-        <h1>Cart</h1>
-        {cartItems.length === 0 ? (
-          <div className="alert alert-danger">
-            Your cart is empty!
-            <Link to="/">
-              Go back
-            </Link>
-          </div>
-        ) : (
+    <div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Shopping Cart</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+            <Col md={8}>
+              {cartItems.length === 0 ? (
+                <div className="alert alert-danger">
 
-          <ListGroup variant="flush">
-            {cartItems.map((item) => {
-              <ListGroup.Item key={item.dish}>
-                <Row>
-                  <Col md={2}>
-                    <Image src={`${API}/dishes/photo/${item.dish}`} alt={item.name} fluid rounded />
+                  Your cart is empty
+                  {' '}
+                  <Link to="/">Go Back</Link>
+                </div>
+              ) : (
+                <div>
+                  {cartItems.map((item) => (
+                    <ListGroup.Item key={item.product}>
+                      <Row>
+                        <Col md={3}>
+                          <Image src={`${API}/dishes/photo/${item.dish}`} alt={item.name} fluid rounded />
+                        </Col>
+                        <Col md={2}>
+                          <Link to={`/dishes/${item.dish}`}>
+                            {' '}
+                            {item.name}
+                          </Link>
+                        </Col>
+                        <Col md={2}>
+                          $
+                          {item.price}
+                        </Col>
+                        <Col md={2}>
+                          <input style={{ width: '35px' }} className="mb-3" type="select" value={item.qty} onChange={(e) => dispatch(addToCart(item.dish, Number(e.target.value)))} />
+                        </Col>
+                        <Col md={3}>
+                          <Button type="button" variant="light">
+                            <i className="fas fa-trash" />
+                          </Button>
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                  ))}
+                </div>
+              )}
+            </Col>
+            <Col md={4}>
+              <ListGroup variant="flush">
+                <ListGroup.Item>
+                  <p>
+                    Subtotal (
+                    {cartItems.reduce((acc, item) => acc + item.qty, 0)}
+                    ) items
+                  </p>
+                  $
+                  {cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}
+                </ListGroup.Item>
+                {/* <ListGroup.Item>
+                  <Button
+                    type="button"
+                    className="btn-success"
+                    disbaled={cartItems.length === 0}
+                    onClick={checkOutHandler}
+                  >
+                    Proceed to Checkout
+                  </Button>
+                </ListGroup.Item> */}
 
-                  </Col>
-                  <Col md={3}>
-                    <Link to={`/dishes/${item.dish}`}>{item.name}</Link>
-                  </Col>
-                  <Col md={2}>
-                    $
-                    {item.price}
-                  </Col>
-                </Row>
-              </ListGroup.Item>;
-            })}
-          </ListGroup>
+              </ListGroup>
 
-        )}
-        ;
+            </Col>
+          </Row>
 
-      </Col>
-      <Col md={2} />
-      <Col md={2} />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button className="btn-success" disbaled={cartItems.length === 0} variant="primary" onClick={checkOutHandler}>
+            Checkout
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
 
-    </Row>
   );
 };
 
