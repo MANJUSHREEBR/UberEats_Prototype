@@ -39,7 +39,7 @@ const Menu = ({ history }) => (
             </Nav.Link>
           </LinkContainer>
           <LinkContainer to="/customersignup"><Nav.Link>Signup</Nav.Link></LinkContainer>
-          <LinkContainer to="/">
+          <LinkContainer to="/cart">
             <Nav.Link>
               <i className="fas fa-shopping-cart" />
               Cart

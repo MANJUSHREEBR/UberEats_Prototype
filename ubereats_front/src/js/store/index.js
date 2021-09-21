@@ -4,13 +4,19 @@ import {
 import thunk from 'redux-thunk';
 import { customerSigninReducer, customerSignupReducer } from '../reducers/customerReducer';
 import { DishListReducer, DishDetailsReducer } from '../reducers/DishReducer';
+import { cartReducer } from '../reducers/cartReducers';
 
 const reducers = combineReducers({
   customerSignin: customerSigninReducer,
   cutomerSignup: customerSignupReducer,
   dishList: DishListReducer,
   dishDetails: DishDetailsReducer,
+  cart: cartReducer,
 });
+
+const cartItemsFromStorage = localStorage.getItem('cartItems')
+  ? JSON.parse(localStorage.getItem('cartItems'))
+  : [];
 
 const customerSignInfoFromStorage = localStorage.getItem('jwt')
   ? JSON.parse(localStorage.getItem('jwt'))
@@ -18,6 +24,7 @@ const customerSignInfoFromStorage = localStorage.getItem('jwt')
 
 const initialState = {
   customerSignin: { customerSigninInfo: customerSignInfoFromStorage },
+  cart: { cartItems: cartItemsFromStorage },
 };
 const middleware = [thunk];
 

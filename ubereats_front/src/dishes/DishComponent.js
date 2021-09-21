@@ -15,7 +15,7 @@ import { getDishDetails } from '../js/actions/dishActions';
 import { API } from '../config';
 
 const DishComponent = ({ history, match }) => {
-  const [qty, setQty] = useState(0);
+  const [qty, setQty] = useState(1);
   const dispatch = useDispatch();
   const dishDetails = useSelector((state) => state.dishDetails);
   const { loadingFromState, dish, errorFromState } = dishDetails;
@@ -75,7 +75,7 @@ const DishComponent = ({ history, match }) => {
               <Row>
                 <Col>Qty</Col>
                 <Col>
-                  <Button className="btn-block bg-success mr-2" disabled={qty <= 0} type="button" onClick={decrement}>
+                  <Button className="btn-block bg-success mr-2" disabled={qty <= 1} type="button" onClick={decrement}>
                     -
                   </Button>
                   {qty}
