@@ -8,14 +8,7 @@ import {
   CUSTOMER_SIGNUP_SUCCESS,
 } from '../constants/customerConstants';
 
-const initialState = {
-  loadingFromState: false,
-  customerSigninInfo: {},
-  errorFromState: false,
-  successFromState: false,
-};
-
-export const customerSigninReducer = (state = initialState, action) => {
+export const customerSigninReducer = (state = { }, action) => {
   switch (action.type) {
     case CUSTOMER_SIGNIN_REQUEST:
       return { loadingFromState: true, customerSigninInfo: {}, successFromState: false };
@@ -27,7 +20,13 @@ export const customerSigninReducer = (state = initialState, action) => {
       };
     case CUSTOMER_SIGNIN_FAIL:
       return { loadingFromState: false, errorFromState: action.payload, successFromState: false };
+    default:
+      return state;
+  }
+};
 
+export const customerSignupReducer = (state = { }, action) => {
+  switch (action.type) {
     case CUSTOMER_SIGNUP_REQUEST:
       return { loadingFromState: true, successFromState: false };
     case CUSTOMER_SIGNUP_SUCCESS:

@@ -2,21 +2,16 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
+import { Container, Row, Col } from 'react-bootstrap';
 
-import './Footer.css';
-
-const Layout = ({
-  title = 'Title', description = 'Description', className, children,
-}) => (
-  <div>
-    <footer className="jumbotron" style={{ backgroundColor: 'black' }}>
-      <h2>{title}</h2>
-      <p className="lead">{description}</p>
-
-    </footer>
-    <div className={className}>{children}</div>
-  </div>
-
+const Footer = () => (
+  <footer>
+    <Container>
+      <Row>
+        <Col className="text-center py-3">Copyright &copy; Uber Eats</Col>
+      </Row>
+    </Container>
+  </footer>
 );
 
-export default Layout;
+export default Footer;

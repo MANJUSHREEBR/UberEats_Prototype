@@ -9,7 +9,7 @@ import {
   CUSTOMER_SIGNIN_FAIL,
 } from '../constants/customerConstants';
 
-const API = 'http://localhost:8000/ubereats';
+import { API } from '../../config';
 
 export const customerSignin = (user, isCustomer) => (dispatch) => {
   dispatch({ type: CUSTOMER_SIGNIN_REQUEST });
@@ -29,6 +29,7 @@ export const customerSignin = (user, isCustomer) => (dispatch) => {
           type: CUSTOMER_SIGNIN_SUCCESS,
           payload: response,
         });
+        localStorage.setItem('jwt', JSON.stringify(response));
       } else {
         throw (response.error);
       }
@@ -40,6 +41,7 @@ export const customerSignin = (user, isCustomer) => (dispatch) => {
       });
     });
 };
+
 export const customersignup = (user, isCustomer) => (dispatch) => {
   dispatch({ type: CUSTOMER_SIGNIN_REQUEST });
   fetch(`${API}/${isCustomer}/signup`, {

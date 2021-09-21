@@ -28,9 +28,10 @@ const Usersignup = () => {
   const {
     name, email, password, error, success, isCustomer, location,
   } = values;
+  const customer = useSelector((state) => state.customerSignin);
   const {
-    loadingFromState, errorFromState, successFromState,
-  } = useSelector((state) => state.customer);
+    loadingFromState, errorFromState, customerSigninInfo, successFromState,
+  } = customer;
 
   const handleChange = (nameArg) => (event) => {
     setValues({ ...values, error: false, [nameArg]: event.target.value });
@@ -109,7 +110,7 @@ const Usersignup = () => {
     </div>
   );
   const showsucess = () => (
-    <div className="alert alert-info" style={{ display: success ? '' : 'none' }}>
+    <div className="alert alert-info" style={{ display: successFromState ? '' : 'none' }}>
       signeup successfull!
       {' '}
       <Link to="/customersignin"> Signin here</Link>

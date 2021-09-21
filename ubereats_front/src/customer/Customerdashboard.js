@@ -2,10 +2,16 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { isAuthenticated } from '../auth';
+import { useSelector } from 'react-redux';
+// import { isAuthenticated } from '../auth';
 
 const Customerdashboard = () => {
-  const { customer } = isAuthenticated();
+  // const disPatch = useDispatch();
+  const customerSigninInfo = useSelector((state) => state.customerSignin.customerSigninInfo);
+  const {
+    customer,
+  } = customerSigninInfo;
+  // const { customer } = isAuthenticated();
   const userLinks = () => (
     <div className="card">
       <h4 className="card-header">User links</h4>

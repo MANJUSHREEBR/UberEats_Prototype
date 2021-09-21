@@ -1,16 +1,16 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
+import { Card } from 'react-bootstrap';
 import { API } from '../config';
 
 const ShowImage = ({ item, url }) => (
-  <div className="product-img">
-    <img
+  <div>
+    <Card.Img
       src={`${API}/${url}/photo/${item.id}`}
-      alt={item.name}
-      className="mb-3"
-      style={{ maxHeight: '100%', maxWidth: '100%' }}
+      variant="top"
     />
   </div>
 );

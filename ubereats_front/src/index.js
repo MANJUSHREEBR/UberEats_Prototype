@@ -1,13 +1,15 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './bootstrap.min.css';
+import './style.css';
 import { Provider } from 'react-redux';
 import store from './js/store';
-import Routes from './Routes';
+import App from './App';
 
 ReactDOM.render(
   <Provider store={store}>
-    <Routes />
+    <App />
   </Provider>,
   document.getElementById('root'),
 );

@@ -1,37 +1,29 @@
+/* eslint-disable no-console */
 /* eslint-disable no-undef */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-filename-extension */
-import React, { useState, useEffect } from 'react';
-import './Home.css';
-import { getDishes } from './Apicore';
-import Card from './Card';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Row, Col } from 'react-bootstrap';
+// import { getDishes } from './Apicore';
+import CardComponent from './CardComponent';
+import { listDishes } from '../js/actions/dishActions';
 
 const Home = () => {
-  // const disheStore = useSelector((state) => state.customer.customerSigninInfo);
-  const [dishes, setDishes] = useState([]);
-  const [error, setError] = useState(false);
-  const loadDishes = () => {
-    getDishes('id').then((data) => {
-      if (data.error) {
-        setError(data.error);
-      } else {
-        setDishes(data.dishes);
-      }
-    });
-  };
+  const dispatch = useDispatch();
+  const dishList = useSelector((state) => state.dishList);
+  const { loadingFromState, dishes, errorFromState } = dishList;
   useEffect(() => {
-    // disPatch(customerSigninInfo());
-    loadDishes();
-  }, []);
-
-  // setDishes([]);
+    dispatch(listDishes());
+  }, [dispatch]);
 
   return (
     <div className="container">
-      <div className="row">
-        {dishes.map((dish, i) => (<Card key={i} dish={dish} />))}
-      </div>
+      <Row>
+        {dishes.map((dish, i) => (
+          <Col sm={12} md={4} lg={3} key={i}><CardComponent key={i} dish={dish} /></Col>))}
+      </Row>
     </div>
   );
 };

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-bitwise */
 /* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
@@ -6,22 +7,22 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/jsx-filename-extension */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
-import { signin, authenticate, isAuthenticated } from '../auth';
-import { actionCreators } from '../js/actions';
+// import { signin, authenticate, isAuthenticated } from '../auth';
+import { customerSignin } from '../js/actions/customerActions';
 
-const Usersignin = () => {
+const Usersignin = ({ location, history }) => {
   const disPatch = useDispatch();
-  const { customerSignin } = bindActionCreators(actionCreators, disPatch);
-
   const [values, setValues] = useState({
     email: 'kavyashree@gmail.com',
     password: 'kavya@123',
     isCustomer: 'customer',
   });
+
+  const redirect = location.search ? location.search.split('=')[1] : '/';
+
   const {
     email, password,
     isCustomer,
@@ -29,16 +30,20 @@ const Usersignin = () => {
   const handleChange = (nameArg) => (event) => {
     setValues({ ...values, error: false, [nameArg]: event.target.value });
   };
+  const customer = useSelector((state) => state.customerSignin);
   const {
     loadingFromState, errorFromState, customerSigninInfo, successFromState,
-  } = useSelector((state) => state.customer);
-  const redirector = () => {
-    if (successFromState) return <Redirect to="/home" />;
-  };
+  } = customer;
+
+  // useEffect(() => {
+  //   if (customerSigninInfo) {
+  //     history.push(redirect);
+  //   }
+  // }, [history, customerSigninInfo, redirect]);
+
   const clickSubmit = (event) => {
     event.preventDefault();
-    customerSignin({ email, password }, isCustomer);
-    redirector();
+    disPatch(customerSignin({ email, password }, isCustomer));
   };
 
   const signUpForm = () => (
@@ -81,6 +86,7 @@ const Usersignin = () => {
       {showerror()}
       {showLoading()}
       {signUpForm()}
+      {/* { successFromState && <Redirect to="/customerdashboard" />} */}
     </div>
 
   );
