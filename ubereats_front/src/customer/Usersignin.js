@@ -9,7 +9,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 // import { signin, authenticate, isAuthenticated } from '../auth';
 import { customerSignin } from '../js/actions/customerActions';
 
@@ -35,11 +35,11 @@ const Usersignin = ({ location, history }) => {
     loadingFromState, errorFromState, customerSigninInfo, successFromState,
   } = customer;
 
-  // useEffect(() => {
-  //   if (customerSigninInfo) {
-  //     history.push(redirect);
-  //   }
-  // }, [history, customerSigninInfo, redirect]);
+  useEffect(() => {
+    if (customerSigninInfo) {
+      history.push(redirect);
+    }
+  }, [history, customerSigninInfo, redirect]);
 
   const clickSubmit = (event) => {
     event.preventDefault();
@@ -66,6 +66,10 @@ const Usersignin = ({ location, history }) => {
         <label className="text-muted">Password</label>
         <input onChange={handleChange('password')} type="password" className="form-control" value={password} />
       </div>
+      New User?
+      {' '}
+      <Link to="/customersignup">Please Signup here! </Link>
+      <div />
       <button type="submit" className="btn btn-success" onClick={clickSubmit}>
         Submit
       </button>

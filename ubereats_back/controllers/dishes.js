@@ -42,7 +42,6 @@ exports.create = (req, res) => {
     }
     // check for all fields
     const { name, description, price } = fields;
-    console.log(fields);
     if (!name || !description || !price) {
       return res.status(400).json({
         error: 'All fields are required',

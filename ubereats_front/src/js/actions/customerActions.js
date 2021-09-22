@@ -7,6 +7,13 @@ import {
   CUSTOMER_SIGNIN_REQUEST,
   CUSTOMER_SIGNIN_SUCCESS,
   CUSTOMER_SIGNIN_FAIL,
+  CUSTOMER_SIGNOUT,
+  CUSTOMER_SIGNUP_REQUEST,
+  CUSTOMER_SIGNUP_SUCCESS,
+  CUSTOMER_SIGNUP_FAIL,
+  CUSTOMER_UPDATE_PROFILE_REQUEST,
+  CUSTOMER_UPDATE_PROFILE_SUCCESS,
+  CUSTOMER_UPDATE_PROFILE_FAIL,
 } from '../constants/customerConstants';
 
 import { API } from '../../config';
@@ -29,7 +36,7 @@ export const customerSignin = (user, isCustomer) => (dispatch) => {
           type: CUSTOMER_SIGNIN_SUCCESS,
           payload: response,
         });
-        localStorage.setItem('jwt', JSON.stringify(response));
+        localStorage.setItem('customerInfo', JSON.stringify(response));
       } else {
         throw (response.error);
       }
@@ -43,7 +50,7 @@ export const customerSignin = (user, isCustomer) => (dispatch) => {
 };
 
 export const customersignup = (user, isCustomer) => (dispatch) => {
-  dispatch({ type: CUSTOMER_SIGNIN_REQUEST });
+  dispatch({ type: CUSTOMER_SIGNUP_REQUEST });
   fetch(`${API}/${isCustomer}/signup`, {
     method: 'POST',
     headers: {
@@ -57,7 +64,7 @@ export const customersignup = (user, isCustomer) => (dispatch) => {
     .then((response) => {
       if (!response.error) {
         dispatch({
-          type: CUSTOMER_SIGNIN_SUCCESS,
+          type: CUSTOMER_SIGNUP_SUCCESS,
           payload: response,
         });
       } else {
@@ -66,7 +73,46 @@ export const customersignup = (user, isCustomer) => (dispatch) => {
     })
     .catch((error) => {
       dispatch({
-        type: CUSTOMER_SIGNIN_FAIL,
+        type: CUSTOMER_SIGNUP_FAIL,
+        payload: error,
+      });
+    });
+};
+
+export const logout = () => (dispatch) => {
+  localStorage.removeItem('customerInfo');
+  dispatch({
+    type: CUSTOMER_SIGNOUT,
+  });
+};
+
+export const customerUpdateProfile = (user, token, id) => (dispatch, getState) => {
+  dispatch({ type: CUSTOMER_UPDATE_PROFILE_REQUEST });
+  const { customerSignin: { customerSigninInfo } } = getState();
+
+  fetch(`${API}/customer/${id}`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: user,
+
+  })
+    .then((response) => response.json())
+    .then((response) => {
+      if (!response.error) {
+        dispatch({
+          type: CUSTOMER_UPDATE_PROFILE_SUCCESS,
+          payload: response,
+        });
+      } else {
+        throw (response.error);
+      }
+    })
+    .catch((error) => {
+      dispatch({
+        type: CUSTOMER_UPDATE_PROFILE_FAIL,
         payload: error,
       });
     });

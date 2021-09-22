@@ -45,6 +45,7 @@ const Adddishes = () => {
   const clickSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: '', loading: true });
+    console.log(formData);
     createDishes(customer[0].id, token, formData)
       .then((data) => {
         if (data.error) {

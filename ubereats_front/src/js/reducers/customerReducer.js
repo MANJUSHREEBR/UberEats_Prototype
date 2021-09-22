@@ -3,15 +3,20 @@ import {
   CUSTOMER_SIGNIN_REQUEST,
   CUSTOMER_SIGNIN_SUCCESS,
   CUSTOMER_SIGNIN_FAIL,
+  CUSTOMER_SIGNOUT,
   CUSTOMER_SIGNUP_REQUEST,
   CUSTOMER_SIGNUP_FAIL,
   CUSTOMER_SIGNUP_SUCCESS,
+  CUSTOMER_UPDATE_PROFILE_REQUEST,
+  CUSTOMER_UPDATE_PROFILE_SUCCESS,
+  CUSTOMER_UPDATE_PROFILE_FAIL,
+  // CUSTOMER_UPDATE_PROFILE_RESET,
 } from '../constants/customerConstants';
 
 export const customerSigninReducer = (state = { }, action) => {
   switch (action.type) {
     case CUSTOMER_SIGNIN_REQUEST:
-      return { loadingFromState: true, customerSigninInfo: {}, successFromState: false };
+      return { loadingFromState: true, successFromState: false };
     case CUSTOMER_SIGNIN_SUCCESS:
       return {
         loadingFromState: false,
@@ -20,12 +25,14 @@ export const customerSigninReducer = (state = { }, action) => {
       };
     case CUSTOMER_SIGNIN_FAIL:
       return { loadingFromState: false, errorFromState: action.payload, successFromState: false };
+    case CUSTOMER_SIGNOUT:
+      return {};
     default:
       return state;
   }
 };
 
-export const customerSignupReducer = (state = { }, action) => {
+export const customerSignupReducer = (state = {}, action) => {
   switch (action.type) {
     case CUSTOMER_SIGNUP_REQUEST:
       return { loadingFromState: true, successFromState: false };
@@ -35,6 +42,23 @@ export const customerSignupReducer = (state = { }, action) => {
         successFromState: true,
       };
     case CUSTOMER_SIGNUP_FAIL:
+      return { loadingFromState: false, errorFromState: action.payload, successFromState: false };
+    default:
+      return state;
+  }
+};
+
+export const customerUpdateProfileReducer = (state = { }, action) => {
+  switch (action.type) {
+    case CUSTOMER_UPDATE_PROFILE_REQUEST:
+      return { loadingFromState: true };
+    case CUSTOMER_UPDATE_PROFILE_SUCCESS:
+      return {
+        loadingFromState: false,
+        successFromState: true,
+        customerInfo: action.payload,
+      };
+    case CUSTOMER_UPDATE_PROFILE_FAIL:
       return { loadingFromState: false, errorFromState: action.payload, successFromState: false };
     default:
       return state;

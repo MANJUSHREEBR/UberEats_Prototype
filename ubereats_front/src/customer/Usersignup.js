@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/label-has-associated-control */
@@ -5,16 +7,14 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
-import { actionCreators } from '../js/actions';
+import { customersignup } from '../js/actions/customerActions';
 
 import { signUp } from '../auth';
 import './UserSign.css';
 
 const Usersignup = () => {
   const disPatch = useDispatch();
-  const { customersignup } = bindActionCreators(actionCreators, disPatch);
   const [values, setValues] = useState({
     name: '',
     email: '',
@@ -28,10 +28,7 @@ const Usersignup = () => {
   const {
     name, email, password, error, success, isCustomer, location,
   } = values;
-  const customer = useSelector((state) => state.customerSignin);
-  const {
-    loadingFromState, errorFromState, customerSigninInfo, successFromState,
-  } = customer;
+  const { loadingFromState, errorFromState, successFromState } = useSelector((state) => state.cutomerSignup);
 
   const handleChange = (nameArg) => (event) => {
     setValues({ ...values, error: false, [nameArg]: event.target.value });
@@ -49,23 +46,7 @@ const Usersignup = () => {
         name, email, password, location,
       };
     }
-    customersignup(user, isCustomer);
-    // signUp(user, isCustomer)
-    //   .then((data) => {
-    //     if (data.error) {
-    //       setValues({ ...values, error: data.error, success: false });
-    //     } else {
-    //       setValues({
-    //         ...values,
-    //         name: '',
-    //         email: '',
-    //         password: '',
-    //         error: '',
-    //         location: '',
-    //         success: true,
-    //       });
-    //     }
-    //   });
+    disPatch(customersignup(user, isCustomer));
   };
 
   const signUpForm = () => (
@@ -105,8 +86,8 @@ const Usersignup = () => {
     </form>
   );
   const showerror = () => (
-    <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
-      {error}
+    <div className="alert alert-danger" style={{ display: errorFromState ? '' : 'none' }}>
+      {errorFromState}
     </div>
   );
   const showsucess = () => (
@@ -116,10 +97,14 @@ const Usersignup = () => {
       <Link to="/customersignin"> Signin here</Link>
     </div>
   );
+  const showLoading = () => (
+    loadingFromState && (<div className="alert alert-info"><h2>Loading...</h2></div>)
+  );
 
   return (
     <div className="container col-md-8 offset-md-2">
       <img src="images/logo.png" alt="Uber Eats" style={{ height: '75px' }} />
+      {showLoading()}
       {showerror()}
       {showsucess()}
       {signUpForm()}

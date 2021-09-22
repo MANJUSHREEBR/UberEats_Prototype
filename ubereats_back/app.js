@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const expressValidator = require('express-validator');
 const cors = require('cors');
+
 require('dotenv').config();
 
 // import routes
@@ -13,13 +14,19 @@ const restaurantRoutes = require('./routes/restaurant');
 const dishesRoutes = require('./routes/dishes');
 
 const app = express();
-
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE, UPDATE');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  next();
+});
+app.use(cors());
 // middlewares
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(expressValidator());
-app.use(cors());
 
 // routes
 app.use('/ubereats', userAuthRoutes);

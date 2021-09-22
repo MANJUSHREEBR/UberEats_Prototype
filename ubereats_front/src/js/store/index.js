@@ -2,7 +2,7 @@ import {
   createStore, combineReducers, applyMiddleware, compose,
 } from 'redux';
 import thunk from 'redux-thunk';
-import { customerSigninReducer, customerSignupReducer } from '../reducers/customerReducer';
+import { customerSigninReducer, customerSignupReducer, customerUpdateProfileReducer } from '../reducers/customerReducer';
 import { DishListReducer, DishDetailsReducer } from '../reducers/DishReducer';
 import { cartReducer } from '../reducers/cartReducers';
 
@@ -12,14 +12,15 @@ const reducers = combineReducers({
   dishList: DishListReducer,
   dishDetails: DishDetailsReducer,
   cart: cartReducer,
+  customerUpdateProfile: customerUpdateProfileReducer,
 });
 
 const cartItemsFromStorage = localStorage.getItem('cartItems')
   ? JSON.parse(localStorage.getItem('cartItems'))
   : [];
 
-const customerSignInfoFromStorage = localStorage.getItem('jwt')
-  ? JSON.parse(localStorage.getItem('jwt'))
+const customerSignInfoFromStorage = localStorage.getItem('customerInfo')
+  ? JSON.parse(localStorage.getItem('customerInfo'))
   : null;
 
 const initialState = {
