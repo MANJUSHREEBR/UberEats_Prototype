@@ -9,6 +9,7 @@ import React from 'react';
 // import { useSelector, useDispatch } from 'react-redux';
 // import { Link, withRouter } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
+import { Redirect } from 'react-dom';
 import {
   Container, Navbar, Nav, Card, NavDropdown,
 } from 'react-bootstrap';

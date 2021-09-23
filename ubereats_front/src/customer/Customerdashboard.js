@@ -19,16 +19,16 @@ const Customerdashboard = ({ history }) => {
   const customer = useSelector((state) => state.customerSignin);
   const {
     customerSigninInfo,
-  } = customer;
+  } = customer || '';
   const { loadingFromState, errorFromState, successFromState } = useSelector((state) => state.customerUpdateProfile);
   const [values, setValues] = useState({
-    name: customerSigninInfo.customer[0].name,
-    email: customerSigninInfo.customer[0].email,
-    phone: customerSigninInfo.customer[0].phone,
-    location: customerSigninInfo.customer[0].location,
-    nickname: customerSigninInfo.customer[0].nickname,
+    name: customerSigninInfo ? customerSigninInfo.customer[0].name : '',
+    email: customerSigninInfo ? customerSigninInfo.customer[0].email : '',
+    phone: customerSigninInfo ? customerSigninInfo.customer[0].phone : ' ',
+    location: customerSigninInfo ? customerSigninInfo.customer[0].location : '',
+    nickname: customerSigninInfo ? customerSigninInfo.customer[0].nickname : '',
     loading: '',
-    about: customerSigninInfo.customer[0].about,
+    about: customerSigninInfo ? customerSigninInfo.customer[0].about : ' ',
     error: '',
     createdDish: '',
     reDirectToProfile: false,
@@ -66,13 +66,15 @@ const Customerdashboard = ({ history }) => {
 
   const clickSubmit = (e) => {
     e.preventDefault();
-    setValues({ ...values, error: '', loading: true });
+    setValues({
+      ...values, error: '', loading: true,
+    });
     dispatch(customerUpdateProfile(formData, customerSigninInfo.token, customerSigninInfo.customer[0].id));
   };
 
   const newPostForm = () => (
     <form className="mb-3" onSubmit={clickSubmit}>
-      <h4>Post photo</h4>
+      <p>Upload photo here</p>
       <div className="form-group">
         <label className="btn btn-success">
           <input onChange={handleChange('photo')} type="file" name="photo" accept="image/*" />
@@ -100,12 +102,12 @@ const Customerdashboard = ({ history }) => {
       </div>
       <div className="form-group">
         <label className="text-muted">Location</label>
-        <select onChange={handleChange('location')} name="location" className="form-control">
+        <select onChange={handleChange('location')} name="location" className="form-control" value={location}>
           <option>Select</option>
-          <option value="Appetizer">San Jose</option>
-          <option value="MainCourse">Santa Clara</option>
-          <option value="Beverage">Sunnyvale</option>
-          <option value="Dessert">Fremont</option>
+          <option value="San Jose">San Jose</option>
+          <option value="Santa Clara">Santa Clara</option>
+          <option value="Sunnyvale">Sunnyvale</option>
+          <option value="Fremont">Fremont</option>
         </select>
       </div>
       <button type="submit" className="btn btn-outline-success">Update Profile</button>
@@ -126,15 +128,17 @@ const Customerdashboard = ({ history }) => {
   const showLoading = () => (
     loadingFromState && (<div className="alert alert-success"><h2>Loading ... </h2></div>)
   );
-
+  const showImage = () => (
+    (<Image src={customerSigninInfo ? `${API}/customer/photo/${customerSigninInfo.customer[0].id}` : ' '} alt="Please upload" fluid rounded />)
+  );
   return (
     <div className="row">
       <div className="col-md-4 offset-md-2">
+        {showImage()}
 
-        <Image src={`${API}/customer/photo/${customerSigninInfo.customer[0].id}`} alt="Please upload" fluid rounded />
       </div>
 
-      <div className="col-md-8 offset-md-2">
+      <div className="col-md-4 offset-md-2">
         {showLoading()}
         {showError()}
         {showSuccess()}

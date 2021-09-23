@@ -74,11 +74,23 @@ exports.updateCustomer = (req, res) => {
 
               });
             }
-            customer.password = undefined;
-            res.json({
-              customer,
-            });
-            conn.release();
+            conn.query(
+              'SELECT * FROM customers where id = ?',
+              [id],
+              (error, customer) => {
+                if (error || !customer.length) {
+                  return res.status(400).json({
+                    error: errorHandler(err),
+
+                  });
+                }
+                req.profile = customer;
+                res.json({
+                  customer,
+                });
+                conn.release();
+              },
+            );
           },
         );
       }

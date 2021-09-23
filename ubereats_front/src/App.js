@@ -15,6 +15,8 @@ import Resturantdashboard from './restaurant/Restaurantdashboard';
 import Adddishes from './restaurant/Adddishes';
 import DishComponent from './dishes/DishComponent';
 import Cart from './cart/Cart';
+import Shipping from './shipping/Shipping';
+import PlaceOrder from './shipping/PlaceOrder';
 
 const App = () => (
   <BrowserRouter>
@@ -30,6 +32,8 @@ const App = () => (
           <Route path="/create/dishes" exact component={Adddishes} />
           <Route path="/dishes/:id" exact component={DishComponent} />
           <Route path="/cart/:id?" exact component={Cart} />
+          <Route path="/shipping" exact component={Shipping} />
+          <Route path="/checkout" exact component={PlaceOrder} />
         </Switch>
         <Footer />
       </main>

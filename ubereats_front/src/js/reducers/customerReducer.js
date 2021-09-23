@@ -26,7 +26,7 @@ export const customerSigninReducer = (state = { }, action) => {
     case CUSTOMER_SIGNIN_FAIL:
       return { loadingFromState: false, errorFromState: action.payload, successFromState: false };
     case CUSTOMER_SIGNOUT:
-      return {};
+      return { };
     default:
       return state;
   }

@@ -16,8 +16,8 @@ import { customerSignin } from '../js/actions/customerActions';
 const Usersignin = ({ location, history }) => {
   const disPatch = useDispatch();
   const [values, setValues] = useState({
-    email: 'kavyashree@gmail.com',
-    password: 'kavya@123',
+    email: 'mamatha@gmail.com',
+    password: 'mamatha@123',
     isCustomer: 'customer',
   });
 

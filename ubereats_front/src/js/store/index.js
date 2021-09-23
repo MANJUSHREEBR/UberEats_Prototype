@@ -23,9 +23,13 @@ const customerSignInfoFromStorage = localStorage.getItem('customerInfo')
   ? JSON.parse(localStorage.getItem('customerInfo'))
   : null;
 
+const shippingAddressFromStorage = localStorage.getItem('shippingAddress')
+  ? JSON.parse(localStorage.getItem('shippingAddress'))
+  : {};
+
 const initialState = {
   customerSignin: { customerSigninInfo: customerSignInfoFromStorage },
-  cart: { cartItems: cartItemsFromStorage },
+  cart: { cartItems: cartItemsFromStorage, shippingAddress: shippingAddressFromStorage },
 };
 const middleware = [thunk];
 

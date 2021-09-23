@@ -34,7 +34,7 @@ const Cart = ({ match, location, history }) => {
     history.goBack();
   };
   const checkOutHandler = () => {
-    history.push('/login?redirect=shipping');
+    history.push('/customersignin?redirect=shipping');
   };
   return (
     <div>
