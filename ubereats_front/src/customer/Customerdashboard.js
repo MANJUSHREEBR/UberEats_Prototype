@@ -24,7 +24,7 @@ const Customerdashboard = ({ history }) => {
   const [values, setValues] = useState({
     name: customerSigninInfo ? customerSigninInfo.customer[0].name : '',
     email: customerSigninInfo ? customerSigninInfo.customer[0].email : '',
-    phone: customerSigninInfo ? customerSigninInfo.customer[0].phone : ' ',
+    phone: customerSigninInfo ? customerSigninInfo.customer[0].phone : '',
     location: customerSigninInfo ? customerSigninInfo.customer[0].location : '',
     nickname: customerSigninInfo ? customerSigninInfo.customer[0].nickname : '',
     loading: '',
@@ -129,7 +129,7 @@ const Customerdashboard = ({ history }) => {
     loadingFromState && (<div className="alert alert-success"><h2>Loading ... </h2></div>)
   );
   const showImage = () => (
-    (<Image src={customerSigninInfo ? `${API}/customer/photo/${customerSigninInfo.customer[0].id}` : ' '} alt="Please upload" fluid rounded />)
+    (<Image src={customerSigninInfo ? `${API}/customer/photo/${customerSigninInfo.customer[0].id}` : ' '} fluid rounded />)
   );
   return (
     <div className="row">

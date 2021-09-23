@@ -98,6 +98,7 @@ exports.updateCustomer = (req, res) => {
   });
 };
 exports.photo = (req, res, next) => {
+  console.log(req.profile);
   const reqphoto = JSON.parse(req.profile[0].photo);
   if (req.profile) {
     res.writeHead(200, { 'Content-Type': reqphoto.contentType });
