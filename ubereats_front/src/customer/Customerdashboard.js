@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-undef */
 /* eslint-disable no-undef */
 /* eslint-disable max-len */
 /* eslint-disable no-console */
@@ -129,7 +130,7 @@ const Customerdashboard = ({ history }) => {
     loadingFromState && (<div className="alert alert-success"><h2>Loading ... </h2></div>)
   );
   const showImage = () => (
-    (<Image src={customerSigninInfo ? `${API}/customer/photo/${customerSigninInfo.customer[0].id}` : ' '} fluid rounded />)
+    (<Image src={customerSigninInfo ? `${API}/customer/photo/${customerSigninInfo.customer[0].id}` : ' '} alt={name} fluid rounded />)
   );
   return (
     <div className="row">

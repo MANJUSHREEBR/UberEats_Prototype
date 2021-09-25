@@ -14,9 +14,11 @@ import Customerdashboard from './customer/Customerdashboard';
 import Resturantdashboard from './restaurant/Restaurantdashboard';
 import Adddishes from './restaurant/Adddishes';
 import DishComponent from './dishes/DishComponent';
+import RestaurantComponent from './restaurant/RestaurantComponent';
 import Cart from './cart/Cart';
 import Shipping from './shipping/Shipping';
 import PlaceOrder from './shipping/PlaceOrder';
+import CustomerLanding from './customer/customerLanding';
 
 const App = () => (
   <BrowserRouter>
@@ -24,7 +26,7 @@ const App = () => (
       <Menu />
       <main className="py-3">
         <Switch>
-          <Route path="/" exact component={Home} />
+          <Route path="/" exact component={CustomerLanding} />
           <Route path="/customersignin" exact component={Usersignin} />
           <Route path="/customersignup" exact component={Usersignup} />
           <Route path="/customerdashboard" exact component={Customerdashboard} />
@@ -34,6 +36,7 @@ const App = () => (
           <Route path="/cart/:id?" exact component={Cart} />
           <Route path="/shipping" exact component={Shipping} />
           <Route path="/checkout" exact component={PlaceOrder} />
+          <Route path="/restaurant/:id" exact component={RestaurantComponent} />
         </Switch>
         <Footer />
       </main>

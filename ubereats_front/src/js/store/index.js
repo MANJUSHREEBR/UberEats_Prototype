@@ -5,6 +5,7 @@ import thunk from 'redux-thunk';
 import { customerSigninReducer, customerSignupReducer, customerUpdateProfileReducer } from '../reducers/customerReducer';
 import { DishListReducer, DishDetailsReducer } from '../reducers/DishReducer';
 import { cartReducer } from '../reducers/cartReducers';
+import { RestaurantListReducer } from '../reducers/RestaurantReducer';
 
 const reducers = combineReducers({
   customerSignin: customerSigninReducer,
@@ -13,6 +14,7 @@ const reducers = combineReducers({
   dishDetails: DishDetailsReducer,
   cart: cartReducer,
   customerUpdateProfile: customerUpdateProfileReducer,
+  restaurantList: RestaurantListReducer,
 });
 
 const cartItemsFromStorage = localStorage.getItem('cartItems')

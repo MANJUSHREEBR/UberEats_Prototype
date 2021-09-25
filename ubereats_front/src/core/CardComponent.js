@@ -9,11 +9,22 @@ import { Card } from 'react-bootstrap';
 // import { API } from '../config';
 import ShowImage from './ShowImage';
 
-const CardComponent = ({ dish }) => (
+const CardComponent = ({ dish, url }) => (
   <Card className="my-3 p-3 rounded">
+    {(!url) && (
     <Link to={`/dishes/${dish.id}`}>
       <ShowImage item={dish} url="dishes" />
     </Link>
+    )}
+    {
+    (url)
+     && (
+     <Link to={`/restaurant/${dish.id}`}>
+       <ShowImage item={dish} url={url} />
+     </Link>
+     )
+}
+
     <Card.Body>
       <Card.Title as="div">
         <strong>
