@@ -33,10 +33,12 @@ const DishComponent = ({ history, match }) => {
   const increment = () => {
     setQty(qty + 1);
   };
-
+  const goback = () => {
+    history.goBack();
+  };
   return (
     <>
-      <Link className="btn btn-success my-3" to="/"> Go Back</Link>
+      <Button className="btn btn-success my-3" onClick={goback}> Go Back</Button>
       <Row>
         <Col md={6}>
           <Image src={`${API}/dishes/photo/${match.params.id}`} alt={dish.name} fluid />

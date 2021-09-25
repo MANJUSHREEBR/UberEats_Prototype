@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-param-reassign */
 /* eslint-disable radix */
 /* eslint-disable consistent-return */
@@ -157,6 +158,36 @@ exports.list = (req, res) => {
       conn.query(
         'SELECT * FROM dishes ORDER BY ? ? LIMIT ? ',
         [sortBy, order, limit],
+        (error, dishes) => {
+          if (error || !dishes.length) {
+            return res.status(400).json({
+              error: 'dishes not found',
+
+            });
+          }
+          res.json({
+            dishes,
+          });
+          conn.release();
+        },
+      );
+    }
+  });
+};
+
+exports.ListRestaurantDishes = (req, res) => {
+  // const order = req.query.order ? req.query.order : 'ASC';
+  // const sortBy = req.query.sortBy ? req.query.sortBy : 'id';
+  // const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+  const { id } = req.restaurant[0];
+
+  pool.getConnection((err, conn) => {
+    if (err) {
+      res.send('Error occured');
+    } else {
+      conn.query(
+        'SELECT * FROM dishes WHERE restaurant_id = ? ',
+        [id],
         (error, dishes) => {
           if (error || !dishes.length) {
             return res.status(400).json({
