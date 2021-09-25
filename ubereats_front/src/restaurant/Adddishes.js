@@ -3,10 +3,14 @@
 /* eslint-disable react/jsx-filename-extension */
 import React, { useState, useEffect } from 'react';
 // import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { isAuthenticated } from '../auth';
+import { customerSignin } from '../js/actions/customerActions';
+
 import { createDishes } from './ApiRestaurant';
 
 const Adddishes = () => {
+  const disPatch = useDispatch();
   const [values, setValues] = useState({
     name: '',
     description: '',
@@ -30,6 +34,10 @@ const Adddishes = () => {
     reDirectToProfile,
     formData,
   } = values;
+  const customer = useSelector((state) => state.customerSignin);
+  const {
+    customerSigninInfo,
+  } = customer;
 
   const handleChange = (Argname) => (event) => {
     const value = Argname === 'photo' ? event.target.files[0] : event.target.value;
@@ -40,13 +48,11 @@ const Adddishes = () => {
     setValues({ ...values, formData: new FormData() });
   }, []);
 
-  const { token, customer } = isAuthenticated();
-
   const clickSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: '', loading: true });
     console.log(formData);
-    createDishes(customer[0].id, token, formData)
+    createDishes(customerSigninInfo.customer[0].id, customerSigninInfo.token, formData)
       .then((data) => {
         if (data.error) {
           setValues({ ...values, error: data.error });

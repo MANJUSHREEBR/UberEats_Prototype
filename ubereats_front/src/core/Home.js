@@ -21,7 +21,7 @@ const Home = () => {
   return (
     <div className="container">
       <Row>
-        {dishes.map((dish, i) => (
+        {dishes && dishes.map((dish, i) => (
           <Col sm={12} md={4} lg={3} key={i}><CardComponent key={i} dish={dish} /></Col>))}
       </Row>
     </div>
