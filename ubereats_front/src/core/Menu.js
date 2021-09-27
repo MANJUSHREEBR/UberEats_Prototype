@@ -14,10 +14,13 @@ import { Redirect } from 'react-dom';
 import {
   Container, Navbar, Nav, Card, NavDropdown, ToggleButton, ButtonGroup, Button,
 } from 'react-bootstrap';
+import { Route, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../js/actions/customerActions';
+import Search from './Search';
 
-const Menu = ({ history }) => {
+const Menu = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const customer = useSelector((state) => state.customerSignin);
   const [radioValue, setRadioValue] = useState('1');
@@ -26,6 +29,7 @@ const Menu = ({ history }) => {
   } = customer;
   const logoutHandler = () => {
     dispatch(logout());
+    history.push('/');
   };
   const radios = [
     { name: 'Delivery', value: '1' },
@@ -59,6 +63,7 @@ const Menu = ({ history }) => {
         && (
         <Button variant="light" rounded>
           <i className="fas fa-map-marker-alt" />
+          {' '}
           {customerSigninInfo && customerSigninInfo.customer[0].location}
         </Button>
         )
@@ -84,13 +89,13 @@ const Menu = ({ history }) => {
                 </Nav.Link>
               </LinkContainer>
             )}
-            <LinkContainer to="/cart">
-              <Nav.Link>
-                <i className="fas fa-shopping-cart" />
-                Cart
-              </Nav.Link>
-            </LinkContainer>
           </Nav>
+          <Route render={() => <Search history={history} />} />
+          <LinkContainer to="/cart" variant="dark">
+            <Nav.Link>
+              <i className="fas fa-shopping-cart" style={{ color: 'black' }} />
+            </Nav.Link>
+          </LinkContainer>
         </Navbar.Collapse>
       </Container>
     </Navbar>
