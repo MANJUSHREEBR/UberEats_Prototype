@@ -49,11 +49,11 @@ exports.updateRestaurant = (req, res) => {
     users = _.extend(users, fields);
     const item = {};
     if (files.photo) {
-      if (files.photo.size > 1000000) {
-        return res.status(400).json({
-          error: 'Image size should be less than 1MB',
-        });
-      }
+      // if (files.photo.size > 1000000) {
+      //   return res.status(400).json({
+      //     error: 'Image size should be less than 1MB',
+      //   });
+      // }
       item.data = files.photo.path;
       item.contentType = files.photo.type;
     }
