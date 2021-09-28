@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 
 const SearchBox = ({ history }) => {
   const [keyword, setKeyword] = useState('');
@@ -26,9 +26,6 @@ const SearchBox = ({ history }) => {
         className="mr-sm-2"
         style={{ width: '500px' }}
       />
-      <Button type="submit" variant="outline-success" className="p-2">
-        Search
-      </Button>
     </Form>
   );
 };

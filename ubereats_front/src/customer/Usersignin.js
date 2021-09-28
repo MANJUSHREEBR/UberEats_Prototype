@@ -21,7 +21,7 @@ const Usersignin = ({ location, history }) => {
     isCustomer: 'customer',
   });
 
-  const redirect = location.search ? location.search.split('=')[1] : '/';
+  const redirect = location.search ? location.search.split('=')[1] : '/search/delivery';
 
   const {
     email, password,
@@ -36,8 +36,10 @@ const Usersignin = ({ location, history }) => {
   } = customer;
 
   useEffect(() => {
-    if (customerSigninInfo) {
+    if (customerSigninInfo && customerSigninInfo.customer[0].role === 0) {
       history.push(redirect);
+    } else if ((customerSigninInfo && customerSigninInfo.customer[0].role === 1)) {
+      history.push(`/restaurant/${customerSigninInfo.customer[0].id}`);
     }
   }, [history, customerSigninInfo, redirect]);
 

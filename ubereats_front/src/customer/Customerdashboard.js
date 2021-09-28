@@ -130,7 +130,7 @@ const Customerdashboard = ({ history }) => {
     loadingFromState && (<div className="alert alert-success"><h2>Loading ... </h2></div>)
   );
   const showImage = () => (
-    (<Image src={customerSigninInfo ? `${API}/customer/photo/${customerSigninInfo.customer[0].id}` : ' '} alt={name} fluid rounded />)
+    (<Image src={(customerSigninInfo && customerSigninInfo.customer[0].role === 0) ? `${API}/customer/photo/${customerSigninInfo.customer[0].id}` : `${API}/restaurant/photo/${customerSigninInfo.customer[0].id}`} alt={name} fluid rounded />)
   );
   return (
     <div className="row">

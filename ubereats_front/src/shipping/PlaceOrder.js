@@ -33,7 +33,7 @@ const PlaceOrder = ({ history }) => {
    + Number(cart.taxPrice)).toFixed(2);
 
   const placeOrderHandler = () => {
-
+    history.push('/customer/orders');
   };
   return (
     <>

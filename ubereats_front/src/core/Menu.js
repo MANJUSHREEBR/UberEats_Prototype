@@ -23,7 +23,7 @@ const Menu = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const customer = useSelector((state) => state.customerSignin);
-  const [radioValue, setRadioValue] = useState('1');
+  const [radioValue, setRadioValue] = useState('Delivery');
   const {
     customerSigninInfo,
   } = customer;
@@ -32,13 +32,18 @@ const Menu = () => {
     history.push('/');
   };
   const radios = [
-    { name: 'Delivery', value: '1' },
-    { name: 'Pickup', value: '2' },
+    { name: 'Delivery' },
+    { name: 'Pickup' },
   ];
+  const handleOnchange = (e) => {
+    setRadioValue(e.currentTarget.value);
+    history.push(`/search/${e.currentTarget.value}`);
+  };
+
   return (
     <Navbar bg="light" expand="lg">
       <Container>
-        <LinkContainer to="/">
+        <LinkContainer to={customerSigninInfo && customerSigninInfo.customer[0].role === 1 ? `/restaurant/${customerSigninInfo.customer[0].id}` : '/search/Delivery'}>
           <Navbar.Brand expand="lg">
             <Card.Img src="images/logo.png" variant="top" style={{ height: '75px' }} />
           </Navbar.Brand>
@@ -51,9 +56,9 @@ const Menu = () => {
               type="radio"
               variant={idx % 2 ? 'outline-success' : 'outline-success'}
               name="radio"
-              value={radio.value}
-              checked={radioValue === radio.value}
-              onChange={(e) => setRadioValue(e.currentTarget.value)}
+              value={radio.name}
+              checked={radioValue === radio.name}
+              onChange={handleOnchange}
             >
               {radio.name}
             </ToggleButton>
@@ -76,6 +81,9 @@ const Menu = () => {
               <NavDropdown title={customerSigninInfo.customer[0].name} id="username">
                 <LinkContainer to="/customerdashboard">
                   <NavDropdown.Item>Profile</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to="/customer/orders">
+                  <NavDropdown.Item>Orders</NavDropdown.Item>
                 </LinkContainer>
                 <NavDropdown.Item onClick={logoutHandler}>Log Out</NavDropdown.Item>
               </NavDropdown>
