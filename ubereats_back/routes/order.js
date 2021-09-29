@@ -3,14 +3,15 @@ const express = require('express');
 const router = express.Router();
 
 const {
-  create,
+  create, read, orderById, listOrders,
 } = require('../controllers/order');
 const { requireSignin, isAuth } = require('../controllers/userAuth');
-// const { findRestaurantById } = require('../controllers/restaurant');
+const { findCustomerById } = require('../controllers/customer');
 
-router.post('/order/create', requireSignin, isAuth, create);
-
-// router.param('restaurantId', requireSignin, findRestaurantById);
-// router.param('dishId', dishesById);
+router.param('customerId', findCustomerById);
+router.param('orderId', orderById);
+router.get('/order/:orderId', read);
+router.post('/order/create/:customerId', requireSignin, isAuth, create);
+router.get('/orders/:customerId', listOrders);
 
 module.exports = router;

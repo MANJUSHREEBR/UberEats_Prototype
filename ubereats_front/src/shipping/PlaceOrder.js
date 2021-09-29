@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-filename-extension */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
@@ -11,8 +11,10 @@ import {
 import { saveShippindAddress } from '../js/actions/cartActions';
 import CheckoutSteps from '../core/Checkoutsteps';
 import { API } from '../config';
+import { createOrder } from '../js/actions/orderAction';
 
 const PlaceOrder = ({ history }) => {
+  const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
 
   const { shippingAddress } = cart;
@@ -32,9 +34,21 @@ const PlaceOrder = ({ history }) => {
   cart.totalPrice = (Number(cart.itemsPrice) + Number(cart.shippingPrice)
    + Number(cart.taxPrice)).toFixed(2);
 
+  const ordercreate = useSelector((state) => state.ordercreate);
+  const { order, success, error } = ordercreate;
+
   const placeOrderHandler = () => {
-    history.push('/customer/orders');
+    dispatch(createOrder({
+      cart,
+      restaurantId: 1,
+    }));
   };
+  useEffect(() => {
+    if (success) {
+      console.log(order);
+      history.push(`/orders/${order.orderid}`);
+    }
+  }, [history, success]);
   return (
     <>
       <CheckoutSteps step1 step2 step3 />
@@ -154,6 +168,11 @@ const PlaceOrder = ({ history }) => {
                     {cart.totalPrice}
                   </Col>
                 </Row>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
+                  {error}
+                </div>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Button

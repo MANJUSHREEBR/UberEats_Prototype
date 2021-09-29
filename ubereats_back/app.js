@@ -12,6 +12,7 @@ const userAuthRoutes = require('./routes/userAuth');
 const customerRoutes = require('./routes/customer');
 const restaurantRoutes = require('./routes/restaurant');
 const dishesRoutes = require('./routes/dishes');
+const orderRoutes = require('./routes/order');
 
 const app = express();
 app.use((req, res, next) => {
@@ -33,6 +34,7 @@ app.use('/ubereats', userAuthRoutes);
 app.use('/ubereats', customerRoutes);
 app.use('/ubereats', dishesRoutes);
 app.use('/ubereats', restaurantRoutes);
+app.use('/ubereats', orderRoutes);
 
 const port = process.env.PORT || 8000;
 // eslint-disable-next-line no-console
