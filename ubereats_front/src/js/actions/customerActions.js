@@ -8,7 +8,7 @@ import {
   CUSTOMER_SIGNIN_REQUEST,
   CUSTOMER_SIGNIN_SUCCESS,
   CUSTOMER_SIGNIN_FAIL,
-  CUSTOMER_SIGNOUT,
+  CUSTOMER_SIGNOUT_SUCCESS,
   CUSTOMER_SIGNUP_REQUEST,
   CUSTOMER_SIGNUP_SUCCESS,
   CUSTOMER_SIGNUP_FAIL,
@@ -83,14 +83,14 @@ export const customersignup = (user, isCustomer) => (dispatch) => {
 export const logout = () => (dispatch) => {
   localStorage.removeItem('customerInfo');
   dispatch({
-    type: CUSTOMER_SIGNOUT,
+    type: CUSTOMER_SIGNOUT_SUCCESS,
   });
 };
 
-export const customerUpdateProfile = (user, token, id) => (dispatch, getState) => {
+export const customerUpdateProfile = (user, token, id, isCustomer) => (dispatch, getState) => {
   dispatch({ type: CUSTOMER_UPDATE_PROFILE_REQUEST });
 
-  fetch(`${API}/customer/${id}`, {
+  fetch(`${API}/${isCustomer}/${id}`, {
     method: 'PUT',
     headers: {
       Accept: 'application/json',

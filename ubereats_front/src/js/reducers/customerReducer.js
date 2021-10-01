@@ -3,14 +3,13 @@ import {
   CUSTOMER_SIGNIN_REQUEST,
   CUSTOMER_SIGNIN_SUCCESS,
   CUSTOMER_SIGNIN_FAIL,
-  CUSTOMER_SIGNOUT,
+  CUSTOMER_SIGNOUT_SUCCESS,
   CUSTOMER_SIGNUP_REQUEST,
   CUSTOMER_SIGNUP_FAIL,
   CUSTOMER_SIGNUP_SUCCESS,
   CUSTOMER_UPDATE_PROFILE_REQUEST,
   CUSTOMER_UPDATE_PROFILE_SUCCESS,
   CUSTOMER_UPDATE_PROFILE_FAIL,
-  // CUSTOMER_UPDATE_PROFILE_RESET,
 } from '../constants/customerConstants';
 
 export const customerSigninReducer = (state = { }, action) => {
@@ -25,7 +24,7 @@ export const customerSigninReducer = (state = { }, action) => {
       };
     case CUSTOMER_SIGNIN_FAIL:
       return { loadingFromState: false, errorFromState: action.payload, successFromState: false };
-    case CUSTOMER_SIGNOUT:
+    case CUSTOMER_SIGNOUT_SUCCESS:
       return { };
     default:
       return state;

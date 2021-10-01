@@ -16,8 +16,8 @@ import { customerSignin } from '../js/actions/customerActions';
 const Usersignin = ({ location, history }) => {
   const disPatch = useDispatch();
   const [values, setValues] = useState({
-    email: 'manju@gmail.com',
-    password: 'Manju@123',
+    email: '',
+    password: '',
     isCustomer: 'customer',
   });
 
@@ -39,7 +39,8 @@ const Usersignin = ({ location, history }) => {
     if (customerSigninInfo && customerSigninInfo.customer[0].role === 0) {
       history.push(redirect);
     } else if ((customerSigninInfo && customerSigninInfo.customer[0].role === 1)) {
-      history.push(`/restaurant/${customerSigninInfo.customer[0].id}`);
+      history.push('/customerdashboard');
+      // history.push(`/restaurant/${customerSigninInfo.customer[0].id}`);
     }
   }, [history, customerSigninInfo, redirect]);
 

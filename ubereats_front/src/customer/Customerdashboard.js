@@ -29,6 +29,8 @@ const Customerdashboard = ({ history }) => {
     location: customerSigninInfo ? customerSigninInfo.customer[0].location : '',
     nickname: customerSigninInfo ? customerSigninInfo.customer[0].nickname : '',
     loading: '',
+    deliverymode: customerSigninInfo ? customerSigninInfo.customer[0].deliverymode : '',
+    category: customerSigninInfo ? customerSigninInfo.customer[0].category : '',
     about: customerSigninInfo ? customerSigninInfo.customer[0].about : ' ',
     error: '',
     createdDish: '',
@@ -48,6 +50,8 @@ const Customerdashboard = ({ history }) => {
     createdDish,
     reDirectToProfile,
     formData,
+    category,
+    deliverymode,
   } = values;
 
   const handleChange = (Argname) => (event) => {
@@ -70,7 +74,11 @@ const Customerdashboard = ({ history }) => {
     setValues({
       ...values, error: '', loading: true,
     });
-    dispatch(customerUpdateProfile(formData, customerSigninInfo.token, customerSigninInfo.customer[0].id));
+    let isCustomer = 'customer';
+    if (customerSigninInfo.customer[0].role === 1) {
+      isCustomer = 'restaurant';
+    }
+    dispatch(customerUpdateProfile(formData, customerSigninInfo.token, customerSigninInfo.customer[0].id, isCustomer));
   };
 
   const newPostForm = () => (
@@ -85,10 +93,12 @@ const Customerdashboard = ({ history }) => {
         <label className="text-muted">Name</label>
         <input onChange={handleChange('name')} type="text" name="name" className="form-control" value={name} />
       </div>
+      {customerSigninInfo.customer[0].role === 0 && (
       <div className="form-group">
         <label className="text-muted">Nickname</label>
         <input onChange={handleChange('nickname')} type="text" name="nickname" className="form-control" value={nickname} />
       </div>
+      )}
       <div className="form-group">
         <label className="text-muted">Email</label>
         <input onChange={handleChange('email')} type="email" name="email" className="form-control" value={email} />
@@ -101,6 +111,27 @@ const Customerdashboard = ({ history }) => {
         <label className="text-muted">About</label>
         <textarea onChange={handleChange('about')} type="number" name="number" className="form-control" value={about} />
       </div>
+      {customerSigninInfo.customer[0].role === 1 && (
+      <div className="form-group">
+        <label className="text-muted">Delivery Mode</label>
+        <select onChange={handleChange('deliverymode')} name="deliverymode" className="form-control" value={deliverymode}>
+          <option>Select</option>
+          <option value="Pick up">Pickup</option>
+          <option value="Delivery">Delivery</option>
+        </select>
+      </div>
+      )}
+      {customerSigninInfo.customer[0].role === 1 && (
+      <div className="form-group">
+        <label className="text-muted">Food Category</label>
+        <select onChange={handleChange('category')} name="deliverymode" className="form-control" value={category}>
+          <option>Select</option>
+          <option value="Veg">Veg</option>
+          <option value="Nonveg">Nonveg</option>
+          <option value="Vegan">Vegan</option>
+        </select>
+      </div>
+      )}
       <div className="form-group">
         <label className="text-muted">Location</label>
         <select onChange={handleChange('location')} name="location" className="form-control" value={location}>
@@ -130,7 +161,7 @@ const Customerdashboard = ({ history }) => {
     loadingFromState && (<div className="alert alert-success"><h2>Loading ... </h2></div>)
   );
   const showImage = () => (
-    (<Image src={(customerSigninInfo && customerSigninInfo.customer[0].role === 0) ? `${API}/customer/photo/${customerSigninInfo.customer[0].id}` : `${API}/restaurant/photo/${customerSigninInfo.customer[0].id}`} alt={name} fluid rounded />)
+    (<Image src={(customerSigninInfo && customerSigninInfo.customer[0].role === 0) ? `${API}/customer/photo/${customerSigninInfo.customer[0].id}` : `${API}/restaurant/photo/${customerSigninInfo.customer[0].id}`} alt="please upload photo" fluid rounded />)
   );
   return (
     <div className="row">

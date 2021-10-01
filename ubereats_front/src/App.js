@@ -20,6 +20,7 @@ import Shipping from './shipping/Shipping';
 import PlaceOrder from './shipping/PlaceOrder';
 import CustomerLanding from './customer/customerLanding';
 import Orders from './orders/Orders';
+import ListOrders from './orders/ListOrders';
 
 const App = () => (
   <BrowserRouter>
@@ -40,6 +41,7 @@ const App = () => (
           <Route path="/restaurant/:id" exact component={RestaurantComponent} />
           <Route path="/search/:keyword" exact component={CustomerLanding} />
           <Route path="/orders/:id" exact component={Orders} />
+          <Route path="/customer/orders" exact component={ListOrders} />
         </Switch>
         <Footer />
       </main>

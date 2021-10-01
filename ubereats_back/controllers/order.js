@@ -91,6 +91,7 @@ exports.listOrders = (req, res) => {
   // const order = req.query.order ? req.query.order : 'ASC';
   // const sortBy = req.query.sortBy ? req.query.sortBy : 'id';
   // const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+  // join dishes ON orderdishes.dish_id = dishes.id
   const { id } = req.profile[0];
 
   pool.getConnection((err, conn) => {
@@ -98,7 +99,7 @@ exports.listOrders = (req, res) => {
       res.send('Error occured');
     } else {
       conn.query(
-        'SELECT * FROM orders JOIN orderdishes ON orders.orderid = orderdishes.order_id JOIN dishes ON orderdishes.dish_id = dishes.id WHERE customer_id = ?',
+        'select * from orders JOIN orderdishes ON orders.orderid = orderdishes.order_id where customer_id = ? GROUP BY orderid',
         [id],
         (error, orders) => {
           if (error || !orders.length) {

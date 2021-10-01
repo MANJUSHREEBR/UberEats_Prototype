@@ -77,7 +77,15 @@ const Usersignup = () => {
       {isCustomer === 'restaurant' && (
       <div className="form-group">
         <label className="text-muted">Location</label>
-        <input onChange={handleChange('location')} type="text" className="form-control" value={location} />
+        {/* <input onChange={handleChange('location')} type="text" className="form-control" value={location} /> */}
+        <select onChange={handleChange('location')} className="form-control">
+          <option>Select</option>
+          <option value="San Jose">San Jose</option>
+          <option value="Santa Clara">Santa Clara</option>
+          <option value="Sunnyvale">Sunnyvale</option>
+          <option value="Freemont">Freemont</option>
+        </select>
+
       </div>
       )}
       <button type="submit" className="btn btn-success" onClick={clickSubmit}>

@@ -27,11 +27,14 @@ const Home = ({ match }) => {
   let { loadingFromState, restaurants, errorFromState } = restaurantList;
 
   if (keyword !== undefined) {
-    restaurants = restaurants.filter(
-      (row) => row.name.toLowerCase().indexOf(keyword.toLowerCase()) > -1
+    console.log(restaurants);
+    if (restaurants) {
+      restaurants = restaurants.filter(
+        (row) => row.name.toLowerCase().indexOf(keyword.toLowerCase()) > -1
     || row.location.toLowerCase().indexOf(keyword.toLowerCase()) > -1
     || row.deliverymode.toLowerCase().indexOf(keyword.toLowerCase()) > -1,
-    );
+      );
+    }
   }
   if (filter.length) {
     restaurants = restaurants.filter(

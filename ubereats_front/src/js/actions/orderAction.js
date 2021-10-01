@@ -8,6 +8,9 @@ import {
   ORDER_DETAILS_REQUEST,
   ORDER_DETAILS_SUCCESS,
   ORDER_DETAILS_FAIL,
+  MY_ORDER_LIST_REQUEST,
+  MY_ORDER_LIST_SUCCESS,
+  MY_ORDER_LIST_FAIL,
 }
   from '../constants/orderConstants';
 import { API } from '../../config';
@@ -68,6 +71,35 @@ export const getOrderDetails = (id) => (dispatch, getState) => {
     .catch((error) => {
       dispatch({
         type: ORDER_DETAILS_FAIL,
+        payload: error,
+      });
+    });
+};
+
+export const getMyOrderList = () => (dispatch, getState) => {
+  dispatch({ type: MY_ORDER_LIST_REQUEST });
+  const { customerSignin: { customerSigninInfo } } = getState();
+  fetch(`${API}/orders/${customerSigninInfo.customer[0].id}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${customerSigninInfo.token}`,
+    },
+
+  })
+    .then((response) => response.json())
+    .then((response) => {
+      if (!response.error) {
+        dispatch({
+          type: MY_ORDER_LIST_SUCCESS,
+          payload: response,
+        });
+      } else {
+        throw (response.error);
+      }
+    })
+    .catch((error) => {
+      dispatch({
+        type: MY_ORDER_LIST_FAIL,
         payload: error,
       });
     });
