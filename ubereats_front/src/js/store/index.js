@@ -6,7 +6,10 @@ import { customerSigninReducer, customerSignupReducer, customerUpdateProfileRedu
 import { DishListReducer, DishDetailsReducer } from '../reducers/DishReducer';
 import { cartReducer } from '../reducers/cartReducers';
 import { RestaurantListReducer, RestauranthDetailsReducer, RestaurantDishListReducer } from '../reducers/RestaurantReducer';
-import { orderCreateReducer, orderDetailsReducer, myOrderListReducer } from '../reducers/orderReducer';
+import {
+  orderCreateReducer, orderDetailsReducer, myOrderListReducer,
+  orderStatusUpdateReducer,
+} from '../reducers/orderReducer';
 
 const reducers = combineReducers({
   customerSignin: customerSigninReducer,
@@ -21,6 +24,7 @@ const reducers = combineReducers({
   ordercreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
   myOrderList: myOrderListReducer,
+  orderStatus: orderStatusUpdateReducer,
 });
 
 const cartItemsFromStorage = localStorage.getItem('cartItems')

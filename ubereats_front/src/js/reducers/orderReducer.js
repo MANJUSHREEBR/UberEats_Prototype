@@ -11,6 +11,9 @@ import {
   MY_ORDER_LIST_REQUEST,
   MY_ORDER_LIST_SUCCESS,
   MY_ORDER_LIST_FAIL,
+  ORDER_STATUS_UPDATE_REQUEST,
+  ORDER_STATUS_UPDATE_SUCCESS,
+  ORDER_STATUS_UPDATE_FAIL,
 }
   from '../constants/orderConstants';
 
@@ -71,6 +74,28 @@ export const orderDetailsReducer = (state = { loading: true, orderItems: {} }, a
         orderItems: action.payload,
       };
     case ORDER_DETAILS_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const orderStatusUpdateReducer = (state = { }, action) => {
+  switch (action.type) {
+    case ORDER_STATUS_UPDATE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case ORDER_STATUS_UPDATE_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      };
+    case ORDER_STATUS_UPDATE_FAIL:
       return {
         loading: false,
         error: action.payload,

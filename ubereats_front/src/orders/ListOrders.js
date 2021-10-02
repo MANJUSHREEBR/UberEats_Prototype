@@ -12,13 +12,13 @@ import {
   Button, Row, Col, ListGroup, Image, Card, Table,
 } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { getMyOrderList } from '../js/actions/orderAction';
+import { getMyOrderList, updateOrderStatus } from '../js/actions/orderAction';
 
-const OrdeListOrders = () => {
+const OrdeListOrders = ({ match }) => {
+  const [selectVlaue] = useState();
   const dispatch = useDispatch();
   const myOrderList = useSelector((state) => state.myOrderList);
   const { loading, orders, error } = myOrderList;
-
   useEffect(() => {
     dispatch(getMyOrderList());
   }, [dispatch]);
@@ -47,7 +47,11 @@ const OrdeListOrders = () => {
                 <tr key={order.orderid}>
                   <td>{order.orderid}</td>
                   <td>{order.orderdate.substring(0, 10)}</td>
-                  <td>{order.status}</td>
+                  <td>
+
+                    <span>{ order.status }</span>
+
+                  </td>
                   <td>
                     <LinkContainer to={`/orders/${order.orderid}`}>
                       <Button variant="success" className="btn-sm">

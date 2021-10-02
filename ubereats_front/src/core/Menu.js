@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-operators */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
@@ -107,11 +108,14 @@ const Menu = () => {
             )}
           </Nav>
           <Route render={() => <Search history={history} />} />
+          {(!customerSigninInfo || customerSigninInfo.customer[0].role === 0) && (
           <LinkContainer to="/cart" variant="dark">
             <Nav.Link>
               <i className="fas fa-shopping-cart" style={{ color: 'black' }} />
             </Nav.Link>
           </LinkContainer>
+          )}
+
         </Navbar.Collapse>
       </Container>
     </Navbar>

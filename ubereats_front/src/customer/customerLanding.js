@@ -27,7 +27,6 @@ const Home = ({ match }) => {
   let { loadingFromState, restaurants, errorFromState } = restaurantList;
 
   if (keyword !== undefined) {
-    console.log(restaurants);
     if (restaurants) {
       restaurants = restaurants.filter(
         (row) => row.name.toLowerCase().indexOf(keyword.toLowerCase()) > -1

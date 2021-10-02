@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/void-dom-elements-no-children */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
@@ -10,7 +11,7 @@ import {
 } from 'react-bootstrap';
 import { saveShippindAddress } from '../js/actions/cartActions';
 import { API } from '../config';
-import { getOrderDetails } from '../js/actions/orderAction';
+import { getOrderDetails, updateOrderStatus } from '../js/actions/orderAction';
 
 const Orders = ({ match }) => {
   const orderId = match.params.id;
@@ -18,7 +19,11 @@ const Orders = ({ match }) => {
   const orderDetails = useSelector((state) => state.orderDetails);
   const { orderItems, loading, error } = orderDetails;
   const { cart } = orderItems;
-
+  const customer = useSelector((state) => state.customerSignin);
+  const {
+    customerSigninInfo,
+  } = customer;
+  const [selectorVal, setSelectorVal] = useState(orderItems.status);
   //   const { shippingAddress } = cart;
   // calculate prices
   const addDecimals = (num) => (Math.round(num * 100) / 100).toFixed(2);
@@ -34,6 +39,11 @@ const Orders = ({ match }) => {
   useEffect(() => {
     dispatch(getOrderDetails(orderId));
   }, [dispatch]);
+
+  const statusUpdateHandler = (e) => {
+    setSelectorVal(e.target.value);
+    dispatch(updateOrderStatus({ status: e.target.value }, orderId));
+  };
   return (
     <>
       <Row>
@@ -65,9 +75,13 @@ const Orders = ({ match }) => {
                 {orderItems.orderid}
               </h4>
               <ListGroup.Item>
-                status:
-                {' '}
-                {orderItems.status}
+                <label className="text-muted">Change Status here</label>
+                <select onChange={statusUpdateHandler} className="form-control" value={selectorVal}>
+                  <option>Select</option>
+                  <option value="Order Received">Order Received</option>
+                  <option value="Processing">Processing</option>
+                  <option value="Delivered">Delivered</option>
+                </select>
               </ListGroup.Item>
               {cart && cart.length === 0 ? (
                 <div className="alert alert-danger">

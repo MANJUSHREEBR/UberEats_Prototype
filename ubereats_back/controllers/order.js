@@ -77,7 +77,7 @@ exports.orderById = (req, res, next, id) => {
             'SELECT * FROM orderdishes JOIN dishes ON orderdishes.dish_id = dishes.id where orderdishes.order_id = ? ',
             [orderObj.orderid],
             (error, orderDishes) => {
-              if (error || !orderDishes.length) {
+              if (error) {
                 return res.status(400).json({
                   error: "Order doesn't exists",
 
@@ -115,6 +115,67 @@ exports.listOrders = (req, res) => {
           if (error || !orders.length) {
             return res.status(400).json({
               error: 'dishes not found',
+
+            });
+          }
+          res.json({
+            orders,
+          });
+          conn.release();
+        },
+      );
+    }
+  });
+};
+
+exports.listOrdersByRestaurantId = (req, res) => {
+  // const order = req.query.order ? req.query.order : 'ASC';
+  // const sortBy = req.query.sortBy ? req.query.sortBy : 'id';
+  // const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+  // join dishes ON orderdishes.dish_id = dishes.id
+  const { id } = req.restaurant[0];
+  pool.getConnection((err, conn) => {
+    if (err) {
+      res.send('Error occured');
+    } else {
+      conn.query(
+        'select * from orders where restaurant_id = ?',
+        [id],
+        (error, orders) => {
+          if (error || !orders.length) {
+            return res.status(400).json({
+              error: 'dishes not found',
+
+            });
+          }
+          res.json({
+            orders,
+          });
+          conn.release();
+        },
+      );
+    }
+  });
+};
+
+exports.changeOrderStatus = (req, res) => {
+  // const order = req.query.order ? req.query.order : 'ASC';
+  // const sortBy = req.query.sortBy ? req.query.sortBy : 'id';
+  // const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+  // join dishes ON orderdishes.dish_id = dishes.id
+  const id = req.order.orderid;
+
+  pool.getConnection((err, conn) => {
+    if (err) {
+      res.send('Error occured');
+    } else {
+      conn.query(
+        'UPDATE orders SET status = ? where orderid = ?',
+        [req.body.status, id],
+        (error, orders) => {
+          if (error) {
+            return res.status(400).json({
+              error: 'orders not found',
 
             });
           }

@@ -11,6 +11,9 @@ import {
   MY_ORDER_LIST_REQUEST,
   MY_ORDER_LIST_SUCCESS,
   MY_ORDER_LIST_FAIL,
+  ORDER_STATUS_UPDATE_REQUEST,
+  ORDER_STATUS_UPDATE_SUCCESS,
+  ORDER_STATUS_UPDATE_FAIL,
 }
   from '../constants/orderConstants';
 import { CART_REMOVE_ITEMS } from '../constants/cartConstants';
@@ -85,7 +88,11 @@ export const getOrderDetails = (id) => (dispatch, getState) => {
 export const getMyOrderList = () => (dispatch, getState) => {
   dispatch({ type: MY_ORDER_LIST_REQUEST });
   const { customerSignin: { customerSigninInfo } } = getState();
-  fetch(`${API}/orders/${customerSigninInfo.customer[0].id}`, {
+  let url = `${API}/orders/${customerSigninInfo.customer[0].id} `;
+
+  if (customerSigninInfo.customer[0].role === 1) url = `${API}/restaurant/orders/${customerSigninInfo.customer[0].id} `;
+
+  fetch(url, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${customerSigninInfo.token}`,
@@ -106,6 +113,38 @@ export const getMyOrderList = () => (dispatch, getState) => {
     .catch((error) => {
       dispatch({
         type: MY_ORDER_LIST_FAIL,
+        payload: error,
+      });
+    });
+};
+
+export const updateOrderStatus = (data, id) => (dispatch, getState) => {
+  const { customerSignin: { customerSigninInfo } } = getState();
+  dispatch({ type: ORDER_STATUS_UPDATE_REQUEST });
+  fetch(`${API}/restaurant/orders/${id}`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${customerSigninInfo.token}`,
+    },
+    body: JSON.stringify(data),
+
+  })
+    .then((response) => response.json())
+    .then((response) => {
+      if (!response.error) {
+        dispatch({
+          type: ORDER_STATUS_UPDATE_SUCCESS,
+          payload: response,
+        });
+      } else {
+        throw (response.error);
+      }
+    })
+    .catch((error) => {
+      dispatch({
+        type: ORDER_STATUS_UPDATE_FAIL,
         payload: error,
       });
     });
