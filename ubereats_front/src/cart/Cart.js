@@ -45,7 +45,7 @@ const Cart = ({ match, location, history }) => {
         <Modal.Body>
           <Row>
             <Col md={8}>
-              {cartItems.length === 0 ? (
+              {cartItems && cartItems.length === 0 ? (
                 <div className="alert alert-danger">
 
                   Your cart is empty
@@ -54,7 +54,7 @@ const Cart = ({ match, location, history }) => {
                 </div>
               ) : (
                 <div>
-                  {cartItems.map((item) => (
+                  {cartItems && cartItems.map((item) => (
                     <ListGroup.Item key={item.product}>
                       <Row>
                         <Col md={3}>

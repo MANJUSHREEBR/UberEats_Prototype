@@ -18,7 +18,6 @@ const OrdeListOrders = () => {
   const dispatch = useDispatch();
   const myOrderList = useSelector((state) => state.myOrderList);
   const { loading, orders, error } = myOrderList;
-  console.log(orders[0]);
 
   useEffect(() => {
     dispatch(getMyOrderList());
@@ -44,7 +43,7 @@ const OrdeListOrders = () => {
               </tr>
             </thead>
             <tbody>
-              {orders.map((order) => (
+              {orders && orders.map((order) => (
                 <tr key={order.orderid}>
                   <td>{order.orderid}</td>
                   <td>{order.orderdate.substring(0, 10)}</td>

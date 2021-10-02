@@ -1,7 +1,17 @@
 /* eslint-disable import/named */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable import/prefer-default-export */
-import { CART_ADD_ITEM, CART_SAVE_SHIPPING_ADDRESS } from '../constants/cartConstants';
+import {
+  CART_ADD_ITEM,
+  CART_SAVE_SHIPPING_ADDRESS,
+  CART_SAVE_REQUEST,
+  CART_SAVE_SUCCESS,
+  CART_SAVE_FAIL,
+  CART_REMOVE_ITEMS,
+  // CART_GET_DATABASE_REQUEST,
+  // CART_GET_DATABASE_SUCCESS,
+  // CART_GET_DATABASE_FAIL,
+} from '../constants/cartConstants';
 import { API } from '../../config';
 
 export const addToCart = (id, qty) => (dispatch, getState) => {
@@ -33,4 +43,41 @@ export const saveShippindAddress = (data) => (dispatch) => {
     payload: data,
   });
   localStorage.setItem('shippingAddress', JSON.stringify(data));
+};
+
+export const saveCartToDatabase = (order) => (dispatch, getState) => {
+  dispatch({ type: CART_SAVE_REQUEST });
+  const { customerSignin: { customerSigninInfo } } = getState();
+  fetch(`${API}/customer/addcart/${customerSigninInfo.customer[0].id}`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${customerSigninInfo.token}`,
+    },
+    body: JSON.stringify(order),
+
+  })
+    .then((response) => response.json())
+    .then((response) => {
+      if (!response.error) {
+        dispatch({
+          type: CART_SAVE_SUCCESS,
+          payload: response,
+        });
+        dispatch({
+          type: CART_REMOVE_ITEMS,
+          payload: {},
+        });
+        localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
+      } else {
+        throw (response.error);
+      }
+    })
+    .catch((error) => {
+      dispatch({
+        type: CART_SAVE_FAIL,
+        payload: error,
+      });
+    });
 };

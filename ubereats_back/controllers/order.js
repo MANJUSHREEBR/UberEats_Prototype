@@ -39,6 +39,16 @@ exports.create = (req, res) => {
           }
         });
       }
+      pool.query('DELETE FROM cart WHERE customer_id = ?', req.profile[0].id, (
+        err,
+      ) => {
+        if (err) {
+          console.log('unable to insert ordered items', err);
+          res.status(400).send('unable to insert ordered items');
+        } else {
+          console.log('ordered items added');
+        }
+      });
       res.status(200).json({
         orderid: `${result.insertId} `,
       });

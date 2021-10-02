@@ -13,6 +13,7 @@ import {
   MY_ORDER_LIST_FAIL,
 }
   from '../constants/orderConstants';
+import { CART_REMOVE_ITEMS } from '../constants/cartConstants';
 import { API } from '../../config';
 
 export const createOrder = (order) => (dispatch, getState) => {
@@ -36,6 +37,11 @@ export const createOrder = (order) => (dispatch, getState) => {
           type: ORDER_CREATE_SUCCESS,
           payload: response,
         });
+        dispatch({
+          type: CART_REMOVE_ITEMS,
+          payload: {},
+        });
+        localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
       } else {
         throw (response.error);
       }

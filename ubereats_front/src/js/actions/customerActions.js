@@ -16,10 +16,19 @@ import {
   CUSTOMER_UPDATE_PROFILE_SUCCESS,
   CUSTOMER_UPDATE_PROFILE_FAIL,
 } from '../constants/customerConstants';
+import {
+  CART_GET_DATABASE_REQUEST,
+  CART_GET_DATABASE_SUCCESS,
+  CART_GET_DATABASE_FAIL,
+} from '../constants/cartConstants';
 
 import { API } from '../../config';
 
-export const customerSignin = (user, isCustomer) => (dispatch) => {
+// const getCartFromDb = () => (dispatch, getState) => {
+
+// };
+
+export const customerSignin = (user, isCustomer) => (dispatch, getState) => {
   dispatch({ type: CUSTOMER_SIGNIN_REQUEST });
   fetch(`${API}/${isCustomer}/signin`, {
     method: 'POST',
@@ -38,6 +47,33 @@ export const customerSignin = (user, isCustomer) => (dispatch) => {
           payload: response,
         });
         localStorage.setItem('customerInfo', JSON.stringify(response));
+        dispatch({ type: CART_GET_DATABASE_REQUEST });
+        const { customerSignin: { customerSigninInfo } } = getState();
+
+        fetch(`${API}/customer/cart/${customerSigninInfo.customer[0].id}`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${customerSigninInfo.token}`,
+          },
+
+        })
+          .then((resp) => resp.json())
+          .then((resp) => {
+            if (!resp.error) {
+              dispatch({
+                type: CART_GET_DATABASE_SUCCESS,
+                payload: resp,
+              });
+            } else {
+              throw (resp.error);
+            }
+          })
+          .catch((error) => {
+            dispatch({
+              type: CART_GET_DATABASE_FAIL,
+              payload: error,
+            });
+          });
       } else {
         throw (response.error);
       }

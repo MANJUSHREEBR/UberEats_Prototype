@@ -17,6 +17,7 @@ import {
 import { Route, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../js/actions/customerActions';
+import { saveCartToDatabase } from '../js/actions/cartActions';
 import Search from './Search';
 
 const Menu = () => {
@@ -24,10 +25,12 @@ const Menu = () => {
   const dispatch = useDispatch();
   const customer = useSelector((state) => state.customerSignin);
   const [radioValue, setRadioValue] = useState('Delivery');
+  const cart = useSelector((state) => state.cart);
   const {
     customerSigninInfo,
   } = customer;
   const logoutHandler = () => {
+    dispatch(saveCartToDatabase({ cart }));
     dispatch(logout());
     history.push('/');
   };
@@ -85,6 +88,11 @@ const Menu = () => {
                 <LinkContainer to="/customer/orders">
                   <NavDropdown.Item>Orders</NavDropdown.Item>
                 </LinkContainer>
+                {customerSigninInfo && customerSigninInfo.customer[0].role === 1 && (
+                <LinkContainer to="/create/dishes">
+                  <NavDropdown.Item>Add dishes</NavDropdown.Item>
+                </LinkContainer>
+                )}
                 <NavDropdown.Item onClick={logoutHandler}>Log Out</NavDropdown.Item>
               </NavDropdown>
 

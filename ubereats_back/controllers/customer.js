@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
 /* eslint-disable consistent-return */
@@ -98,7 +99,6 @@ exports.updateCustomer = (req, res) => {
   });
 };
 exports.photo = (req, res, next) => {
-  console.log(req.profile);
   const reqphoto = JSON.parse(req.profile[0].photo);
   if (req.profile) {
     res.writeHead(200, { 'Content-Type': reqphoto.contentType });
@@ -109,4 +109,125 @@ exports.photo = (req, res, next) => {
       });
   }
   next();
+};
+
+exports.addFavorites = (req, res) => {
+  const { id } = req.profile[0];
+  const restId = req.restaurant[0].id;
+
+  pool.getConnection((err, conn) => {
+    if (err) {
+      res.send('Error occured');
+    } else {
+      conn.query(
+        'INSERT INTO favorites (customer_id, restaurant_id) VALUES (?,?)',
+        [id, restId],
+        (error, customer) => {
+          if (error) {
+            return res.status(400).json({
+              error: errorHandler(error),
+
+            });
+          }
+          req.profile = customer;
+          res.status(200).json({
+            Success: 'Favorites saved successfully',
+          });
+          conn.release();
+        },
+      );
+    }
+  });
+};
+exports.getFavorites = (req, res) => {
+  const { id } = req.profile[0];
+  pool.getConnection((err, conn) => {
+    if (err) {
+      res.send('Error occured');
+    } else {
+      conn.query(
+        'SELECT * FROM favorites JOIN restaurants ON  favorites.restaurant_id = restaurants.id',
+        [id],
+        (error, favorites) => {
+          if (error || !favorites.length) {
+            return res.status(400).json({
+              error: 'Favorites not found',
+
+            });
+          }
+          res.json({
+            favorites,
+          });
+          conn.release();
+        },
+      );
+    }
+  });
+};
+
+exports.addCart = (req, res) => {
+  const { id } = req.profile[0];
+  pool.query('DELETE FROM cart WHERE customer_id = ?', req.profile[0].id, (
+    err,
+  ) => {
+    if (err) {
+      console.log('unable to insert ordered items', err);
+      res.status(400).send('unable to insert ordered items');
+    } else {
+      pool.getConnection((err, conn) => {
+        if (err) {
+          res.send('Error occured');
+        } else {
+          // eslint-disable-next-line camelcase
+          const ordered_items = req.body.cart.cartItems;
+          for (let i = 0; i < ordered_items.length; i++) {
+            const dishId = ordered_items[i].dish;
+            const { qty } = ordered_items[i];
+            conn.query(
+              'INSERT INTO cart (customer_id, dish, qty) VALUES (?,?,?)',
+              [id, dishId, qty],
+              (error, cart) => {
+                if (error) {
+                  return res.status(400).json({
+                    error: errorHandler(error),
+
+                  });
+                }
+                res.status(200).json({
+                  Success: 'cartItems saved successfully',
+                });
+                conn.release();
+              },
+            );
+          }
+        }
+      });
+    }
+  });
+};
+
+exports.getCartItems = (req, res) => {
+  const { id } = req.profile[0];
+  pool.getConnection((err, conn) => {
+    if (err) {
+      res.send('Error occured');
+    } else {
+      conn.query(
+        'SELECT * FROM cart JOIN dishes ON  cart.dish = dishes.id',
+        [id],
+        (error, items) => {
+          if (error || !items.length) {
+            return res.status(400).json({
+              error: 'Item not found',
+
+            });
+          }
+          res.json({
+            items,
+          });
+          conn.release();
+        },
+      );
+    }
+  });
 };

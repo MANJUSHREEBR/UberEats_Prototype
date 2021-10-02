@@ -35,6 +35,7 @@ export const orderCreateReducer = (state = {}, action) => {
       return state;
   }
 };
+
 export const myOrderListReducer = (state = { loading: true, orders: [] }, action) => {
   switch (action.type) {
     case MY_ORDER_LIST_REQUEST:

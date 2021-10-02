@@ -77,7 +77,7 @@ const Adddishes = () => {
     <form className="mb-3" onSubmit={clickSubmit}>
       <h4>Post photo</h4>
       <div className="form-group">
-        <label className="btn btn-secondary">
+        <label className="btn btn-success">
           <input onChange={handleChange('photo')} type="file" name="photo" accept="image/*" />
         </label>
       </div>
