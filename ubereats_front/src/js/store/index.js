@@ -1,3 +1,4 @@
+/* eslint-disable import/named */
 import {
   createStore, combineReducers, applyMiddleware, compose,
 } from 'redux';
@@ -10,6 +11,7 @@ import {
   orderCreateReducer, orderDetailsReducer, myOrderListReducer,
   orderStatusUpdateReducer,
 } from '../reducers/orderReducer';
+import { addFavoriteReducer, FavRestaurantListReducer } from '../reducers/favoriteReducer';
 
 const reducers = combineReducers({
   customerSignin: customerSigninReducer,
@@ -25,6 +27,8 @@ const reducers = combineReducers({
   orderDetails: orderDetailsReducer,
   myOrderList: myOrderListReducer,
   orderStatus: orderStatusUpdateReducer,
+  addFavorite: addFavoriteReducer,
+  favRestaurantList: FavRestaurantListReducer,
 });
 
 const cartItemsFromStorage = localStorage.getItem('cartItems')

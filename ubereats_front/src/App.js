@@ -21,6 +21,7 @@ import PlaceOrder from './shipping/PlaceOrder';
 import CustomerLanding from './customer/customerLanding';
 import Orders from './orders/Orders';
 import ListOrders from './orders/ListOrders';
+import Favorites from './favorites/Favorites';
 
 const App = () => (
   <BrowserRouter>
@@ -42,6 +43,7 @@ const App = () => (
           <Route path="/search/:keyword" exact component={CustomerLanding} />
           <Route path="/orders/:id" exact component={Orders} />
           <Route path="/customer/orders" exact component={ListOrders} />
+          <Route path="/favorites" exact component={Favorites} />
         </Switch>
         <Footer />
       </main>

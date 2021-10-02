@@ -146,7 +146,7 @@ exports.getFavorites = (req, res) => {
       res.send('Error occured');
     } else {
       conn.query(
-        'SELECT * FROM favorites JOIN restaurants ON  favorites.restaurant_id = restaurants.id',
+        'SELECT * FROM favorites JOIN restaurants ON  favorites.restaurant_id = restaurants.id WHERE favorites.customer_id = ?',
         [id],
         (error, favorites) => {
           if (error || !favorites.length) {

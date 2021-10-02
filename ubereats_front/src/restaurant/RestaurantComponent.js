@@ -15,25 +15,34 @@ import {
   Row, Col, Image, ListGroup, Card, Button, Form, Modal,
 } from 'react-bootstrap';
 import { getRestaurantDetails, RestaurantlistDishes } from '../js/actions/restaurantAction';
+import { saveFavoriteToDatabase } from '../js/actions/favoriteActions';
 import CardComponent from '../core/CardComponent';
 import { API } from '../config';
 
 const RestaurantComponent = ({ history, match }) => {
   const dispatch = useDispatch();
+  const [favDisabled, setfavDisabled] = useState(false);
   const restaurantDetails = useSelector((state) => state.restaurantDetails);
   const { loadingFromState, restaurant, errorFromState } = restaurantDetails;
   const restaurantDishList = useSelector((state) => state.restaurantDishList);
   const { restdishes } = restaurantDishList;
-
+  const customer = useSelector((state) => state.customerSignin);
+  const {
+    customerSigninInfo,
+  } = customer;
   useEffect(() => {
     dispatch(getRestaurantDetails(parseInt(match.params.id)));
     dispatch(RestaurantlistDishes(match.params.id));
   }, [dispatch, match]);
-
+  const favoriteHandler = (e) => {
+    setfavDisabled(true);
+    dispatch(saveFavoriteToDatabase(match.params.id));
+  };
   return (
     <>
       {/* <Link className="btn btn-success my-3" to="/"> Go Back</Link> */}
       <Row>
+        {customerSigninInfo && customerSigninInfo.customer[0].role === 0 && (<Button variant="success" onClick={favoriteHandler} disabled={favDisabled} className="btn-md">Add as your Favorite Restaurant</Button>)}
         <Col md={12}>
           <Image src={`${API}/restaurant/photo/${match.params.id}`} alt={restaurant.name} fluid style={{ width: '100%', height: '500px' }} />
         </Col>

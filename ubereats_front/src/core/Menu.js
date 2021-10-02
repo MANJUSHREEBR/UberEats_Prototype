@@ -89,6 +89,11 @@ const Menu = () => {
                 <LinkContainer to="/customer/orders">
                   <NavDropdown.Item>Orders</NavDropdown.Item>
                 </LinkContainer>
+                {customerSigninInfo && customerSigninInfo.customer[0].role === 0 && (
+                <LinkContainer to="/favorites">
+                  <NavDropdown.Item>favorites</NavDropdown.Item>
+                </LinkContainer>
+                )}
                 {customerSigninInfo && customerSigninInfo.customer[0].role === 1 && (
                 <LinkContainer to="/create/dishes">
                   <NavDropdown.Item>Add dishes</NavDropdown.Item>
