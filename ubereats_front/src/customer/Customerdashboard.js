@@ -1,3 +1,6 @@
+/* eslint-disable no-debugger */
+/* eslint-disable jsx-a11y/img-redundant-alt */
+/* eslint-disable no-return-assign */
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable no-undef */
 /* eslint-disable max-len */
@@ -22,6 +25,7 @@ const Customerdashboard = ({ history }) => {
     customerSigninInfo,
   } = customer || '';
   const { loadingFromState, errorFromState, successFromState } = useSelector((state) => state.customerUpdateProfile);
+  const [imageUrl, setImageUrl] = useState('');
   const [values, setValues] = useState({
     name: customerSigninInfo ? customerSigninInfo.customer[0].name : '',
     email: customerSigninInfo ? customerSigninInfo.customer[0].email : '',
@@ -65,7 +69,8 @@ const Customerdashboard = ({ history }) => {
       history.push('./customersignin');
     }
     setValues({ ...values, formData: new FormData() });
-  }, [history]);
+    // if (imageUrl === '') setImageUrl(`${API}/customer/photo/${customerSigninInfo.customer[0].id}`);
+  }, [history, imageUrl]);
 
   // const { token, customer } = isAuthenticated();
 
@@ -79,6 +84,9 @@ const Customerdashboard = ({ history }) => {
       isCustomer = 'restaurant';
     }
     dispatch(customerUpdateProfile(formData, customerSigninInfo.token, customerSigninInfo.customer[0].id, isCustomer));
+    if (customerSigninInfo.customer[0].role === 1) {
+      setImageUrl(`${API}/restaurant/photo/${customerSigninInfo.customer[0].id}`);
+    } else setImageUrl(`${API}/customer/photo/${customerSigninInfo.customer[0].id}`);
   };
 
   const newPostForm = () => (
@@ -161,19 +169,32 @@ const Customerdashboard = ({ history }) => {
     loadingFromState && (<div className="alert alert-success"><h2>Loading ... </h2></div>)
   );
   const showImage = () => (
-    (<Image src={(customerSigninInfo && customerSigninInfo.customer[0].role === 0) ? `${API}/customer/photo/${customerSigninInfo.customer[0].id}` : `${API}/restaurant/photo/${customerSigninInfo.customer[0].id}`} alt="please upload photo" fluid rounded />)
+    (
+      <Image
+        src={imageUrl}
+        alt="Image not found"
+        onError={(e) => { e.target.onerror = null; e.target.src = 'https://dummyimage.com/100.png/09f/fff'; }}
+        fluid
+        roundedCircle
+      />
+    )
   );
   return (
     <div className="row">
       <div className="col-md-4 offset-md-2">
-        {showImage()}
-
-      </div>
-
-      <div className="col-md-4 offset-md-2">
-        {showLoading()}
+        {/* {imageUrl === '' && (
+        <Image
+          src={`${API}/customer/photo/${customerSigninInfo.customer[0].id}`}
+          alt="Image not found"
+          onError={(e) => { e.target.onerror = null; e.target.src = 'https://dummyimage.com/100.png/09f/fff'; }}
+          fluid
+          roundedCircle
+        />
+        )} */}
         {showError()}
         {showSuccess()}
+        {showLoading()}
+        {showImage()}
         {newPostForm()}
       </div>
     </div>

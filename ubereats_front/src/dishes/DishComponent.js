@@ -6,7 +6,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-filename-extension */
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Row, Col, Image, ListGroup, Card, Button, Form, Modal,
@@ -19,7 +19,10 @@ const DishComponent = ({ history, match }) => {
   const dispatch = useDispatch();
   const dishDetails = useSelector((state) => state.dishDetails);
   const { loadingFromState, dish, errorFromState } = dishDetails;
-
+  const customer = useSelector((state) => state.customerSignin);
+  const {
+    customerSigninInfo,
+  } = customer;
   useEffect(() => {
     dispatch(getDishDetails(parseInt(match.params.id)));
   }, [dispatch, match]);
@@ -35,6 +38,10 @@ const DishComponent = ({ history, match }) => {
   };
   const goback = () => {
     history.goBack();
+  };
+  const editDishes = () => {
+    localStorage.setItem('EditDish', JSON.stringify(dish));
+    history.push('/edit/dishes');
   };
   return (
     <>
@@ -99,11 +106,21 @@ const DishComponent = ({ history, match }) => {
               </Row>
 
             </ListGroup.Item>
+            {customerSigninInfo && customerSigninInfo.customer[0].role === 0 && (
             <ListGroup.Item>
               <Button className="btn-block bg-success" type="button" onClick={addToCart}>
                 Add To cart
               </Button>
             </ListGroup.Item>
+            ) }
+            {customerSigninInfo && customerSigninInfo.customer[0].role === 1 && (
+            <ListGroup.Item>
+              <Button className="btn-block bg-success" type="button" onClick={editDishes}>
+                Edit dish
+              </Button>
+            </ListGroup.Item>
+            ) }
+
           </ListGroup>
         </Col>
       </Row>

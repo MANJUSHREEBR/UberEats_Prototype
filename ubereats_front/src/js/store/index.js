@@ -4,7 +4,7 @@ import {
 } from 'redux';
 import thunk from 'redux-thunk';
 import { customerSigninReducer, customerSignupReducer, customerUpdateProfileReducer } from '../reducers/customerReducer';
-import { DishListReducer, DishDetailsReducer } from '../reducers/DishReducer';
+import { DishListReducer, DishDetailsReducer, DishUpdateReducer } from '../reducers/DishReducer';
 import { cartReducer } from '../reducers/cartReducers';
 import { RestaurantListReducer, RestauranthDetailsReducer, RestaurantDishListReducer } from '../reducers/RestaurantReducer';
 import {
@@ -29,6 +29,7 @@ const reducers = combineReducers({
   orderStatus: orderStatusUpdateReducer,
   addFavorite: addFavoriteReducer,
   favRestaurantList: FavRestaurantListReducer,
+  dishUpdate: DishUpdateReducer,
 });
 
 const cartItemsFromStorage = localStorage.getItem('cartItems')

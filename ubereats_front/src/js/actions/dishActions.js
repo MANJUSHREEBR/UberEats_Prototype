@@ -6,6 +6,9 @@ import {
   DISH_DETAILS_REQUEST,
   DISH_DETAILS_SUCCESS,
   DISH_DETAILS_FAIL,
+  DISH_EDIT_REQUEST,
+  DISH_EDIT_SUCCESS,
+  DISH_EDIT_FAIL,
 } from '../constants/dishConstants';
 import { API } from '../../config';
 
@@ -52,6 +55,36 @@ export const getDishDetails = (id) => (dispatch) => {
     .catch((error) => {
       dispatch({
         type: DISH_DETAILS_FAIL,
+        payload: error,
+      });
+    });
+};
+
+export const editDishes = (restid, dishid, token, formData) => (dispatch) => {
+  dispatch({ type: DISH_EDIT_REQUEST });
+  fetch(`${API}/dishes/${dishid}/${restid}`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+
+  })
+    .then((response) => response.json())
+    .then((response) => {
+      if (!response.error) {
+        dispatch({
+          type: DISH_EDIT_SUCCESS,
+          payload: response,
+        });
+      } else {
+        throw (response.error);
+      }
+    })
+    .catch((error) => {
+      dispatch({
+        type: DISH_EDIT_FAIL,
         payload: error,
       });
     });

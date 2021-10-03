@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/jsx-filename-extension */
@@ -6,16 +7,16 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { isAuthenticated } from '../auth';
 import { customerSignin } from '../js/actions/customerActions';
-
-import { createDishes } from './ApiRestaurant';
+import { editDishes } from '../js/actions/dishActions';
 
 const Adddishes = () => {
   const disPatch = useDispatch();
+  const editDish = JSON.parse(localStorage.getItem('EditDish'));
   const [values, setValues] = useState({
-    name: '',
-    description: '',
-    price: '',
-    dishtype: '',
+    name: editDish.name || '',
+    description: editDish.description || '',
+    price: editDish.price || '',
+    dishtype: editDish.dishtype || '',
     loading: '',
     error: '',
     createdDish: '',
@@ -51,25 +52,7 @@ const Adddishes = () => {
   const clickSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: '', loading: true });
-    createDishes(customerSigninInfo.customer[0].id, customerSigninInfo.token, formData)
-      .then((data) => {
-        if (data.error) {
-          setValues({ ...values, error: data.error });
-        } else {
-          const { result } = data;
-          setValues({
-            ...values,
-            name: '',
-            description: '',
-            photo: '',
-            price: '',
-            dishtype: '',
-            loading: false,
-            error: false,
-            createdDish: result.name,
-          });
-        }
-      });
+    disPatch(editDishes(customerSigninInfo.customer[0].id, editDish.id, customerSigninInfo.token, formData));
   };
 
   const newPostForm = () => (
@@ -82,19 +65,19 @@ const Adddishes = () => {
       </div>
       <div className="form-group">
         <label className="text-muted">Name</label>
-        <input onChange={handleChange('name')} type="text" className="form-control" value={name} />
+        <input onChange={handleChange('name')} type="text" name="name" className="form-control" value={name} />
       </div>
       <div className="form-group">
         <label className="text-muted">Description</label>
-        <textarea onChange={handleChange('description')} type="text" className="form-control" value={description} />
+        <textarea onChange={handleChange('description')} name="description" type="text" className="form-control" value={description} />
       </div>
       <div className="form-group">
         <label className="text-muted">Price</label>
-        <input onChange={handleChange('price')} type="number" className="form-control" value={price} />
+        <input onChange={handleChange('price')} type="number" name="price" className="form-control" value={price} />
       </div>
       <div className="form-group">
         <label className="text-muted">Dishtype</label>
-        <select onChange={handleChange('dishtype')} className="form-control">
+        <select onChange={handleChange('dishtype')} name="dishtype" className="form-control" value={dishtype}>
           <option>Select</option>
           <option value="Appetizer">Appetizer</option>
           <option value="MainCourse">MainCourse</option>
@@ -102,7 +85,7 @@ const Adddishes = () => {
           <option value="Dessert">Dessert</option>
         </select>
       </div>
-      <button type="submit" className="btn btn-outline-primary">Create Dishes</button>
+      <button type="submit" className="btn btn-outline-primary">Edit Dish</button>
     </form>
 
   );

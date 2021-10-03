@@ -102,12 +102,12 @@ exports.update = (req, res) => {
       });
     }
     // check for all fields
-    const { name, description } = fields;
-    if (!name || !description) {
-      return res.status(400).json({
-        error: 'All fields are required',
-      });
-    }
+    // const { name, description } = fields;
+    // if (!name || !description) {
+    //   return res.status(400).json({
+    //     error: 'All fields are required',
+    //   });
+    // }
     let dishes = req.dish[0];
     dishes = _.extend(dishes, fields);
 
@@ -122,7 +122,7 @@ exports.update = (req, res) => {
       item.contentType = files.photo.type;
     }
     dishes.photo = JSON.stringify(item);
-    dishes.restaurant_id = req.profile[0].id;
+    dishes.restaurant_id = req.restaurant[0].id;
     pool.getConnection((err, conn) => {
       if (err) {
         res.send('Error occured');

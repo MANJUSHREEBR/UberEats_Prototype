@@ -22,6 +22,7 @@ import CustomerLanding from './customer/customerLanding';
 import Orders from './orders/Orders';
 import ListOrders from './orders/ListOrders';
 import Favorites from './favorites/Favorites';
+import Editdish from './restaurant/Editdish';
 
 const App = () => (
   <BrowserRouter>
@@ -44,6 +45,7 @@ const App = () => (
           <Route path="/orders/:id" exact component={Orders} />
           <Route path="/customer/orders" exact component={ListOrders} />
           <Route path="/favorites" exact component={Favorites} />
+          <Route path="/edit/dishes" exact component={Editdish} />
         </Switch>
         <Footer />
       </main>
