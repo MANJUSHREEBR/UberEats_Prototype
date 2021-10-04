@@ -3,6 +3,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable consistent-return */
 const formidable = require('formidable');
+const { join } = require('path');
 const _ = require('lodash');
 const fs = require('fs');
 const { errorHandler } = require('../helpers/dbErrorHandler');
@@ -40,6 +41,7 @@ exports.readCustomer = (req, res) => {
 exports.updateCustomer = (req, res) => {
   const form = new formidable.IncomingForm();
   form.keepExtensions = true;
+  form.uploadDir = './uploads';
   form.parse(req, (err, fields, files) => {
     if (err) {
       return res.status(400).json({
@@ -50,7 +52,7 @@ exports.updateCustomer = (req, res) => {
     users = _.extend(users, fields);
     const item = {};
     if (files.photo) {
-      if (files.photo.size > 1000000) {
+      if (files.photo.size > 50 * 1024 * 1024) {
         return res.status(400).json({
           error: 'Image size should be less than 1MB',
         });
@@ -59,7 +61,6 @@ exports.updateCustomer = (req, res) => {
       item.contentType = files.photo.type;
     }
     users.photo = JSON.stringify(item);
-
     const { id } = req.profile[0];
     pool.getConnection((err, conn) => {
       if (err) {
@@ -86,7 +87,7 @@ exports.updateCustomer = (req, res) => {
                   });
                 }
                 req.profile = customer;
-                res.json({
+                res.status(200).json({
                   customer,
                 });
                 conn.release();

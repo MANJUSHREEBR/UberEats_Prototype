@@ -1,13 +1,12 @@
 const express = require('express');
 
+const router = express.Router();
 const {
   findCustomerById, readCustomer, updateCustomer,
   photo, addFavorites, getFavorites, addCart, getCartItems,
 } = require('../controllers/customer');
 const { requireSignin, isAuth } = require('../controllers/userAuth');
 const { findRestaurantById } = require('../controllers/restaurant');
-
-const router = express.Router();
 
 router.param('customerId', findCustomerById);
 router.param('restaurantId', findRestaurantById);

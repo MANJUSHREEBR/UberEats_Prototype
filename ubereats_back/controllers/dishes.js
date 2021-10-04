@@ -35,6 +35,7 @@ exports.dishesById = (req, res, next, id) => {
 exports.create = (req, res) => {
   const form = new formidable.IncomingForm();
   form.keepExtensions = true;
+  form.uploadDir = './uploads';
   form.parse(req, (err, fields, files) => {
     if (err) {
       return res.status(400).json({
@@ -95,6 +96,7 @@ exports.read = (req, res) => {
 exports.update = (req, res) => {
   const form = new formidable.IncomingForm();
   form.keepExtensions = true;
+  form.uploadDir = './uploads';
   form.parse(req, (err, fields, files) => {
     if (err) {
       return res.status(400).json({
@@ -156,7 +158,7 @@ exports.list = (req, res) => {
       res.send('Error occured');
     } else {
       conn.query(
-        'SELECT * FROM dishes ORDER BY ? ? LIMIT ? ',
+        'SELECT dishes.name FROM dishes ORDER BY ? ? LIMIT ? ',
         [sortBy, order, limit],
         (error, dishes) => {
           if (error || !dishes.length) {

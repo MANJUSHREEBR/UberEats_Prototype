@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -39,3 +40,5 @@ app.use('/ubereats', orderRoutes);
 const port = process.env.PORT || 8000;
 // eslint-disable-next-line no-console
 app.listen(port, () => console.log(`Server is running on ${port}`));
+
+module.exports = app;

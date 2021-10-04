@@ -39,6 +39,7 @@ exports.readRestaurant = (req, res) => {
 exports.updateRestaurant = (req, res) => {
   const form = new formidable.IncomingForm();
   form.keepExtensions = true;
+  form.uploadDir = './uploads';
   form.parse(req, (err, fields, files) => {
     if (err) {
       return res.status(400).json({
@@ -116,7 +117,7 @@ exports.list = (req, res) => {
 
             });
           }
-          res.json({
+          res.status(200).json({
             restaurant,
           });
           conn.release();

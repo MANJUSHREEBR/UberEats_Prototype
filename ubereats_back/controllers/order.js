@@ -6,14 +6,14 @@
 const { pool } = require('../helpers/dbConnectionHandler');
 
 exports.create = (req, res) => {
-  console.log(req.body);
   const orderdate = new Date();
-
+  const address = JSON.stringify(req.body.cart.shippingAddress);
   const orderData = {
     customer_id: req.profile[0].id,
     restaurant_id: req.body.restaurantId,
     status: 'Order Received',
     orderdate,
+    address,
   };
 
   pool.query('INSERT INTO orders SET ?', orderData, (err, result) => {

@@ -4,7 +4,7 @@
   "description": "Uber Eats You need to develop a “Prototype of UberEats application”. This prototype will be a web application using React and Node. Refer to the UberEats website and see how it functions. The application should have the following persona: 1. Customer 2. Restaurant You need to implement the following features in your application for the roles given above. 1. Customer Signup (name, email id, password) 2. Restaurant Signup (restaurant name, email id, password, location) 3. Sign in 4. Sign out A Restaurant should be able to do the following functionalities: Restaurant page (Dashboard – Landing page): 1. View restaurant profile – having all basic information about the restaurant (name, location, description, contact information, pictures of restaurant and dishes, timings) 2. Update restaurant profile (name, location, description, contact information, pictures of restaurant and dishes, timings) 3. Update Contact information 4. Add/Edit Dishes in the menu (with Dish name, Main Ingredients, Dish Images, Dish Price, description, dish category – Appetizer, Salads, Main Course, Desserts, Beverages) 5. View the list of dishes added by them. Orders page: 1. View list of orders by customers 2. Click and view the profile page of each customer 3. Update the delivery status of each order – Order Received, Preparing, (If Delivery option selected) On the way, Delivered (If Pickup option selected) Pick up Ready, Picked up 4. There should be 3 filters on orders (New Order, Delivered Order, Cancelled Order)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "start": "nodemon app"
   },
   "repository": {
@@ -35,8 +35,12 @@
     "nodemon": "^2.0.12"
   },
   "devDependencies": {
+    "chai": "^4.3.4",
+    "chai-http": "^4.3.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.24.2"
+    "eslint-plugin-import": "^2.24.2",
+    "mocha": "^9.1.2",
+    "supertest": "^6.1.6"
   }
 }

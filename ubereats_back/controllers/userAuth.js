@@ -61,7 +61,7 @@ exports.customerSignin = (req, res) => {
           // //if user is found authenticate the user
           const token = jwt.sign({ _id: customer[0].id }, process.env.JWT_SECRET);
           res.cookie('tk', token, { expire: new Date() + 9999 });
-          res.json({ token, customer });
+          res.status(200).json({ token, customer });
           conn.release();
         },
       );

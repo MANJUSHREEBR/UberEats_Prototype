@@ -26,7 +26,7 @@ const Customerdashboard = ({ history }) => {
     customerSigninInfo,
   } = customer || '';
   const { loadingFromState, errorFromState, successFromState } = useSelector((state) => state.customerUpdateProfile);
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrl, setImageUrl] = useState(`${API}/customer/photo/${customerSigninInfo.customer[0].id}`);
   const [values, setValues] = useState({
     name: customerSigninInfo ? customerSigninInfo.customer[0].name : '',
     email: customerSigninInfo ? customerSigninInfo.customer[0].email : '',
