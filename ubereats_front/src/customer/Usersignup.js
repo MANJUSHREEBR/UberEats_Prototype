@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { customersignup } from '../js/actions/customerActions';
+import locations from '../location';
 
 import { signUp } from '../auth';
 import './UserSign.css';
@@ -80,10 +81,13 @@ const Usersignup = () => {
         {/* <input onChange={handleChange('location')} type="text" className="form-control" value={location} /> */}
         <select onChange={handleChange('location')} className="form-control">
           <option>Select</option>
-          <option value="San Jose">San Jose</option>
+          {/* <option value="San Jose">San Jose</option>
           <option value="Santa Clara">Santa Clara</option>
           <option value="Sunnyvale">Sunnyvale</option>
-          <option value="Freemont">Freemont</option>
+          <option value="Freemont">Freemont</option> */}
+          {locations.map((loc) => (
+            <option value={loc}>{loc}</option>
+          ))}
         </select>
 
       </div>

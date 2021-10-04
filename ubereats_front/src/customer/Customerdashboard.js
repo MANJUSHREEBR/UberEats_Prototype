@@ -17,6 +17,7 @@ import { Image } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { API } from '../config';
 import { customerUpdateProfile } from '../js/actions/customerActions';
+import locations from '../location';
 
 const Customerdashboard = ({ history }) => {
   const dispatch = useDispatch();
@@ -144,10 +145,9 @@ const Customerdashboard = ({ history }) => {
         <label className="text-muted">Location</label>
         <select onChange={handleChange('location')} name="location" className="form-control" value={location}>
           <option>Select</option>
-          <option value="San Jose">San Jose</option>
-          <option value="Santa Clara">Santa Clara</option>
-          <option value="Sunnyvale">Sunnyvale</option>
-          <option value="Fremont">Fremont</option>
+          {locations.map((loc) => (
+            <option value={loc}>{loc}</option>
+          ))}
         </select>
       </div>
       <button type="submit" className="btn btn-outline-success">Update Profile</button>
