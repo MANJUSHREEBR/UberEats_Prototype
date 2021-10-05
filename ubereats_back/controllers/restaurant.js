@@ -100,16 +100,18 @@ exports.updateRestaurant = (req, res) => {
 };
 
 exports.list = (req, res) => {
-  const order = req.query.order ? req.query.order : 'ASC';
-  const sortBy = req.query.sortBy ? req.query.sortBy : 'id';
-  const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+  // const order = req.query.order ? req.query.order : 'ASC';
+  // const sortBy = req.query.sortBy ? req.query.sortBy : 'id';
+  // const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+  const search = req.query.search ? (req.query.search) : 'Delivery';
+  const text = req.query.text ? (req.query.text) : '';
   pool.getConnection((err, conn) => {
     if (err) {
       res.send('Error occured');
     } else {
       conn.query(
-        'SELECT * FROM restaurants WHERE photo IS NOT NULL ORDER BY ? ? LIMIT ? ',
-        [sortBy, order, limit],
+        'SELECT * FROM restaurants WHERE photo IS NOT NULL AND deliverymode = ?',
+        [search, text, text, text],
         (error, restaurant) => {
           if (error || !restaurant.length) {
             return res.status(400).json({

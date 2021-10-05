@@ -100,6 +100,7 @@ const Adddishes = () => {
           <option value="MainCourse">MainCourse</option>
           <option value="Beverage">Beverage</option>
           <option value="Dessert">Dessert</option>
+          <option value="Salads">Salads</option>
         </select>
       </div>
       <button type="submit" className="btn btn-outline-primary">Create Dishes</button>

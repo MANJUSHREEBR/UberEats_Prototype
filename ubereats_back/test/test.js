@@ -35,7 +35,7 @@ describe('Testing using Mocha', () => {
     it('Should return 200 status code up on successfull signup', (done) => {
       chai.request(app)
         .post('/ubereats/customer/signup')
-        .send({ name: 'jaya', email: 'jaya1@gmail.com', password: 'Jaya@12345' })
+        .send({ name: 'jaya', email: 'jaya12@gmail.com', password: 'Jaya@12345' })
         .end((err, response) => {
           response.should.have.status(200);
           done();
@@ -43,12 +43,22 @@ describe('Testing using Mocha', () => {
     });
   });
   describe('User should update their profile', () => {
-    it('Should return 200 status code up on successfull update', (done) => {
+    it('Should return 401 as the token is missing ', (done) => {
       chai.request(app)
         .put('/ubereats/customer/28')
         .send({ name: 'Manjushree' })
         .end((err, response) => {
           response.should.have.status(401);
+          done();
+        });
+    });
+  });
+  describe('User should update their profile', () => {
+    it('Should return 200 status code up on successfull update', (done) => {
+      chai.request(app)
+        .get('/ubereats/restaurant')
+        .end((err, response) => {
+          response.should.have.status(200);
           done();
         });
     });

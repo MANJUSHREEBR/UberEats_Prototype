@@ -114,7 +114,7 @@ exports.listOrders = (req, res) => {
         (error, orders) => {
           if (error || !orders.length) {
             return res.status(400).json({
-              error: 'dishes not found',
+              error: 'no orders found',
 
             });
           }
@@ -144,7 +144,7 @@ exports.listOrdersByRestaurantId = (req, res) => {
         (error, orders) => {
           if (error || !orders.length) {
             return res.status(400).json({
-              error: 'dishes not found',
+              error: 'orders not found',
 
             });
           }

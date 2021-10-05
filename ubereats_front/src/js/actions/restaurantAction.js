@@ -12,9 +12,9 @@ import {
 } from '../constants/restaurantConstants';
 import { API } from '../../config';
 
-export const listRestaurants = (sortBy) => (dispatch) => {
+export const listRestaurants = (keyword, text, sortBy) => (dispatch) => {
   dispatch({ type: RESTAURANT_LIST_REQUEST });
-  fetch(`${API}/restaurant?sortBy=${sortBy}&order=DESC&limit=100`, {
+  fetch(`${API}/restaurant?sortBy=${sortBy}&order=DESC&limit=100&search=${keyword}&text=${text}`, {
     method: 'GET',
   })
     .then((response) => response.json())

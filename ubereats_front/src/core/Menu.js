@@ -15,7 +15,7 @@ import { Redirect } from 'react-dom';
 import {
   Container, Navbar, Nav, Card, NavDropdown, ToggleButton, ButtonGroup, Button,
 } from 'react-bootstrap';
-import { Route, useHistory } from 'react-router-dom';
+import { Route, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../js/actions/customerActions';
 import { saveCartToDatabase } from '../js/actions/cartActions';
@@ -23,7 +23,9 @@ import Search from './Search';
 
 const Menu = () => {
   const history = useHistory();
+  const location = useLocation();
   const dispatch = useDispatch();
+  const text = location.search ? (location.search.split('=')[1]) : '';
   const customer = useSelector((state) => state.customerSignin);
   const [radioValue, setRadioValue] = useState('Delivery');
   const cart = useSelector((state) => state.cart);
@@ -33,7 +35,7 @@ const Menu = () => {
   const logoutHandler = () => {
     dispatch(saveCartToDatabase({ cart }));
     dispatch(logout());
-    history.push('/');
+    history.push('/search/Delivery');
   };
   const radios = [
     { name: 'Delivery' },
@@ -41,7 +43,8 @@ const Menu = () => {
   ];
   const handleOnchange = (e) => {
     setRadioValue(e.currentTarget.value);
-    history.push(`/search/${e.currentTarget.value}`);
+    if (!text) history.push(`/search/${e.currentTarget.value}`);
+    else history.push(`/search/${e.currentTarget.value}?text=${text}`);
   };
 
   return (
@@ -112,7 +115,7 @@ const Menu = () => {
               </LinkContainer>
             )}
           </Nav>
-          <Route render={() => <Search history={history} />} />
+          <Route render={() => <Search history={history} location={location} />} />
           {(!customerSigninInfo || customerSigninInfo.customer[0].role === 0) && (
           <LinkContainer to="/cart" variant="dark">
             <Nav.Link>

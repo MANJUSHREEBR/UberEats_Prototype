@@ -43,12 +43,12 @@ exports.create = (req, res) => {
       });
     }
     // check for all fields
-    const { name, description, price } = fields;
-    if (!name || !description || !price) {
-      return res.status(400).json({
-        error: 'All fields are required',
-      });
-    }
+    // const { name, description, price } = fields;
+    // if (!name || !description || !price) {
+    //   return res.status(400).json({
+    //     error: 'All fields are required',
+    //   });
+    // }
     const dishes = fields;
     const item = {};
     if (files.photo) {

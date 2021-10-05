@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-operators */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable prefer-const */
@@ -19,19 +20,19 @@ import CardComponent from '../core/CardComponent';
 import { listRestaurants } from '../js/actions/restaurantAction';
 import Checkbox from '../core/Checkbox';
 
-const Home = ({ match }) => {
+const Home = ({ location, match }) => {
   const [filter, setfilter] = useState([]);
   let { keyword } = match.params;
+  const text = location.search ? (location.search.split('=')[1]) : '';
   const dispatch = useDispatch();
   const restaurantList = useSelector((state) => state.restaurantList);
   let { loadingFromState, restaurants, errorFromState } = restaurantList;
-
-  if (keyword !== undefined) {
+  if (text !== undefined) {
     if (restaurants) {
       restaurants = restaurants.filter(
-        (row) => row.name.toLowerCase().indexOf(keyword.toLowerCase()) > -1
-    || row.location.toLowerCase().indexOf(keyword.toLowerCase()) > -1
-    || row.deliverymode.toLowerCase().indexOf(keyword.toLowerCase()) > -1,
+        (row) => row.name.toLowerCase().indexOf(text.toLowerCase()) > -1
+    || row.location.toLowerCase().indexOf(text.toLowerCase()) > -1
+    || row.deliverymode.toLowerCase().indexOf(text.toLowerCase()) > -1,
       );
     }
   }
@@ -40,16 +41,17 @@ const Home = ({ match }) => {
       (row) => filter.includes(row.category.toLowerCase()),
     );
   }
-
   useEffect(() => {
-    dispatch(listRestaurants());
-  }, [dispatch, keyword, filter]);
+    dispatch(listRestaurants(keyword, text));
+  }, [dispatch, keyword, text, filter]);
+
   const radios = [
     { name: 'veg', value: '1' },
     { name: 'nonveg', value: '2' },
     { name: 'vegan', value: '3' },
   ];
   const [radValue, setRadValue] = useState('1');
+
   const handleFilters = (filters) => {
     setfilter(filters);
   };

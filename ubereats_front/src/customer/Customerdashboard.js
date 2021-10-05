@@ -26,7 +26,13 @@ const Customerdashboard = ({ history }) => {
     customerSigninInfo,
   } = customer || '';
   const { loadingFromState, errorFromState, successFromState } = useSelector((state) => state.customerUpdateProfile);
-  const [imageUrl, setImageUrl] = useState(`${API}/customer/photo/${customerSigninInfo.customer[0].id}`);
+  let ImageApi = '';
+  if (customerSigninInfo.customer[0].role === 1) {
+    ImageApi = `${API}/restaurant/photo/${customerSigninInfo.customer[0].id}`;
+  } else {
+    ImageApi = `${API}/customer/photo/${customerSigninInfo.customer[0].id}`;
+  }
+  const [imageUrl, setImageUrl] = useState(ImageApi);
   const [values, setValues] = useState({
     name: customerSigninInfo ? customerSigninInfo.customer[0].name : '',
     email: customerSigninInfo ? customerSigninInfo.customer[0].email : '',
@@ -125,7 +131,7 @@ const Customerdashboard = ({ history }) => {
         <label className="text-muted">Delivery Mode</label>
         <select onChange={handleChange('deliverymode')} name="deliverymode" className="form-control" value={deliverymode}>
           <option>Select</option>
-          <option value="Pick up">Pickup</option>
+          <option value="Pickup">Pickup</option>
           <option value="Delivery">Delivery</option>
         </select>
       </div>

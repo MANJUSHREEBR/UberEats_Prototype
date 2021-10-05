@@ -1,17 +1,17 @@
+/* eslint-disable no-console */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
 
-const SearchBox = ({ history }) => {
+const SearchBox = ({ history, location }) => {
   const [keyword, setKeyword] = useState('');
-
   const submitHandler = (e) => {
     e.preventDefault();
     if (keyword.trim()) {
-      history.push(`/search/${keyword}`);
+      history.push(`${location.pathname}?text=${keyword}`);
     } else {
-      history.push('/');
+      history.push('/search/Delivery');
     }
   };
 
