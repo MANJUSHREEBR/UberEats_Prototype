@@ -1,3 +1,5 @@
+/* eslint-disable no-mixed-operators */
+/* eslint-disable max-len */
 /* eslint-disable eqeqeq */
 /* eslint-disable no-alert */
 /* eslint-disable import/named */
@@ -18,6 +20,11 @@ import { API } from '../config';
 
 const DishComponent = ({ history, match }) => {
   const [qty, setQty] = useState(1);
+  const [show, setShow] = useState(false);
+  const handleClose = () => {
+    setShow(false);
+  };
+  const handleShow = () => setShow(true);
   const dispatch = useDispatch();
   const dishDetails = useSelector((state) => state.dishDetails);
   const { loadingFromState, dish, errorFromState } = dishDetails;
@@ -36,7 +43,7 @@ const DishComponent = ({ history, match }) => {
     } else if (localStorage.getItem('restId') == dish.restaurant_id) {
       history.push(`/cart/${parseInt(match.params.id)}?qty=${qty}`);
     } else {
-      alert('You can order one restaurant only ');
+      handleShow();
     }
   };
   const decrement = () => {
@@ -115,7 +122,7 @@ const DishComponent = ({ history, match }) => {
               </Row>
 
             </ListGroup.Item>
-            {customerSigninInfo && customerSigninInfo.customer[0].role === 0 && (
+            {(customerSigninInfo && customerSigninInfo.customer[0].role === 0 || !customerSigninInfo) && (
             <ListGroup.Item>
               <Button className="btn-block bg-dark" type="button" onClick={addToCart}>
                 Add To cart
@@ -133,6 +140,19 @@ const DishComponent = ({ history, match }) => {
           </ListGroup>
         </Col>
       </Row>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title />
+        </Modal.Header>
+        <Modal.Body>
+          Your cart contains order from another restaurant, please make a new order for this restaurant!
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="dark" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

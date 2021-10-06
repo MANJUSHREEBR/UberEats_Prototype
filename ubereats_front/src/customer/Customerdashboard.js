@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-debugger */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 /* eslint-disable no-return-assign */
@@ -11,7 +12,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/jsx-filename-extension */
 import React, { useState, useEffect } from 'react';
-import { Image } from 'react-bootstrap';
+import { Image, Modal, Button } from 'react-bootstrap';
 
 // import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -21,6 +22,12 @@ import locations from '../location';
 
 const Customerdashboard = ({ history }) => {
   const dispatch = useDispatch();
+  const [show, setShow] = useState(false);
+  const handleClose = () => {
+    setShow(false);
+    window.location.reload();
+  };
+  const handleShow = () => setShow(true);
   const customer = useSelector((state) => state.customerSignin);
   const {
     customerSigninInfo,
@@ -82,10 +89,7 @@ const Customerdashboard = ({ history }) => {
       history.push('./customersignin');
     }
     setValues({ ...values, formData: new FormData() });
-    // if (imageUrl === '') setImageUrl(`${API}/customer/photo/${customerSigninInfo.customer[0].id}`);
   }, [history, imageUrl]);
-
-  // const { token, customer } = isAuthenticated();
 
   const clickSubmit = (e) => {
     e.preventDefault();
@@ -99,20 +103,30 @@ const Customerdashboard = ({ history }) => {
     dispatch(customerUpdateProfile(formData, customerSigninInfo.token, customerSigninInfo.customer[0].id, isCustomer));
     if (customerSigninInfo.customer[0].role === 1) {
       setImageUrl(`${API}/restaurant/photo/${customerSigninInfo.customer[0].id}`);
-    } else setImageUrl(`${API}/customer/photo/${customerSigninInfo.customer[0].id}`);
+      // document.getElementById('imageDiv').src = `${API}/restaurant/photo/${customerSigninInfo.customer[0].id}`;
+    } else {
+      // document.getElementById('imageDiv').src = `${API}/customer/photo/${customerSigninInfo.customer[0].id}`;
+      setImageUrl(`${API}/customer/photo/${customerSigninInfo.customer[0].id}`);
+    }
+
+    handleShow();
   };
 
   const newPostForm = () => (
     <form className="mb-3" onSubmit={clickSubmit}>
       <p>Upload photo here</p>
       <div className="form-group">
-        <label className="btn btn-success">
+        <label className="btn btn-dark">
           <input onChange={handleChange('photo')} type="file" name="photo" accept="image/*" />
         </label>
       </div>
       <div className="form-group">
         <label className="text-muted">Name</label>
         <input onChange={handleChange('name')} type="text" name="name" className="form-control" value={name} />
+      </div>
+      <div className="form-group">
+        <label className="text-muted">Email</label>
+        <input onChange={handleChange('email')} type="text" name="email" className="form-control" value={email} />
       </div>
       {customerSigninInfo.customer[0].role === 0 && (
       <div className="form-group">
@@ -180,53 +194,62 @@ const Customerdashboard = ({ history }) => {
           ))}
         </select>
       </div>
-      <button type="submit" className="btn btn-outline-success">Update Profile</button>
+      <button type="submit" className="btn btn-dark">Update Profile</button>
     </form>
 
   );
 
-  const showError = () => (
-    <div className="alert alert-danger" style={{ display: errorFromState ? 'block' : 'none' }}>
-      {errorFromState}
-    </div>
-  );
-  const showSuccess = () => (
-    <div className="alert alert-info" style={{ display: successFromState ? 'block' : 'none' }}>
-      <h5>Profile Successfully updated</h5>
-    </div>
-  );
+  // const showError = () => (
+  //   <div className="alert alert-danger" style={{ display: errorFromState ? 'block' : 'none' }}>
+  //     {errorFromState}
+  //   </div>
+  // );
+  // const showSuccess = () => (
+  //   <div className="alert alert-info" style={{ display: successFromState ? 'block' : 'none' }}>
+  //     <h5>Profile Successfully updated</h5>
+  //   </div>
+  // );
   const showLoading = () => (
     loadingFromState && (<div className="alert alert-success"><h2>Loading ... </h2></div>)
   );
-  const showImage = () => (
-    (
-      <Image
-        src={imageUrl}
-        alt="Image not found"
-        onError={(e) => { e.target.onerror = null; e.target.src = 'https://dummyimage.com/100.png/09f/fff'; }}
-        fluid
-        roundedCircle
-      />
-    )
-  );
   return (
     <div className="row">
-      <div className="col-md-4 offset-md-2">
-        {/* {imageUrl === '' && (
+      <div className="col-md-3" />
+      <div className="col-md-1">
+
         <Image
-          src={`${API}/customer/photo/${customerSigninInfo.customer[0].id}`}
+          src={imageUrl}
           alt="Image not found"
+          id="imageDiv1"
           onError={(e) => { e.target.onerror = null; e.target.src = 'https://dummyimage.com/100.png/09f/fff'; }}
           fluid
           roundedCircle
+          style={{ height: '100px' }}
         />
-        )} */}
-        {showError()}
-        {showSuccess()}
+
+      </div>
+      <div className="col-md-4">
         {showLoading()}
-        {showImage()}
         {newPostForm()}
       </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title />
+        </Modal.Header>
+        <Modal.Body>
+          <div className="alert alert-info" style={{ display: successFromState ? 'block' : 'none' }}>
+            <h5>Profile Successfully updated</h5>
+          </div>
+          <div className="alert alert-danger" style={{ display: errorFromState ? 'block' : 'none' }}>
+            {errorFromState}
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="dark" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

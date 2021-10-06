@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
-  Button, Row, Col, ListGroup, Image, Card,
+  Button, Row, Col, ListGroup, Image, Card, Modal,
 } from 'react-bootstrap';
 import { saveShippindAddress } from '../js/actions/cartActions';
 import CheckoutSteps from '../core/Checkoutsteps';
@@ -14,6 +14,15 @@ import { API } from '../config';
 import { createOrder } from '../js/actions/orderAction';
 
 const PlaceOrder = ({ history }) => {
+  const [show, setShow] = useState(false);
+  const handleClose = () => {
+    setShow(false);
+    history.push('customer/orders');
+  };
+  const handleShow = () => {
+    setShow(true);
+  };
+
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
 
@@ -43,12 +52,9 @@ const PlaceOrder = ({ history }) => {
       restaurantId: localStorage.getItem('restId'),
     }));
     localStorage.removeItem('restId');
+    handleShow();
   };
-  useEffect(() => {
-    if (success) {
-      // history.push(`/orders/${order.orderid}`);
-    }
-  }, [history, success]);
+
   return (
     <>
       <CheckoutSteps step1 step2 step3 />
@@ -189,6 +195,21 @@ const PlaceOrder = ({ history }) => {
           </Card>
         </Col>
       </Row>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title />
+        </Modal.Header>
+        <Modal.Body>
+          <div className="alert alert-info" style={{ display: success ? 'block' : 'none' }}>
+            Order Placed Successfully !
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="dark" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

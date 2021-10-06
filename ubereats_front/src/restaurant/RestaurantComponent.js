@@ -51,7 +51,12 @@ const RestaurantComponent = ({ history, match }) => {
             <i className="fa fa-heart" style={{ color: 'red', position: 'relative' }} />
           </button>
           )}
-          <Image src={`${API}/restaurant/photo/${match.params.id}`} alt={restaurant.name} fluid style={{ width: '100%', height: '300px' }} />
+          <Image
+            src={`${API}/restaurant/photo/${match.params.id}`}
+            onError={(e) => { e.target.onerror = null; e.target.src = 'https://dummyimage.com/100.png/09f/fff'; }}
+            fluid
+            style={{ width: '100%', height: '300px' }}
+          />
         </Col>
         <div style={{ fontFamily: 'cursive' }}>
           {' '}
@@ -67,6 +72,23 @@ const RestaurantComponent = ({ history, match }) => {
           {' '}
           {restaurant.location}
           {' '}
+        </div>
+        <div style={{ fontFamily: 'cursive' }}>
+          <i className="far fa-clock" />
+          {' '}
+          {restaurant.starttime ? (
+            <>
+              {restaurant.starttime}
+              {' '}
+              -
+              {restaurant.endtime}
+            </>
+          )
+            : (
+              <>
+                No timing information available
+              </>
+            )}
         </div>
       </Row>
       <hr />

@@ -13,14 +13,14 @@ const CardComponent = ({ dish, url }) => (
   <Card className="my-3 p-3 rounded">
     {(!url) && (
     <Link to={`/dishes/${dish.id}`}>
-      <ShowImage item={dish} url="dishes" style={{ height: '111px', width: '100%' }} />
+      <ShowImage item={dish} url="dishes" style={{ height: '80px', width: '100%' }} />
     </Link>
     )}
     {
     (url)
      && (
      <Link to={`/restaurant/${dish.id}`}>
-       <ShowImage item={dish} url={url} style={{ height: '111px', width: '100%' }} />
+       <ShowImage item={dish} url={url} style={{ height: '80px', width: '100%' }} />
      </Link>
      )
 }
@@ -28,7 +28,11 @@ const CardComponent = ({ dish, url }) => (
     <Card.Body style={{ fontFamily: 'initial' }}>
       <Card.Title as="div">
 
-        {dish.name}
+        <strong>
+          {' '}
+          {dish.name}
+          {' '}
+        </strong>
         {' '}
 
       </Card.Title>
@@ -38,6 +42,7 @@ const CardComponent = ({ dish, url }) => (
       {(url) && (
       <Card.Text as="div">
         <i className="fas fa-map-marker-alt" />
+        {' '}
         {dish.location}
       </Card.Text>
       )}

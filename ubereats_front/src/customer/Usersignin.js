@@ -40,7 +40,7 @@ const Usersignin = ({ location, history }) => {
     if (customerSigninInfo && customerSigninInfo.customer[0].role === 0) {
       history.push(redirect);
     } else if ((customerSigninInfo && customerSigninInfo.customer[0].role === 1)) {
-      history.push('/customerdashboard');
+      history.push(`/restaurant/${customerSigninInfo.customer[0].id}`);
       // history.push(`/restaurant/${customerSigninInfo.customer[0].id}`);
     }
   }, [history, customerSigninInfo, redirect]);

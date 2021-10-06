@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/label-has-associated-control */
@@ -5,12 +6,20 @@
 import React, { useState, useEffect } from 'react';
 // import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { Image, Modal, Button } from 'react-bootstrap';
 import { isAuthenticated } from '../auth';
 import { customerSignin } from '../js/actions/customerActions';
 import { editDishes } from '../js/actions/dishActions';
+import { API } from '../config';
 
-const Adddishes = () => {
+const Adddishes = ({ history }) => {
   const disPatch = useDispatch();
+  const [show, setShow] = useState(false);
+  const handleClose = () => {
+    setShow(false);
+    history.goBack();
+  };
+  const handleShow = () => setShow(true);
   const editDish = JSON.parse(localStorage.getItem('EditDish'));
   const [values, setValues] = useState({
     name: editDish.name || '',
@@ -18,6 +27,7 @@ const Adddishes = () => {
     price: editDish.price || '',
     dishtype: editDish.dishtype || '',
     mainingredient: editDish.dishtype || '',
+    id: editDish.id || '',
     loading: '',
     error: '',
     createdDish: '',
@@ -36,6 +46,7 @@ const Adddishes = () => {
     reDirectToProfile,
     mainingredient,
     formData,
+    id,
   } = values;
   const customer = useSelector((state) => state.customerSignin);
   const {
@@ -55,13 +66,14 @@ const Adddishes = () => {
     event.preventDefault();
     setValues({ ...values, error: '', loading: true });
     disPatch(editDishes(customerSigninInfo.customer[0].id, editDish.id, customerSigninInfo.token, formData));
+    handleShow();
   };
 
   const newPostForm = () => (
     <form className="mb-3" onSubmit={clickSubmit}>
-      <h4>Post photo</h4>
+      <p>Upload photo here</p>
       <div className="form-group">
-        <label className="btn btn-success">
+        <label className="btn btn-dark">
           <input onChange={handleChange('photo')} type="file" name="photo" accept="image/*" />
         </label>
       </div>
@@ -91,33 +103,57 @@ const Adddishes = () => {
           <option value="Dessert">Dessert</option>
         </select>
       </div>
-      <button type="submit" className="btn btn-outline-primary">Edit Dish</button>
+      <button type="submit" className="btn btn-dark">Edit Dish</button>
     </form>
 
   );
 
-  const showError = () => (
-    <div className="alert alert-danger" style={{ display: error ? 'block' : 'none' }}>
-      {error}
-    </div>
-  );
-  const showSuccess = () => (
-    <div className="alert alert-info" style={{ display: createdDish ? 'block' : 'none' }}>
-      <h5>{`${createdDish} is created`}</h5>
-    </div>
-  );
-  const showLoading = () => (
-    loading && (<div className="alert alert-success"><h2>Loading ... </h2></div>)
-  );
+  // const showError = () => (
+  //   <div className="alert alert-danger" style={{ display: error ? 'block' : 'none' }}>
+  //     {error}
+  //   </div>
+  // );
+  // const showSuccess = () => (
+  //   <div className="alert alert-info" style={{ display: createdDish ? 'block' : 'none' }}>
+  //     <h5>{`${createdDish} is created`}</h5>
+  //   </div>
+  // );
+  // const showLoading = () => (
+  //   loading && (<div className="alert alert-success"><h2>Loading ... </h2></div>)
+  // );
 
   return (
     <div className="row">
-      <div className="col-md-8 offset-md-2">
-        {showLoading()}
-        {showError()}
-        {showSuccess()}
+      <div className="col-md-3" />
+      <div className="col-md-1">
+        <Image
+          src={`${API}/dishes/photo/${id}`}
+          alt="Image not found"
+          id="imageDiv1"
+          onError={(e) => { e.target.onerror = null; e.target.src = 'https://dummyimage.com/100.png/09f/fff'; }}
+          fluid
+          roundedCircle
+          style={{ height: '100px' }}
+        />
+      </div>
+      <div className="col-md-4">
         {newPostForm()}
       </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title />
+        </Modal.Header>
+        <Modal.Body>
+          <div>
+            Dish Updated successfully
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="dark" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

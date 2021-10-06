@@ -31,16 +31,11 @@ const Favorites = ({ match }) => {
     <div className="container">
       <Row>
         <h2>Favorites</h2>
+        <div className="alert alert-danger" style={{ display: errorFromState ? 'block' : 'none' }}>
+          {errorFromState}
+        </div>
         {restaurants && restaurants.map((restaurant, i) => (
           <Col sm={8} md={4} lg={3} key={i}><CardComponent key={i} dish={restaurant} url="restaurant" /></Col>))}
-        {restaurants && restaurants.length === 0 && (
-        <Col md={8}>
-          <img src="https://www.ubereats.com/_static/fca2c1eff67cb98be2dcf69dacf95347.svg" />
-          <h2>We didn't find matching </h2>
-          <p>Try searching for somewher else instead</p>
-          <Button variant="dark">Search All Restaurants</Button>
-        </Col>
-        )}
       </Row>
     </div>
   );

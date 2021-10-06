@@ -77,9 +77,9 @@ const Adddishes = () => {
 
   const newPostForm = () => (
     <form className="mb-3" onSubmit={clickSubmit}>
-      <h4>Post photo</h4>
+      <p>Upload photo here</p>
       <div className="form-group">
-        <label className="btn btn-success">
+        <label className="btn btn-dark">
           <input onChange={handleChange('photo')} type="file" name="photo" accept="image/*" />
         </label>
       </div>
@@ -110,7 +110,7 @@ const Adddishes = () => {
           <option value="Salads">Salads</option>
         </select>
       </div>
-      <button type="submit" className="btn btn-outline-primary">Create Dishes</button>
+      <button type="submit" className="btn btn-dark">Create Dishes</button>
     </form>
 
   );
