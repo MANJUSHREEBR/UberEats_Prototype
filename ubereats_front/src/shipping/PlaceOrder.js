@@ -40,13 +40,13 @@ const PlaceOrder = ({ history }) => {
   const placeOrderHandler = () => {
     dispatch(createOrder({
       cart,
-      restaurantId: 1,
+      restaurantId: localStorage.getItem('restId'),
     }));
+    localStorage.removeItem('restId');
   };
   useEffect(() => {
     if (success) {
-      console.log(order);
-      history.push(`/orders/${order.orderid}`);
+      // history.push(`/orders/${order.orderid}`);
     }
   }, [history, success]);
   return (
@@ -177,7 +177,7 @@ const PlaceOrder = ({ history }) => {
               <ListGroup.Item>
                 <Button
                   type="button"
-                  className="btn-success"
+                  className="btn-dark"
                   disabled={cart.cartItems
                     .length === 0}
                   onClick={placeOrderHandler}

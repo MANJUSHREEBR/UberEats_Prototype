@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 // import { signin, authenticate, isAuthenticated } from '../auth';
 import { customerSignin } from '../js/actions/customerActions';
+import logo from '../images/logo.png';
 
 const Usersignin = ({ location, history }) => {
   const disPatch = useDispatch();
@@ -73,7 +74,7 @@ const Usersignin = ({ location, history }) => {
       {' '}
       <Link to="/customersignup">Please Signup here! </Link>
       <div />
-      <button type="submit" className="btn btn-success" onClick={clickSubmit}>
+      <button type="submit" className="btn btn-dark" onClick={clickSubmit}>
         Submit
       </button>
     </form>
@@ -89,7 +90,7 @@ const Usersignin = ({ location, history }) => {
 
   return (
     <div className="container col-md-8 offset-md-2">
-      <img src="images/logo.png" alt="Uber Eats" style={{ height: '75px' }} />
+      <img src={logo} alt="Uber Eats" style={{ height: '75px' }} />
       {showerror()}
       {showLoading()}
       {signUpForm()}

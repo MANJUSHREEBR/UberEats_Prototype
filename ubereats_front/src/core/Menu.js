@@ -1,3 +1,6 @@
+/* eslint-disable import/extensions */
+/* eslint-disable global-require */
+/* eslint-disable import/no-unresolved */
 /* eslint-disable no-mixed-operators */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable max-len */
@@ -20,6 +23,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../js/actions/customerActions';
 import { saveCartToDatabase } from '../js/actions/cartActions';
 import Search from './Search';
+import logo from '../images/logo.png';
 
 const Menu = () => {
   const history = useHistory();
@@ -33,6 +37,7 @@ const Menu = () => {
     customerSigninInfo,
   } = customer;
   const logoutHandler = () => {
+    localStorage.removeItem('restId');
     dispatch(saveCartToDatabase({ cart }));
     dispatch(logout());
     history.push('/search/Delivery');
@@ -49,10 +54,10 @@ const Menu = () => {
 
   return (
     <Navbar bg="light" expand="lg">
-      <Container>
+      <Container fluid="md">
         <LinkContainer to={customerSigninInfo && customerSigninInfo.customer[0].role === 1 ? `/restaurant/${customerSigninInfo.customer[0].id}` : '/search/Delivery'}>
           <Navbar.Brand expand="lg">
-            <Card.Img src="images/logo.png" variant="top" style={{ height: '75px' }} />
+            <Card.Img src={logo} variant="top" style={{ height: '75px' }} />
           </Navbar.Brand>
         </LinkContainer>
         <ButtonGroup>
@@ -61,7 +66,7 @@ const Menu = () => {
               key={idx}
               id={`radio-${idx}`}
               type="radio"
-              variant={idx % 2 ? 'outline-success' : 'outline-success'}
+              variant={idx % 2 ? 'outline-secondary' : 'outline-secondary'}
               name="radio"
               value={radio.name}
               checked={radioValue === radio.name}

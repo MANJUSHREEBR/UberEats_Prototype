@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-filename-extension */
@@ -16,6 +17,7 @@ const Shipping = ({ history }) => {
   const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
   const [country, setCountry] = useState(shippingAddress.country);
   const dispatch = useDispatch();
+
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(saveShippindAddress({
@@ -68,7 +70,7 @@ const Shipping = ({ history }) => {
             onChange={(e) => setCountry(e.target.value)}
           />
         </Form.Group>
-        <Button type="submit" variant="success">
+        <Button type="submit" variant="dark">
           Continue
         </Button>
       </Form>

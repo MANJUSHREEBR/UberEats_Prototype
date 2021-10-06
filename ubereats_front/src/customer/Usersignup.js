@@ -13,6 +13,7 @@ import locations from '../location';
 
 import { signUp } from '../auth';
 import './UserSign.css';
+import logo from '../images/logo.png';
 
 const Usersignup = () => {
   const disPatch = useDispatch();
@@ -92,7 +93,7 @@ const Usersignup = () => {
 
       </div>
       )}
-      <button type="submit" className="btn btn-success" onClick={clickSubmit}>
+      <button type="submit" className="btn btn-dark" onClick={clickSubmit}>
         Submit
       </button>
     </form>
@@ -115,7 +116,7 @@ const Usersignup = () => {
 
   return (
     <div className="container col-md-8 offset-md-2">
-      <img src="images/logo.png" alt="Uber Eats" style={{ height: '75px' }} />
+      <img src={logo} alt="Uber Eats" style={{ height: '75px' }} />
       {showLoading()}
       {showerror()}
       {showsucess()}

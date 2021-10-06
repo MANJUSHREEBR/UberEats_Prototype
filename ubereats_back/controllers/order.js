@@ -109,7 +109,7 @@ exports.listOrders = (req, res) => {
       res.send('Error occured');
     } else {
       conn.query(
-        'select * from orders JOIN orderdishes ON orders.orderid = orderdishes.order_id where customer_id = ? GROUP BY orderid',
+        'select * from orders JOIN restaurants ON orders.restaurant_id = restaurants.id where customer_id = ? GROUP BY orderid ORDER BY orderdate DESC',
         [id],
         (error, orders) => {
           if (error || !orders.length) {
@@ -139,7 +139,7 @@ exports.listOrdersByRestaurantId = (req, res) => {
       res.send('Error occured');
     } else {
       conn.query(
-        'select * from orders where restaurant_id = ?',
+        'select * from orders JOIN customers ON orders.customer_id = customers.id where restaurant_id = ? ORDER BY orderdate DESC',
         [id],
         (error, orders) => {
           if (error || !orders.length) {

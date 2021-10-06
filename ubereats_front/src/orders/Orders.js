@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/void-dom-elements-no-children */
 /* eslint-disable react/prop-types */
@@ -18,14 +19,17 @@ const Orders = ({ match }) => {
   const dispatch = useDispatch();
   const orderDetails = useSelector((state) => state.orderDetails);
   const { orderItems, loading, error } = orderDetails;
-  const { cart } = orderItems;
+  const { cart, address } = orderItems;
+  // const shippingAdd = JSON.parse(address);
+  let shippingAdd = '';
+  if (address) {
+    shippingAdd = JSON.parse(address.replace(/'/g, '"'));
+  }
   const customer = useSelector((state) => state.customerSignin);
   const {
     customerSigninInfo,
   } = customer;
   const [selectorVal, setSelectorVal] = useState(orderItems.status);
-  //   const { shippingAddress } = cart;
-  // calculate prices
   const addDecimals = (num) => (Math.round(num * 100) / 100).toFixed(2);
   if (cart) {
     cart.itemsPrice = addDecimals(cart.reduce((acc, item) => acc + item.price
@@ -49,40 +53,54 @@ const Orders = ({ match }) => {
       <Row>
         <Col md={8}>
           <ListGroup variant="flush">
-            {/* <ListGroup.Item>
-              <h4></h4>
+            <ListGroup.Item>
               <p>
                 <strong>Address: </strong>
                 {' '}
-                {cart.shippingAddress.address}
+                {shippingAdd && shippingAdd.address}
                 ,
                 {' '}
 
-                {cart.shippingAddress.city}
+                {shippingAdd.city}
                 ,
                 {' '}
-                {cart.shippingAddress.postalCode}
+                {shippingAdd.postalCode}
                 ,
                 {' '}
-                {cart.shippingAddress.country}
+                {shippingAdd.country}
                 ,
                 {' '}
               </p>
-            </ListGroup.Item> */}
+            </ListGroup.Item>
             <ListGroup.Item>
               <h4>
                 Order:
                 {orderItems.orderid}
               </h4>
+              {customerSigninInfo.customer[0].deliverymode.toLowerCase() === 'Delivery'.toLowerCase() && (
+                <ListGroup.Item>
+                  <label className="text-muted">Change Status here</label>
+                  <select onChange={statusUpdateHandler} className="form-control" value={selectorVal}>
+                    <option>Select</option>
+                    <option value="Order Received">Order Received</option>
+                    <option value="Processing">Processing</option>
+                    <option value="On the way">On the way</option>
+                    <option value="Delivered">Delivered</option>
+                  </select>
+                </ListGroup.Item>
+              )}
+              {customerSigninInfo.customer[0].deliverymode.toLowerCase() === 'Pickup'.toLowerCase() && (
               <ListGroup.Item>
                 <label className="text-muted">Change Status here</label>
                 <select onChange={statusUpdateHandler} className="form-control" value={selectorVal}>
                   <option>Select</option>
                   <option value="Order Received">Order Received</option>
                   <option value="Processing">Processing</option>
-                  <option value="Delivered">Delivered</option>
+                  <option value="Pick up Ready">Pick up Ready</option>
+                  <option value="Picked up">Picked up</option>
                 </select>
               </ListGroup.Item>
+              )}
               {cart && cart.length === 0 ? (
                 <div className="alert alert-danger">
 

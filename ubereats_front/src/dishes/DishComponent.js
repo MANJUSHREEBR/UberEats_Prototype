@@ -1,3 +1,5 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable no-alert */
 /* eslint-disable import/named */
 /* eslint-disable radix */
 /* eslint-disable array-callback-return */
@@ -28,7 +30,14 @@ const DishComponent = ({ history, match }) => {
   }, [dispatch, match]);
 
   const addToCart = () => {
-    history.push(`/cart/${parseInt(match.params.id)}?qty=${qty}`);
+    if (!localStorage.getItem('restId')) {
+      localStorage.setItem('restId', dish.restaurant_id);
+      history.push(`/cart/${parseInt(match.params.id)}?qty=${qty}`);
+    } else if (localStorage.getItem('restId') == dish.restaurant_id) {
+      history.push(`/cart/${parseInt(match.params.id)}?qty=${qty}`);
+    } else {
+      alert('You can order one restaurant only ');
+    }
   };
   const decrement = () => {
     setQty(qty - 1);
@@ -108,14 +117,14 @@ const DishComponent = ({ history, match }) => {
             </ListGroup.Item>
             {customerSigninInfo && customerSigninInfo.customer[0].role === 0 && (
             <ListGroup.Item>
-              <Button className="btn-block bg-success" type="button" onClick={addToCart}>
+              <Button className="btn-block bg-dark" type="button" onClick={addToCart}>
                 Add To cart
               </Button>
             </ListGroup.Item>
             ) }
             {customerSigninInfo && customerSigninInfo.customer[0].role === 1 && (
             <ListGroup.Item>
-              <Button className="btn-block bg-success" type="button" onClick={editDishes}>
+              <Button className="btn-block bg-dark" type="button" onClick={editDishes}>
                 Edit dish
               </Button>
             </ListGroup.Item>

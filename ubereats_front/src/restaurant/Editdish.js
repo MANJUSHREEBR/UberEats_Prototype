@@ -17,6 +17,7 @@ const Adddishes = () => {
     description: editDish.description || '',
     price: editDish.price || '',
     dishtype: editDish.dishtype || '',
+    mainingredient: editDish.dishtype || '',
     loading: '',
     error: '',
     createdDish: '',
@@ -33,6 +34,7 @@ const Adddishes = () => {
     error,
     createdDish,
     reDirectToProfile,
+    mainingredient,
     formData,
   } = values;
   const customer = useSelector((state) => state.customerSignin);
@@ -70,6 +72,10 @@ const Adddishes = () => {
       <div className="form-group">
         <label className="text-muted">Description</label>
         <textarea onChange={handleChange('description')} name="description" type="text" className="form-control" value={description} />
+      </div>
+      <div className="form-group">
+        <label className="text-muted">Main Ingedients</label>
+        <textarea onChange={handleChange('mainingredient')} name="mainingredient" type="text" className="form-control" value={mainingredient} />
       </div>
       <div className="form-group">
         <label className="text-muted">Price</label>

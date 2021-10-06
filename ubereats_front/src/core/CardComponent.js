@@ -13,28 +13,41 @@ const CardComponent = ({ dish, url }) => (
   <Card className="my-3 p-3 rounded">
     {(!url) && (
     <Link to={`/dishes/${dish.id}`}>
-      <ShowImage item={dish} url="dishes" />
+      <ShowImage item={dish} url="dishes" style={{ height: '111px', width: '100%' }} />
     </Link>
     )}
     {
     (url)
      && (
      <Link to={`/restaurant/${dish.id}`}>
-       <ShowImage item={dish} url={url} />
+       <ShowImage item={dish} url={url} style={{ height: '111px', width: '100%' }} />
      </Link>
      )
 }
 
-    <Card.Body>
+    <Card.Body style={{ fontFamily: 'initial' }}>
       <Card.Title as="div">
-        <strong>
-          {dish.name}
-          {' '}
-        </strong>
+
+        {dish.name}
+        {' '}
+
       </Card.Title>
       <Card.Text as="div">
         {dish.description}
       </Card.Text>
+      {(url) && (
+      <Card.Text as="div">
+        <i className="fas fa-map-marker-alt" />
+        {dish.location}
+      </Card.Text>
+      )}
+      {!(url) && (
+      <Card.Text as="div">
+        {dish.price}
+        $
+      </Card.Text>
+      )}
+
     </Card.Body>
   </Card>
 );

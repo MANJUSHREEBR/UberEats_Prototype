@@ -26,7 +26,7 @@ import Editdish from './restaurant/Editdish';
 
 const App = () => (
   <BrowserRouter>
-    <Container>
+    <Container fluid>
       <Menu />
       <main className="py-3">
         <Switch>

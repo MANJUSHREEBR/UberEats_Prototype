@@ -1,3 +1,4 @@
+/* eslint-disable react/button-has-type */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable import/extensions */
 /* eslint-disable max-len */
@@ -21,6 +22,7 @@ import { API } from '../config';
 
 const RestaurantComponent = ({ history, match }) => {
   const dispatch = useDispatch();
+  const [isClick, setClick] = useState(false);
   const [favDisabled, setfavDisabled] = useState(false);
   const restaurantDetails = useSelector((state) => state.restaurantDetails);
   const { loadingFromState, restaurant, errorFromState } = restaurantDetails;
@@ -42,11 +44,32 @@ const RestaurantComponent = ({ history, match }) => {
     <>
       {/* <Link className="btn btn-success my-3" to="/"> Go Back</Link> */}
       <Row>
-        {customerSigninInfo && customerSigninInfo.customer[0].role === 0 && (<Button variant="success" onClick={favoriteHandler} disabled={favDisabled} className="btn-md">Add as your Favorite Restaurant</Button>)}
         <Col md={12}>
-          <Image src={`${API}/restaurant/photo/${match.params.id}`} alt={restaurant.name} fluid style={{ width: '100%', height: '500px' }} />
+          {customerSigninInfo && customerSigninInfo.customer[0].role === 0 && (
+          // <Button variant="success" onClick={favoriteHandler} disabled={favDisabled} className="btn-md">Add as your Favorite Restaurant</Button>
+          <button className="likeBtn" onClick={favoriteHandler} disabled={favDisabled} style={{ color: 'red', position: 'absolute' }}>
+            <i className="fa fa-heart" style={{ color: 'red', position: 'relative' }} />
+          </button>
+          )}
+          <Image src={`${API}/restaurant/photo/${match.params.id}`} alt={restaurant.name} fluid style={{ width: '100%', height: '300px' }} />
         </Col>
+        <div style={{ fontFamily: 'cursive' }}>
+          {' '}
+          {restaurant.name}
+        </div>
+        <div style={{ fontFamily: 'cursive' }}>
+          {' '}
+          {restaurant.about}
+        </div>
+        <div style={{ fontFamily: 'cursive' }}>
+          {' '}
+          <i className="fas fa-map-marker-alt" />
+          {' '}
+          {restaurant.location}
+          {' '}
+        </div>
       </Row>
+      <hr />
       <Row>
         {restdishes && restdishes.map((dish, i) => (
           <Col sm={12} md={4} lg={3} key={i}><CardComponent key={i} dish={dish} /></Col>))}

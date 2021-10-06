@@ -113,7 +113,7 @@ const Cart = ({ match, location, history }) => {
 
         </Modal.Body>
         <Modal.Footer>
-          <Button className="btn-success" disbaled={cartItems.length === 0} variant="primary" onClick={checkOutHandler}>
+          <Button className="btn-dark" disabled={cartItems.length === 0} variant="primary" onClick={checkOutHandler}>
             Checkout
           </Button>
         </Modal.Footer>

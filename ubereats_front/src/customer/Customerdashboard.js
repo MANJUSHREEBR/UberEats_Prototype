@@ -43,6 +43,9 @@ const Customerdashboard = ({ history }) => {
     deliverymode: customerSigninInfo ? customerSigninInfo.customer[0].deliverymode : '',
     category: customerSigninInfo ? customerSigninInfo.customer[0].category : '',
     about: customerSigninInfo ? customerSigninInfo.customer[0].about : ' ',
+    starttime: customerSigninInfo ? customerSigninInfo.customer[0].starttime : ' ',
+    endtime: customerSigninInfo ? customerSigninInfo.customer[0].endtime : ' ',
+    dob: customerSigninInfo ? customerSigninInfo.customer[0].dob : ' ',
     error: '',
     createdDish: '',
     reDirectToProfile: false,
@@ -63,6 +66,9 @@ const Customerdashboard = ({ history }) => {
     formData,
     category,
     deliverymode,
+    starttime,
+    endtime,
+    dob,
   } = values;
 
   const handleChange = (Argname) => (event) => {
@@ -114,6 +120,12 @@ const Customerdashboard = ({ history }) => {
         <input onChange={handleChange('nickname')} type="text" name="nickname" className="form-control" value={nickname} />
       </div>
       )}
+      {customerSigninInfo.customer[0].role === 0 && (
+      <div className="form-group">
+        <label className="text-muted">Date Of birth</label>
+        <input onChange={handleChange('dob')} type="date" name="dob" className="form-control" value={dob} />
+      </div>
+      )}
       <div className="form-group">
         <label className="text-muted">Email</label>
         <input onChange={handleChange('email')} type="email" name="email" className="form-control" value={email} />
@@ -135,6 +147,18 @@ const Customerdashboard = ({ history }) => {
           <option value="Delivery">Delivery</option>
         </select>
       </div>
+      )}
+      {customerSigninInfo.customer[0].role === 1 && (
+        <>
+          <div className="form-group">
+            <label className="text-muted"> Start Time </label>
+            <input type="time" onChange={handleChange('starttime')} name="starttime" className="form-control" value={starttime} />
+          </div>
+          <div className="form-group">
+            <label className="text-muted"> End Time </label>
+            <input type="time" onChange={handleChange('endtime')} name="endtime" className="form-control" value={endtime} />
+          </div>
+        </>
       )}
       {customerSigninInfo.customer[0].role === 1 && (
       <div className="form-group">

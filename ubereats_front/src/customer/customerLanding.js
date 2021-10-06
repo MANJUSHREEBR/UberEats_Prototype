@@ -1,3 +1,4 @@
+/* eslint-disable react/button-has-type */
 /* eslint-disable no-mixed-operators */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable jsx-a11y/alt-text */
@@ -27,6 +28,14 @@ const Home = ({ location, match }) => {
   const dispatch = useDispatch();
   const restaurantList = useSelector((state) => state.restaurantList);
   let { loadingFromState, restaurants, errorFromState } = restaurantList;
+  const customer = useSelector((state) => state.customerSignin);
+  const {
+    customerSigninInfo,
+  } = customer;
+  let customerLocation;
+  if (customerSigninInfo && customerSigninInfo.customer[0].location) {
+    customerLocation = customerSigninInfo.customer[0].location;
+  }
   if (text !== undefined) {
     if (restaurants) {
       restaurants = restaurants.filter(
@@ -42,7 +51,7 @@ const Home = ({ location, match }) => {
     );
   }
   useEffect(() => {
-    dispatch(listRestaurants(keyword, text));
+    dispatch(listRestaurants(keyword, customerLocation));
   }, [dispatch, keyword, text, filter]);
 
   const radios = [
@@ -59,14 +68,25 @@ const Home = ({ location, match }) => {
     <div className="container">
       <Row>
         <Col md={3}>
-          <h3>All stores</h3>
+          <h4>All stores</h4>
           <ul>
             <Checkbox categories={radios} handleFilters={(filters) => handleFilters(filters)} />
           </ul>
 
         </Col>
         {restaurants && restaurants.map((restaurant, i) => (
-          <Col sm={8} md={4} lg={3} key={i}><CardComponent key={i} dish={restaurant} url="restaurant" /></Col>))}
+          <Col sm={8} md={4} lg={3} key={i}>
+            <button
+              className="likeBtn"
+              style={{
+                color: 'red', position: 'absolute', zIndex: '1', top: '30px', right: '24px', border: 'none', background: 'initial',
+              }}
+            >
+              <i className="fa fa-heart" style={{ color: 'red', position: 'relative', zIndex: '1' }} />
+            </button>
+            <CardComponent key={i} dish={restaurant} url="restaurant" />
+          </Col>
+        ))}
         {restaurants && restaurants.length === 0 && (
         <Col md={8}>
           <img src="https://www.ubereats.com/_static/fca2c1eff67cb98be2dcf69dacf95347.svg" />

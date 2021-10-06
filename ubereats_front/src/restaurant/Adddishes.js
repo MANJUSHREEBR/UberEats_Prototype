@@ -15,6 +15,7 @@ const Adddishes = () => {
     name: '',
     description: '',
     price: '',
+    mainingredient: '',
     dishtype: '',
     loading: '',
     error: '',
@@ -28,6 +29,7 @@ const Adddishes = () => {
     description,
     price,
     dishtype,
+    mainingredient,
     loading,
     error,
     createdDish,
@@ -64,6 +66,7 @@ const Adddishes = () => {
             photo: '',
             price: '',
             dishtype: '',
+            mainingredient: '',
             loading: false,
             error: false,
             createdDish: result.name,
@@ -87,6 +90,10 @@ const Adddishes = () => {
       <div className="form-group">
         <label className="text-muted">Description</label>
         <textarea onChange={handleChange('description')} type="text" className="form-control" value={description} />
+      </div>
+      <div className="form-group">
+        <label className="text-muted">Main Ingredients</label>
+        <textarea onChange={handleChange('mainingredient')} type="text" className="form-control" value={mainingredient} />
       </div>
       <div className="form-group">
         <label className="text-muted">Price</label>

@@ -1,3 +1,5 @@
+/* eslint-disable prefer-const */
+/* eslint-disable no-const-assign */
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable react/no-unescaped-entities */
@@ -13,12 +15,18 @@ import {
 } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { getMyOrderList, updateOrderStatus } from '../js/actions/orderAction';
+import Checkbox from '../core/Checkbox';
 
 const OrdeListOrders = ({ match }) => {
+  const [filter, setfilter] = useState([]);
   const [selectVlaue] = useState();
   const dispatch = useDispatch();
   const myOrderList = useSelector((state) => state.myOrderList);
-  const { loading, orders, error } = myOrderList;
+  let { loading, orders, error } = myOrderList;
+  const customer = useSelector((state) => state.customerSignin);
+  const {
+    customerSigninInfo,
+  } = customer;
   useEffect(() => {
     dispatch(getMyOrderList());
   }, [dispatch]);
@@ -27,16 +35,42 @@ const OrdeListOrders = ({ match }) => {
       {error}
     </div>
   );
+  const radios = [
+    { name: 'order received', value: '1' },
+    { name: 'delivered', value: '2' },
+    { name: 'picked up', value: '3' },
+    { name: 'processing', value: '3' },
+  ];
+  const handleFilters = (filters) => {
+    setfilter(filters);
+  };
+  if (filter.length) {
+    orders = orders.filter(
+      (row) => filter.includes(row.status.toLowerCase()),
+    );
+  }
   return (
     <>
       <Row>
-        {showError()}
+        <Col md={5} />
+        <Col md={6}>
+          {showError()}
+          <ul>
+            <Checkbox categories={radios} handleFilters={(filters) => handleFilters(filters)} />
+          </ul>
+        </Col>
+      </Row>
+      <Row>
         <h2>My Orders</h2>
         <Col md={12}>
           <Table bordered hover responsive className="table-sm">
             <thead>
               <tr>
                 <th>ID</th>
+                {customerSigninInfo && customerSigninInfo.customer[0].role === 0
+                && (<th>Restaurant Profile</th>)}
+                {customerSigninInfo && customerSigninInfo.customer[0].role === 1
+                && (<th>User Profile</th>)}
                 <th>Date</th>
                 <th>Status</th>
                 <th></th>
@@ -46,6 +80,46 @@ const OrdeListOrders = ({ match }) => {
               {orders && orders.map((order) => (
                 <tr key={order.orderid}>
                   <td>{order.orderid}</td>
+                  {customerSigninInfo && customerSigninInfo.customer[0].role === 0
+                && (
+                <td>
+                  <p>
+                    Name:
+                    {order.name}
+                  </p>
+                  <p>
+                    Email:
+                    {order.email}
+                  </p>
+                  <p>
+                    Location:
+                    {order.location}
+                  </p>
+                </td>
+                )}
+                  {customerSigninInfo && customerSigninInfo.customer[0].role === 1
+                && (
+                <td>
+                  <p>
+                    Name :
+                    {order.name}
+                  </p>
+                  <p>
+                    Email :
+                    {order.email}
+                  </p>
+                  <p>
+                    Shipping Address :
+                    {order.address}
+                  </p>
+                  {order.phone && (
+                  <p>
+                    Phone:
+                    {order.phone}
+                  </p>
+                  )}
+                </td>
+                )}
                   <td>{order.orderdate.substring(0, 10)}</td>
                   <td>
 
