@@ -24,10 +24,6 @@ import {
 
 import { API } from '../../config';
 
-// const getCartFromDb = () => (dispatch, getState) => {
-
-// };
-
 export const customerSignin = (user, isCustomer) => (dispatch, getState) => {
   dispatch({ type: CUSTOMER_SIGNIN_REQUEST });
   fetch(`${API}/${isCustomer}/signin`, {
@@ -54,6 +50,7 @@ export const customerSignin = (user, isCustomer) => (dispatch, getState) => {
           fetch(`${API}/customer/cart/${customerSigninInfo.customer[0].id}`, {
             method: 'GET',
             headers: {
+              'Content-Type': 'application/json',
               Authorization: `Bearer ${customerSigninInfo.token}`,
             },
 
@@ -118,13 +115,6 @@ export const customersignup = (user, isCustomer) => (dispatch) => {
     });
 };
 
-export const logout = () => (dispatch) => {
-  localStorage.removeItem('customerInfo');
-  dispatch({
-    type: CUSTOMER_SIGNOUT_SUCCESS,
-  });
-};
-
 export const customerUpdateProfile = (user, token, id, isCustomer) => (dispatch, getState) => {
   dispatch({ type: CUSTOMER_UPDATE_PROFILE_REQUEST });
 
@@ -161,4 +151,11 @@ export const customerUpdateProfile = (user, token, id, isCustomer) => (dispatch,
         payload: error,
       });
     });
+};
+
+export const logout = () => (dispatch) => {
+  localStorage.removeItem('customerInfo');
+  dispatch({
+    type: CUSTOMER_SIGNOUT_SUCCESS,
+  });
 };

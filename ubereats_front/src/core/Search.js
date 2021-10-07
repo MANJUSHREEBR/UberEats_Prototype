@@ -17,14 +17,14 @@ const SearchBox = ({ history, location }) => {
 
   return (
     <Form onSubmit={submitHandler} inline>
-      <i className="fas fa-search" style={{ position: 'absolute' }} />
+      <i className="fas fa-search" style={{ position: 'absolute', padding: '5px' }} />
       <Form.Control
         type="text"
         name="q"
         onChange={(e) => setKeyword(e.target.value)}
         placeholder="   What are you craving?"
         className="mr-sm-2"
-        style={{ width: '500px' }}
+        style={{ width: '800px', backgroundColor: '#F6F6F6' }}
       />
     </Form>
   );

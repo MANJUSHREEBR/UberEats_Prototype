@@ -34,9 +34,9 @@ const Customerdashboard = ({ history }) => {
   } = customer || '';
   const { loadingFromState, errorFromState, successFromState } = useSelector((state) => state.customerUpdateProfile);
   let ImageApi = '';
-  if (customerSigninInfo.customer[0].role === 1) {
+  if (customerSigninInfo && customerSigninInfo.customer[0].role === 1) {
     ImageApi = `${API}/restaurant/photo/${customerSigninInfo.customer[0].id}`;
-  } else {
+  } else if (customerSigninInfo) {
     ImageApi = `${API}/customer/photo/${customerSigninInfo.customer[0].id}`;
   }
   const [imageUrl, setImageUrl] = useState(ImageApi);
@@ -101,10 +101,10 @@ const Customerdashboard = ({ history }) => {
       isCustomer = 'restaurant';
     }
     dispatch(customerUpdateProfile(formData, customerSigninInfo.token, customerSigninInfo.customer[0].id, isCustomer));
-    if (customerSigninInfo.customer[0].role === 1) {
+    if (customerSigninInfo && customerSigninInfo.customer[0].role === 1) {
       setImageUrl(`${API}/restaurant/photo/${customerSigninInfo.customer[0].id}`);
       // document.getElementById('imageDiv').src = `${API}/restaurant/photo/${customerSigninInfo.customer[0].id}`;
-    } else {
+    } else if (customerSigninInfo) {
       // document.getElementById('imageDiv').src = `${API}/customer/photo/${customerSigninInfo.customer[0].id}`;
       setImageUrl(`${API}/customer/photo/${customerSigninInfo.customer[0].id}`);
     }
@@ -237,7 +237,7 @@ const Customerdashboard = ({ history }) => {
           <Modal.Title />
         </Modal.Header>
         <Modal.Body>
-          <div className="alert alert-info" style={{ display: successFromState ? 'block' : 'none' }}>
+          <div className="alert alert-success" style={{ display: successFromState ? 'block' : 'none' }}>
             <h5>Profile Successfully updated</h5>
           </div>
           <div className="alert alert-danger" style={{ display: errorFromState ? 'block' : 'none' }}>

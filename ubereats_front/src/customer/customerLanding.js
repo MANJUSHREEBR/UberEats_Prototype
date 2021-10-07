@@ -50,6 +50,11 @@ const Home = ({ location, match }) => {
       (row) => filter.includes(row.category.toLowerCase()),
     );
   }
+  const cart = useSelector((state) => state.cart);
+  const { cartItems } = cart;
+  if (cartItems.length) {
+    localStorage.setItem('restId', cartItems[0].restaurant_id);
+  }
   useEffect(() => {
     dispatch(listRestaurants(keyword, customerLocation));
   }, [dispatch, keyword, text, filter]);
@@ -65,36 +70,45 @@ const Home = ({ location, match }) => {
     setfilter(filters);
   };
   return (
-    <div className="container">
+    <div className="container-fluid">
       <Row>
-        <Col md={3}>
-          <h4>All stores</h4>
+        <Col md={2} style={{ padding: '60px' }}>
+          <h4>
+            All stores
+            {' '}
+            {' '}
+            <i className="fas fa-chevron-down" />
+          </h4>
           <ul>
             <Checkbox categories={radios} handleFilters={(filters) => handleFilters(filters)} />
           </ul>
 
         </Col>
-        {restaurants && restaurants.map((restaurant, i) => (
-          <Col sm={8} md={4} lg={3} key={i}>
-            <button
-              className="likeBtn"
-              style={{
-                color: 'red', position: 'absolute', zIndex: '1', top: '30px', right: '24px', border: 'none', background: 'initial',
-              }}
-            >
-              <i className="fa fa-heart" style={{ color: 'red', position: 'relative', zIndex: '1' }} />
-            </button>
-            <CardComponent key={i} dish={restaurant} url="restaurant" />
-          </Col>
-        ))}
-        {restaurants && restaurants.length === 0 && (
-        <Col md={8}>
-          <img src="https://www.ubereats.com/_static/fca2c1eff67cb98be2dcf69dacf95347.svg" />
-          <h2>We didn't find matching </h2>
-          <p>Try searching for somewher else instead</p>
-          <Button variant="dark">Search All Restaurants</Button>
+        <Col md={9}>
+          <Row>
+            {restaurants && restaurants.map((restaurant, i) => (
+              <Col sm={10} md={5} lg={2} key={i}>
+                <button
+                  className="likeBtn"
+                  style={{
+                    color: 'red', position: 'absolute', zIndex: '1', top: '30px', right: '24px', border: 'none', background: 'initial',
+                  }}
+                >
+                  <i className="fa fa-heart" style={{ color: 'red', position: 'relative', zIndex: '1' }} />
+                </button>
+                <CardComponent key={i} dish={restaurant} url="restaurant" />
+              </Col>
+            ))}
+            {restaurants && restaurants.length === 0 && (
+            <Col md={8}>
+              <img src="https://www.ubereats.com/_static/fca2c1eff67cb98be2dcf69dacf95347.svg" />
+              <h2>We didn't find matching </h2>
+              <p>Try searching for somewher else instead</p>
+              <Button variant="dark">Search All Restaurants</Button>
+            </Col>
+            )}
+          </Row>
         </Col>
-        )}
       </Row>
     </div>
   );

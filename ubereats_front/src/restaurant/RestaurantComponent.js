@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable react/button-has-type */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable import/extensions */
@@ -13,7 +14,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Row, Col, Image, ListGroup, Card, Button, Form, Modal,
+  Row, Col, Image, ListGroup, Card, Button, Form, Modal, Jumbotron, Container,
 } from 'react-bootstrap';
 import { getRestaurantDetails, RestaurantlistDishes } from '../js/actions/restaurantAction';
 import { saveFavoriteToDatabase } from '../js/actions/favoriteActions';
@@ -51,12 +52,33 @@ const RestaurantComponent = ({ history, match }) => {
             <i className="fa fa-heart" style={{ color: 'red', position: 'relative' }} />
           </button>
           )}
-          <Image
+          <Jumbotron style={{ backgroundImage: `url(${API}/restaurant/photo/${match.params.id})`, backgroundSize: 'cover' }}>
+            <h1 style={{ color: 'white' }}>
+              {' '}
+              {restaurant.name}
+            </h1>
+            <p style={{ color: 'white' }}>
+              $0.49 Delivery Fee
+              •
+              Delivered in 55 to 65 min
+              55–65 Min
+              •
+              4.5
+              (200+)
+            </p>
+            <p>
+              <Button variant="light">
+                Order now
+              </Button>
+            </p>
+          </Jumbotron>
+          <br />
+          {/* <Image
             src={`${API}/restaurant/photo/${match.params.id}`}
             onError={(e) => { e.target.onerror = null; e.target.src = 'https://dummyimage.com/100.png/09f/fff'; }}
             fluid
             style={{ width: '100%', height: '300px' }}
-          />
+          /> */}
         </Col>
         <div style={{ fontFamily: 'cursive' }}>
           {' '}
@@ -94,7 +116,7 @@ const RestaurantComponent = ({ history, match }) => {
       <hr />
       <Row>
         {restdishes && restdishes.map((dish, i) => (
-          <Col sm={12} md={4} lg={3} key={i}><CardComponent key={i} dish={dish} /></Col>))}
+          <Col sm={12} md={4} lg={2} key={i}><CardComponent key={i} dish={dish} /></Col>))}
       </Row>
     </>
   );

@@ -34,7 +34,7 @@ const Cart = ({ match, location, history }) => {
     history.goBack();
   };
   const checkOutHandler = () => {
-    history.push('/customersignin?redirect=shipping');
+    history.push('/shipping');
   };
   return (
     <div>
@@ -113,7 +113,7 @@ const Cart = ({ match, location, history }) => {
 
         </Modal.Body>
         <Modal.Footer>
-          <Button className="btn-dark" disabled={cartItems.length === 0} variant="primary" onClick={checkOutHandler}>
+          <Button className="btn-dark btn-block" disabled={cartItems.length === 0} variant="primary" onClick={checkOutHandler}>
             Checkout
           </Button>
         </Modal.Footer>

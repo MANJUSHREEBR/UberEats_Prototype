@@ -168,43 +168,91 @@ exports.getFavorites = (req, res) => {
 
 exports.addCart = (req, res) => {
   const { id } = req.profile[0];
-  pool.query('DELETE FROM cart WHERE customer_id = ?', req.profile[0].id, (
-    err,
-  ) => {
+  pool.getConnection((err, conn) => {
     if (err) {
-      console.log('unable to insert ordered items', err);
-      res.status(400).send('unable to insert ordered items');
+      res.send('Error occured');
     } else {
-      pool.getConnection((err, conn) => {
-        if (err) {
-          res.send('Error occured');
-        } else {
-          // eslint-disable-next-line camelcase
-          const ordered_items = req.body.cart.cartItems;
-          for (let i = 0; i < ordered_items.length; i++) {
-            const dishId = ordered_items[i].dish;
-            const { qty } = ordered_items[i];
-            conn.query(
-              'INSERT INTO cart (customer_id, dish, qty) VALUES (?,?,?)',
-              [id, dishId, qty],
-              (error, cart) => {
-                if (error) {
-                  return res.status(400).json({
-                    error: errorHandler(error),
+      conn.query(
+        'DELETE FROM cart WHERE customer_id = ?',
+        [id],
+        (error, response) => {
+          if (error) {
+            return response.status(400).json({
+              error: 'carts not found',
 
-                  });
-                }
-                res.status(200).json({
-                  Success: 'cartItems saved successfully',
-                });
-                conn.release();
-              },
-            );
+            });
           }
-        }
-      });
+          pool.getConnection((err, conn1) => {
+            if (err) {
+              res.send('Error occured');
+            } else {
+              // eslint-disable-next-line camelcase
+              const ordered_items = req.body.cart.cartItems;
+              for (let i = 0; i < ordered_items.length; i++) {
+                const dishId = ordered_items[i].dish;
+                const { qty } = ordered_items[i];
+                conn.query(
+                  'INSERT INTO cart (customer_id, dish, qty) VALUES (?,?,?)',
+                  [id, dishId, qty],
+                  (error, cart) => {
+                    if (error) {
+                      return res.status(400).json({
+                        error: errorHandler(error),
+                      });
+                    }
+                    if (i === ordered_items.length - 1) {
+                      res.status(200).json({
+                        Success: 'cartItems saved successfully',
+                      });
+                    }
+                  },
+                );
+              }
+              conn1.release();
+            }
+          });
+          conn.release();
+        },
+      );
     }
   });
+  // pool.getConnection('DELETE FROM cart WHERE customer_id = ?', req.profile[0].id, (
+  //   err,
+  // ) => {
+  //   if (err) {
+  //     console.log('unable to insert ordered items', err);
+  //     res.status(400).json('unable to insert ordered items');
+  //   } else {
+  //     pool.getConnection((err, conn) => {
+  //       if (err) {
+  //         res.send('Error occured');
+  //       } else {
+  //         // eslint-disable-next-line camelcase
+  //         const ordered_items = req.body.cart.cartItems;
+  //         for (let i = 0; i < ordered_items.length; i++) {
+  //           const dishId = ordered_items[i].dish;
+  //           const { qty } = ordered_items[i];
+  //           conn.query(
+  //             'INSERT INTO cart (customer_id, dish, qty) VALUES (?,?,?)',
+  //             [id, dishId, qty],
+  //             (error, cart) => {
+  //               if (error) {
+  //                 return res.status(400).json({
+  //                   error: errorHandler(error),
+
+  //                 });
+  //               }
+  //               res.status(200).json({
+  //                 Success: 'cartItems saved successfully',
+  //               });
+  //               conn.release();
+  //             },
+  //           );
+  //         }
+  //       }
+  //     });
+  //   }
+  // });
 };
 
 exports.getCartItems = (req, res) => {

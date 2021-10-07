@@ -200,7 +200,7 @@ const PlaceOrder = ({ history }) => {
           <Modal.Title />
         </Modal.Header>
         <Modal.Body>
-          <div className="alert alert-info" style={{ display: success ? 'block' : 'none' }}>
+          <div className="alert alert-success" style={{ display: success ? 'block' : 'none' }}>
             Order Placed Successfully !
           </div>
         </Modal.Body>

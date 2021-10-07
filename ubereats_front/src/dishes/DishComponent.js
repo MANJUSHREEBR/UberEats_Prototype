@@ -122,7 +122,7 @@ const DishComponent = ({ history, match }) => {
               </Row>
 
             </ListGroup.Item>
-            {(customerSigninInfo && customerSigninInfo.customer[0].role === 0 || !customerSigninInfo) && (
+            {(customerSigninInfo && customerSigninInfo.customer[0].role === 0) && (
             <ListGroup.Item>
               <Button className="btn-block bg-dark" type="button" onClick={addToCart}>
                 Add To cart

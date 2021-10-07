@@ -31,7 +31,7 @@ const Orders = ({ match, history }) => {
   const {
     customerSigninInfo,
   } = customer;
-  const [selectorVal, setSelectorVal] = useState(orderItems.status);
+  const [selectorVal, setSelectorVal] = useState('');
   const addDecimals = (num) => (Math.round(num * 100) / 100).toFixed(2);
   if (cart) {
     cart.itemsPrice = addDecimals(cart.reduce((acc, item) => acc + item.price
@@ -46,7 +46,8 @@ const Orders = ({ match, history }) => {
   };
   useEffect(() => {
     dispatch(getOrderDetails(orderId));
-  }, [dispatch]);
+    setSelectorVal(orderItems.status);
+  }, [dispatch, orderItems]);
 
   const statusUpdateHandler = (e) => {
     setSelectorVal(e.target.value);
@@ -82,14 +83,14 @@ const Orders = ({ match, history }) => {
                   </p>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <h4>
+                  <p>
                     Order:
                     {orderItems.orderid}
-                  </h4>
-                  {customerSigninInfo.customer[0].id == 0 && (
+                  </p>
+                  {customerSigninInfo.customer[0].role === 0 && (
                   <ListGroup.Item>
-                    <h4> Status: </h4>
-                    { orderItems.status }
+                    <p> Status: </p>
+                    { selectorVal}
                   </ListGroup.Item>
                   )}
                   {customerSigninInfo.customer[0].deliverymode && customerSigninInfo.customer[0].deliverymode.toLowerCase() === 'Delivery'.toLowerCase() && (

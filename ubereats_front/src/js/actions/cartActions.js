@@ -12,6 +12,7 @@ import {
   // CART_GET_DATABASE_SUCCESS,
   // CART_GET_DATABASE_FAIL,
 } from '../constants/cartConstants';
+import { CUSTOMER_SIGNOUT_SUCCESS } from '../constants/customerConstants';
 import { API } from '../../config';
 
 export const addToCart = (id, qty) => (dispatch, getState) => {
@@ -64,6 +65,10 @@ export const saveCartToDatabase = (order) => (dispatch, getState) => {
         dispatch({
           type: CART_SAVE_SUCCESS,
           payload: response,
+        });
+        localStorage.removeItem('customerInfo');
+        dispatch({
+          type: CUSTOMER_SIGNOUT_SUCCESS,
         });
         dispatch({
           type: CART_REMOVE_ITEMS,

@@ -38,9 +38,11 @@ const Menu = () => {
   } = customer;
   const logoutHandler = () => {
     localStorage.removeItem('restId');
-    dispatch(saveCartToDatabase({ cart }));
-    dispatch(logout());
-    history.push('/search/Delivery');
+    if (cart.cartItems.length) {
+      dispatch(saveCartToDatabase({ cart }));
+    } else {
+      dispatch(logout());
+    } history.push('/search/Delivery');
   };
   const radios = [
     { name: 'Delivery' },
@@ -54,10 +56,11 @@ const Menu = () => {
 
   return (
     <Navbar bg="light" expand="lg">
-      <Container fluid="md">
+      <Container fluid>
+        <i className="fal fa-angle-down" />
         <LinkContainer to={customerSigninInfo && customerSigninInfo.customer[0].role === 1 ? `/restaurant/${customerSigninInfo.customer[0].id}` : '/search/Delivery'}>
           <Navbar.Brand expand="lg">
-            <Card.Img src={logo} variant="top" style={{ height: '75px' }} />
+            <Card.Img src={logo} variant="top" style={{ height: '80px' }} />
           </Navbar.Brand>
         </LinkContainer>
         <ButtonGroup>
@@ -121,10 +124,14 @@ const Menu = () => {
             )}
           </Nav>
           <Route render={() => <Search history={history} location={location} />} />
-          {(!customerSigninInfo || customerSigninInfo.customer[0].role === 0) && (
+          {(customerSigninInfo && customerSigninInfo.customer[0].role === 0) && (
           <LinkContainer to="/cart" variant="dark">
             <Nav.Link>
-              <i className="fas fa-shopping-cart" style={{ color: 'black' }} />
+              <Button variant="dark">
+                <i className="fas fa-shopping-cart" style={{ color: 'white' }} />
+                {'    '}
+                <span style={{ color: 'white' }}>{ cart && cart.cartItems.length}</span>
+              </Button>
             </Nav.Link>
           </LinkContainer>
           )}

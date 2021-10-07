@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-bitwise */
 /* eslint-disable no-unused-vars */
@@ -22,7 +23,7 @@ const Usersignin = ({ location, history }) => {
     isCustomer: 'customer',
   });
 
-  const redirect = location.search ? location.search.split('=')[1] : '/search/delivery';
+  // const redirect = location.search ? location.search.split('=')[1] : '/search/delivery';
 
   const {
     email, password,
@@ -38,12 +39,11 @@ const Usersignin = ({ location, history }) => {
 
   useEffect(() => {
     if (customerSigninInfo && customerSigninInfo.customer[0].role === 0) {
-      history.push(redirect);
+      history.push('search/Delivery');
     } else if ((customerSigninInfo && customerSigninInfo.customer[0].role === 1)) {
       history.push(`/restaurant/${customerSigninInfo.customer[0].id}`);
-      // history.push(`/restaurant/${customerSigninInfo.customer[0].id}`);
     }
-  }, [history, customerSigninInfo, redirect]);
+  }, [history, customerSigninInfo]);
 
   const clickSubmit = (event) => {
     event.preventDefault();
