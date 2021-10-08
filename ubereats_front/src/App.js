@@ -47,8 +47,8 @@ const App = () => (
           <Route path="/favorites" exact component={Favorites} />
           <Route path="/edit/dishes" exact component={Editdish} />
         </Switch>
-        <Footer />
       </main>
+      <Footer />
     </Container>
   </BrowserRouter>
 );

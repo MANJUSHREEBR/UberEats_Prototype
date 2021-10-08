@@ -115,6 +115,9 @@ const RestaurantComponent = ({ history, match }) => {
       </Row>
       <hr />
       <Row>
+        <strong>Menu</strong>
+      </Row>
+      <Row>
         {restdishes && restdishes.map((dish, i) => (
           <Col sm={12} md={4} lg={2} key={i}><CardComponent key={i} dish={dish} /></Col>))}
       </Row>

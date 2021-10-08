@@ -57,7 +57,7 @@ const Orders = ({ match, history }) => {
     <div>
       <Modal show={show} onHide={handleClose} style={{ width: '100%' }}>
         <Modal.Header closeButton>
-          <Modal.Title>Order Details</Modal.Title>
+          <Modal.Title>Receipt</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row>

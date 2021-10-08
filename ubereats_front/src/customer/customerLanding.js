@@ -102,7 +102,7 @@ const Home = ({ location, match }) => {
             {restaurants && restaurants.length === 0 && (
             <Col md={8}>
               <img src="https://www.ubereats.com/_static/fca2c1eff67cb98be2dcf69dacf95347.svg" />
-              <h2>We didn't find matching </h2>
+              <h2>We didn't find matching</h2>
               <p>Try searching for somewher else instead</p>
               <Button variant="dark">Search All Restaurants</Button>
             </Col>

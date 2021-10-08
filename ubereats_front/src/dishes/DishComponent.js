@@ -99,12 +99,12 @@ const DishComponent = ({ history, match }) => {
             <ListGroup.Item>
               <Row>
                 <Col>Qty</Col>
-                <Col>
+                <Col id="quantity">
                   <Button className="btn-block bg-success mr-2" disabled={qty <= 1} type="button" onClick={decrement}>
                     -
                   </Button>
                   {qty}
-                  <Button className="btn-block bg-success" type="button" onClick={increment}>
+                  <Button id="increment" className="btn-block bg-success" type="button" onClick={increment}>
                     +
                   </Button>
                 </Col>
@@ -142,14 +142,14 @@ const DishComponent = ({ history, match }) => {
       </Row>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title />
+          <Modal.Title> Create a new Order? </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           Your cart contains order from another restaurant, please make a new order for this restaurant!
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="dark" onClick={handleClose}>
-            Close
+          <Button className="btn-block" variant="dark" onClick={handleClose}>
+            New Order
           </Button>
         </Modal.Footer>
       </Modal>

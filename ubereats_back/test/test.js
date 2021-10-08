@@ -35,30 +35,33 @@ describe('Testing using Mocha', () => {
     it('Should return 200 status code up on successfull signup', (done) => {
       chai.request(app)
         .post('/ubereats/customer/signup')
-        .send({ name: 'jaya', email: 'jaya12@gmail.com', password: 'Jaya@12345' })
+        .send({ name: 'jaya', email: 'jaya123@gmail.com', password: 'Jaya@12345' })
         .end((err, response) => {
           response.should.have.status(200);
           done();
         });
     });
   });
-  describe('User should update their profile', () => {
-    it('Should return 401 as the token is missing ', (done) => {
-      chai.request(app)
-        .put('/ubereats/customer/28')
-        .send({ name: 'Manjushree' })
-        .end((err, response) => {
-          response.should.have.status(401);
-          done();
-        });
-    });
-  });
-  describe('User should update their profile', () => {
-    it('Should return 200 status code up on successfull update', (done) => {
+  describe('Get all the restaurants', () => {
+    it('Should return an array of objects', (done) => {
       chai.request(app)
         .get('/ubereats/restaurant')
         .end((err, response) => {
           response.should.have.status(200);
+          response.body.should.be.a('object');
+          done();
+        });
+    });
+  });
+  describe('User should be able to update the profile', () => {
+    it('Should send status code 200 up on successful update else should thorw error', (done) => {
+      chai.request(app)
+        .put('/ubereats/customer/28')
+        .send({ name: 'manjushree' })
+        .end((err, response) => {
+          if (err) {
+            response.should.have.status(301);
+          }
           done();
         });
     });

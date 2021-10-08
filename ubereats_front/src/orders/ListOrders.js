@@ -61,7 +61,7 @@ const OrdeListOrders = ({ match }) => {
         </Col>
       </Row>
       <Row>
-        <h2>My Orders</h2>
+        <h4>Orders</h4>
         <Col md={12}>
           <Table bordered hover responsive className="table-sm">
             <thead>
@@ -128,7 +128,7 @@ const OrdeListOrders = ({ match }) => {
                   </td>
                   <td>
                     <LinkContainer to={`/orders/${order.orderid}`}>
-                      <Button variant="success" className="btn-sm">
+                      <Button variant="dark" className="btn-md">
                         Details
                       </Button>
                     </LinkContainer>

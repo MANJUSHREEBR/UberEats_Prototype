@@ -2,7 +2,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const morgan = require('morgan');
 const expressValidator = require('express-validator');
 const cors = require('cors');
 
@@ -26,7 +25,6 @@ app.use((req, res, next) => {
 app.use(cors());
 // middlewares
 app.use(bodyParser.json());
-app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(expressValidator());
 

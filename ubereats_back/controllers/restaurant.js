@@ -100,9 +100,24 @@ exports.updateRestaurant = (req, res) => {
 };
 
 exports.list = (req, res) => {
-  // const order = req.query.order ? req.query.order : 'ASC';
-  // const sortBy = req.query.sortBy ? req.query.sortBy : 'id';
-  // const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+  // const search = req.query.search ? (req.query.search) : 'Delivery';
+  // const location = req.query.location ? (req.query.location) : 'San Jose';
+
+  // pool.query(
+  //   'SELECT * FROM restaurants WHERE photo IS NOT NULL AND deliverymode = ? ORDER BY FIELD(location,?) DESC ',
+  //   [search, location],
+  //   (error, restaurant) => {
+  //     if (error || !restaurant.length) {
+  //       return res.status(400).json({
+  //         error: 'Restaurants not found',
+
+  //       });
+  //     }
+  //     res.status(200).json({
+  //       restaurant,
+  //     });
+  //   },
+  // );
   const search = req.query.search ? (req.query.search) : 'Delivery';
   const location = req.query.location ? (req.query.location) : 'San Jose';
   pool.getConnection((err, conn) => {
