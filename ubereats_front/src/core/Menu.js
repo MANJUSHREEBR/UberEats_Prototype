@@ -39,12 +39,12 @@ const Menu = () => {
   const logoutHandler = () => {
     localStorage.removeItem('restId');
     // localStorage.removeItem('shippingAddress');
-    dispatch(saveShippindAddress({
-      address: '',
-      city: '',
-      postalCode: '',
-      country: '',
-    }));
+    // dispatch(saveShippindAddress({
+    //   address: '',
+    //   city: '',
+    //   postalCode: '',
+    //   country: '',
+    // }));
     if (cart.cartItems.length) {
       dispatch(saveCartToDatabase({ cart }));
     } else {
