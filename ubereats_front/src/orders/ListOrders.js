@@ -38,6 +38,7 @@ const OrdeListOrders = ({ match }) => {
   const radios = [
     { name: 'order received', value: '1' },
     { name: 'delivered', value: '2' },
+    { name: 'processing', value: '3' },
   ];
   const handleFilters = (filters) => {
     setfilter(filters);
