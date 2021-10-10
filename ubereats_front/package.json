@@ -1,6 +1,6 @@
 {
   "name": "ubereats_front",
-  "proxy": "http://18.191.180.24:8000/",
+  "proxy": "http://18.118.130.81:8000/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
