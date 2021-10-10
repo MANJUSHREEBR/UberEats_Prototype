@@ -30,7 +30,12 @@ const Favorites = ({ match }) => {
   return (
     <div className="container">
       <Row>
-        <h2>Favorites</h2>
+        <h3 style={{ textAlign: 'center' }}>
+          Favorites
+          <i className="fa fa-heart" style={{ color: 'red', position: 'relative' }} />
+        </h3>
+
+        <hr />
         <div className="alert alert-danger" style={{ display: errorFromState ? 'block' : 'none' }}>
           {errorFromState}
         </div>

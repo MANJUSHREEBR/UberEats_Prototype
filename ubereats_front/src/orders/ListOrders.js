@@ -38,8 +38,6 @@ const OrdeListOrders = ({ match }) => {
   const radios = [
     { name: 'order received', value: '1' },
     { name: 'delivered', value: '2' },
-    { name: 'picked up', value: '3' },
-    { name: 'processing', value: '3' },
   ];
   const handleFilters = (filters) => {
     setfilter(filters);
@@ -108,10 +106,10 @@ const OrdeListOrders = ({ match }) => {
                     Email :
                     {order.email}
                   </p>
-                  <p>
+                  {/* <p>
                     Shipping Address :
                     {order.address}
-                  </p>
+                  </p> */}
                   {order.phone && (
                   <p>
                     Phone:
@@ -129,7 +127,7 @@ const OrdeListOrders = ({ match }) => {
                   <td>
                     <LinkContainer to={`/orders/${order.orderid}`}>
                       <Button variant="dark" className="btn-md">
-                        Details
+                        View Receipt
                       </Button>
                     </LinkContainer>
                   </td>

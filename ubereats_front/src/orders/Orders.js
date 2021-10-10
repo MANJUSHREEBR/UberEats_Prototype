@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-operators */
 /* eslint-disable eqeqeq */
 /* eslint-disable no-console */
 /* eslint-disable jsx-a11y/label-has-associated-control */
@@ -34,7 +35,7 @@ const Orders = ({ match, history }) => {
   const [selectorVal, setSelectorVal] = useState('');
   const addDecimals = (num) => (Math.round(num * 100) / 100).toFixed(2);
   if (cart) {
-    cart.itemsPrice = addDecimals(cart.reduce((acc, item) => acc + item.price
+    cart.itemsPrice = addDecimals(cart.reduce((acc, item) => acc + item.orderedprice
   * item.quantity, 0));
     cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 35);
     cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)));
@@ -63,6 +64,7 @@ const Orders = ({ match, history }) => {
           <Row>
             <Col md={8}>
               <ListGroup variant="flush">
+                {shippingAdd && shippingAdd.address && (
                 <ListGroup.Item>
                   <p>
                     <strong>Address: </strong>
@@ -82,6 +84,7 @@ const Orders = ({ match, history }) => {
                     {' '}
                   </p>
                 </ListGroup.Item>
+                )}
                 <ListGroup.Item>
                   <p>
                     Order:
@@ -93,7 +96,8 @@ const Orders = ({ match, history }) => {
                     { selectorVal}
                   </ListGroup.Item>
                   )}
-                  {customerSigninInfo.customer[0].deliverymode && customerSigninInfo.customer[0].deliverymode.toLowerCase() === 'Delivery'.toLowerCase() && (
+                  {customerSigninInfo.customer[0].deliverymode && (customerSigninInfo.customer[0].deliverymode.toLowerCase() === 'Delivery'.toLowerCase()
+                  || customerSigninInfo.customer[0].deliverymode.toLowerCase() === 'Delivery & Pickup'.toLowerCase()) && (
                   <ListGroup.Item>
                     <label className="text-muted">Change Status here</label>
                     <select onChange={statusUpdateHandler} className="form-control" value={selectorVal}>
@@ -143,12 +147,12 @@ const Orders = ({ match, history }) => {
                               {' '}
                               x
                               {' '}
-                              {item.price}
+                              {item.orderedprice}
                               {' '}
                               =
                               {' '}
                               $
-                              {item.quantity * item.price}
+                              {item.quantity * item.orderedprice}
                             </Col>
 
                           </Row>

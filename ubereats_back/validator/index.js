@@ -5,7 +5,7 @@ exports.signupValidator = (req, res, next) => {
     .withMessage('Email must contain @')
     .isLength({
       min: 4,
-      max: 32,
+      max: 50,
     })
     .withMessage('email must contain atleast 4 characters or up to 32 characters');
   req.check('password', 'Password is required').notEmpty();

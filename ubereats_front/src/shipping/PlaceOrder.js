@@ -61,6 +61,7 @@ const PlaceOrder = ({ history }) => {
       <Row>
         <Col md={8}>
           <ListGroup variant="flush">
+            {localStorage.getItem('shippingType') === 'Delivery' && (
             <ListGroup.Item>
               <h4>Shipping</h4>
               <p>
@@ -81,6 +82,8 @@ const PlaceOrder = ({ history }) => {
                 {' '}
               </p>
             </ListGroup.Item>
+            )}
+
             <ListGroup.Item>
               <h4>Order Items</h4>
               {cart.cartItems.length === 0 ? (

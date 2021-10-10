@@ -22,6 +22,7 @@ const Adddishes = () => {
     createdDish: '',
     reDirectToProfile: false,
     formData: '',
+    category: '',
 
   });
   const {
@@ -35,6 +36,7 @@ const Adddishes = () => {
     createdDish,
     reDirectToProfile,
     formData,
+    category,
   } = values;
   const customer = useSelector((state) => state.customerSignin);
   const {
@@ -69,6 +71,7 @@ const Adddishes = () => {
             mainingredient: '',
             loading: false,
             error: false,
+            category: '',
             createdDish: result.name,
           });
         }
@@ -96,12 +99,21 @@ const Adddishes = () => {
         <textarea onChange={handleChange('mainingredient')} type="text" className="form-control" value={mainingredient} />
       </div>
       <div className="form-group">
+        <label className="text-muted">Category</label>
+        <select onChange={handleChange('category')} className="form-control" value={category}>
+          <option>Select</option>
+          <option value="Veg">Veg</option>
+          <option value="Nonveg">Nonveg</option>
+          <option value="Vegan">Vegan</option>
+        </select>
+      </div>
+      <div className="form-group">
         <label className="text-muted">Price</label>
         <input onChange={handleChange('price')} type="number" className="form-control" value={price} />
       </div>
       <div className="form-group">
         <label className="text-muted">Dishtype</label>
-        <select onChange={handleChange('dishtype')} className="form-control">
+        <select onChange={handleChange('dishtype')} className="form-control" value={dishtype}>
           <option>Select</option>
           <option value="Appetizer">Appetizer</option>
           <option value="MainCourse">MainCourse</option>

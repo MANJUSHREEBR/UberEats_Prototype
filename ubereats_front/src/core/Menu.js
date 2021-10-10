@@ -10,7 +10,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable react/jsx-filename-extension */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import { useSelector, useDispatch } from 'react-redux';
 // import { Link, withRouter } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -21,7 +21,7 @@ import {
 import { Route, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../js/actions/customerActions';
-import { saveCartToDatabase } from '../js/actions/cartActions';
+import { saveCartToDatabase, saveShippindAddress } from '../js/actions/cartActions';
 import Search from './Search';
 import logo from '../images/logo.png';
 
@@ -31,25 +31,38 @@ const Menu = () => {
   const dispatch = useDispatch();
   const text = location.search ? (location.search.split('=')[1]) : '';
   const customer = useSelector((state) => state.customerSignin);
-  const [radioValue, setRadioValue] = useState('Delivery');
+  const [radioValue, setRadioValue] = useState('Pickup');
   const cart = useSelector((state) => state.cart);
   const {
     customerSigninInfo,
   } = customer;
   const logoutHandler = () => {
     localStorage.removeItem('restId');
+    // localStorage.removeItem('shippingAddress');
+    dispatch(saveShippindAddress({
+      address: '',
+      city: '',
+      postalCode: '',
+      country: '',
+    }));
     if (cart.cartItems.length) {
       dispatch(saveCartToDatabase({ cart }));
     } else {
       dispatch(logout());
-    } history.push('/search/Delivery');
+    }
+    setRadioValue('Pickup');
+    history.push('/search/Pickup');
   };
   const radios = [
     { name: 'Delivery' },
     { name: 'Pickup' },
   ];
+  useEffect(() => {
+    localStorage.setItem('shippingType', radioValue);
+  }, [radioValue]);
   const handleOnchange = (e) => {
     setRadioValue(e.currentTarget.value);
+    // localStorage.setItem('shippingType', e.currentTarget.value);
     if (!text) history.push(`/search/${e.currentTarget.value}`);
     else history.push(`/search/${e.currentTarget.value}?text=${text}`);
   };
@@ -58,7 +71,7 @@ const Menu = () => {
     <Navbar bg="light" expand="lg">
       <Container fluid>
         <i className="fal fa-angle-down" />
-        <LinkContainer to={customerSigninInfo && customerSigninInfo.customer[0].role === 1 ? `/restaurant/${customerSigninInfo.customer[0].id}` : '/search/Delivery'}>
+        <LinkContainer to={customerSigninInfo && customerSigninInfo.customer[0].role === 1 ? `/restaurant/${customerSigninInfo.customer[0].id}` : '/search/Pickup'}>
           <Navbar.Brand expand="lg">
             <Card.Img src={logo} variant="top" style={{ height: '80px' }} />
           </Navbar.Brand>

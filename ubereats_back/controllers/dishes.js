@@ -122,8 +122,8 @@ exports.update = (req, res) => {
       // }
       item.data = files.photo.path;
       item.contentType = files.photo.type;
+      dishes.photo = JSON.stringify(item);
     }
-    dishes.photo = JSON.stringify(item);
     dishes.restaurant_id = req.restaurant[0].id;
     pool.getConnection((err, conn) => {
       if (err) {

@@ -159,6 +159,7 @@ const Customerdashboard = ({ history }) => {
           <option>Select</option>
           <option value="Pickup">Pickup</option>
           <option value="Delivery">Delivery</option>
+          <option value="Delivery & Pickup">Delivery & Pickup</option>
         </select>
       </div>
       )}
@@ -182,6 +183,7 @@ const Customerdashboard = ({ history }) => {
           <option value="Veg">Veg</option>
           <option value="Nonveg">Nonveg</option>
           <option value="Vegan">Vegan</option>
+          <option value="All">All</option>
         </select>
       </div>
       )}

@@ -59,8 +59,8 @@ exports.updateCustomer = (req, res) => {
       // }
       item.data = files.photo.path;
       item.contentType = files.photo.type;
+      users.photo = JSON.stringify(item);
     }
-    users.photo = JSON.stringify(item);
     const { id } = req.profile[0];
     pool.getConnection((err, conn) => {
       if (err) {
@@ -216,43 +216,6 @@ exports.addCart = (req, res) => {
       );
     }
   });
-  // pool.getConnection('DELETE FROM cart WHERE customer_id = ?', req.profile[0].id, (
-  //   err,
-  // ) => {
-  //   if (err) {
-  //     console.log('unable to insert ordered items', err);
-  //     res.status(400).json('unable to insert ordered items');
-  //   } else {
-  //     pool.getConnection((err, conn) => {
-  //       if (err) {
-  //         res.send('Error occured');
-  //       } else {
-  //         // eslint-disable-next-line camelcase
-  //         const ordered_items = req.body.cart.cartItems;
-  //         for (let i = 0; i < ordered_items.length; i++) {
-  //           const dishId = ordered_items[i].dish;
-  //           const { qty } = ordered_items[i];
-  //           conn.query(
-  //             'INSERT INTO cart (customer_id, dish, qty) VALUES (?,?,?)',
-  //             [id, dishId, qty],
-  //             (error, cart) => {
-  //               if (error) {
-  //                 return res.status(400).json({
-  //                   error: errorHandler(error),
-
-  //                 });
-  //               }
-  //               res.status(200).json({
-  //                 Success: 'cartItems saved successfully',
-  //               });
-  //               conn.release();
-  //             },
-  //           );
-  //         }
-  //       }
-  //     });
-  //   }
-  // });
 };
 
 exports.getCartItems = (req, res) => {
@@ -262,7 +225,7 @@ exports.getCartItems = (req, res) => {
       res.send('Error occured');
     } else {
       conn.query(
-        'SELECT * FROM cart JOIN dishes ON  cart.dish = dishes.id',
+        'SELECT * FROM cart JOIN dishes ON cart.dish = dishes.id WHERE cart.customer_id = ?',
         [id],
         (error, items) => {
           if (error || !items.length) {

@@ -9,9 +9,11 @@ const SearchBox = ({ history, location }) => {
   const submitHandler = (e) => {
     e.preventDefault();
     if (keyword.trim()) {
-      history.push(`${location.pathname}?text=${keyword}`);
+      const val = keyword;
+      setKeyword('');
+      history.push(`${location.pathname}?text=${val}`);
     } else {
-      history.push('/search/Delivery');
+      history.push('/search/Pickup');
     }
   };
 
@@ -21,6 +23,7 @@ const SearchBox = ({ history, location }) => {
       <Form.Control
         type="text"
         name="q"
+        value={keyword}
         onChange={(e) => setKeyword(e.target.value)}
         placeholder="   What are you craving?"
         className="mr-sm-2"

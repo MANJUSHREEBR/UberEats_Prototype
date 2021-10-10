@@ -12,7 +12,7 @@ import {
 } from '../constants/restaurantConstants';
 import { API } from '../../config';
 
-export const listRestaurants = (keyword, location) => (dispatch) => {
+export const listRestaurants = (keyword = 'Pickup', location = 'San Jose') => (dispatch) => {
   dispatch({ type: RESTAURANT_LIST_REQUEST });
   fetch(`${API}/restaurant?search=${keyword}&location=${location}`, {
     method: 'GET',

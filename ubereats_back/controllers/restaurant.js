@@ -57,9 +57,8 @@ exports.updateRestaurant = (req, res) => {
       // }
       item.data = files.photo.path;
       item.contentType = files.photo.type;
+      users.photo = JSON.stringify(item);
     }
-    users.photo = JSON.stringify(item);
-
     const { id } = req.restaurant[0];
     pool.getConnection((err, conn) => {
       if (err) {
@@ -100,33 +99,16 @@ exports.updateRestaurant = (req, res) => {
 };
 
 exports.list = (req, res) => {
-  // const search = req.query.search ? (req.query.search) : 'Delivery';
-  // const location = req.query.location ? (req.query.location) : 'San Jose';
-
-  // pool.query(
-  //   'SELECT * FROM restaurants WHERE photo IS NOT NULL AND deliverymode = ? ORDER BY FIELD(location,?) DESC ',
-  //   [search, location],
-  //   (error, restaurant) => {
-  //     if (error || !restaurant.length) {
-  //       return res.status(400).json({
-  //         error: 'Restaurants not found',
-
-  //       });
-  //     }
-  //     res.status(200).json({
-  //       restaurant,
-  //     });
-  //   },
-  // );
-  const search = req.query.search ? (req.query.search) : 'Delivery';
+  const search = req.query.search ? (req.query.search) : 'Pickup';
   const location = req.query.location ? (req.query.location) : 'San Jose';
+  const bothType = 'Delivery & Pickup';
   pool.getConnection((err, conn) => {
     if (err) {
       res.send('Error occured');
     } else {
       conn.query(
-        'SELECT * FROM restaurants WHERE photo IS NOT NULL AND deliverymode = ? ORDER BY FIELD(location,?) DESC ',
-        [search, location],
+        'SELECT * FROM restaurants WHERE photo IS NOT NULL AND deliverymode in (?,?) ORDER BY FIELD(location,?) DESC ',
+        [search, bothType, location],
         (error, restaurant) => {
           if (error || !restaurant.length) {
             return res.status(400).json({

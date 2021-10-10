@@ -10,6 +10,7 @@ import {
   CART_GET_DATABASE_REQUEST,
   CART_GET_DATABASE_SUCCESS,
   CART_GET_DATABASE_FAIL,
+  CART_CLEAR_AND_ADD_NEW_ITEM,
 } from '../constants/cartConstants';
 
 export const cartReducer = (state = { cartItems: [], shippingAddress: {} }, action) => {
@@ -26,6 +27,12 @@ export const cartReducer = (state = { cartItems: [], shippingAddress: {} }, acti
       return {
         ...state,
         cartItems: [...state.cartItems, item],
+      };
+    case CART_CLEAR_AND_ADD_NEW_ITEM:
+      const itemNew = action.payload;
+      return {
+        ...state,
+        cartItems: [itemNew],
       };
     case CART_SAVE_SHIPPING_ADDRESS:
       return {

@@ -22,11 +22,13 @@ exports.create = (req, res) => {
       res.status(400).send('unable to insert the order');
     } else {
       const ordered_items = req.body.cart.cartItems;
+      console.log(ordered_items);
       for (let i = 0; i < ordered_items.length; i++) {
         const orderedItemData = {
           order_Id: result.insertId,
           dish_Id: ordered_items[i].dish,
           quantity: ordered_items[i].qty,
+          orderedprice: ordered_items[i].price,
         };
         pool.query('INSERT INTO orderdishes SET ?', orderedItemData, (
           err,

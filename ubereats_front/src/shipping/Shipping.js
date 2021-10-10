@@ -11,9 +11,13 @@ import CheckoutSteps from '../core/Checkoutsteps';
 
 const Shipping = ({ history }) => {
   const cart = useSelector((state) => state.cart);
+  const customer = useSelector((state) => state.customerSignin);
+  const {
+    customerSigninInfo,
+  } = customer;
   const { shippingAddress } = cart;
   const [address, setAddress] = useState(shippingAddress.address);
-  const [city, setCity] = useState(shippingAddress.city);
+  const [city, setCity] = useState(shippingAddress.city || customerSigninInfo.customer[0].location);
   const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
   const [country, setCountry] = useState(shippingAddress.country);
   const dispatch = useDispatch();

@@ -21,12 +21,13 @@ const Cart = ({ match, location, history }) => {
   const [show, setShow] = useState(true);
   const dishId = match.params.id;
   const qty = location.search ? Number(location.search.split('=')[1]) : 1;
+  const newitems = location.search ? (location.search.split('&')[0]).split('?')[1] : 'false';
   const dispatch = useDispatch();
   useEffect(() => {
     if (dishId) {
-      dispatch(addToCart(dishId, qty));
+      dispatch(addToCart(dishId, qty, newitems));
     }
-  }, [dispatch, qty, dishId]);
+  }, [dispatch, qty, dishId, newitems]);
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
@@ -34,7 +35,11 @@ const Cart = ({ match, location, history }) => {
     history.goBack();
   };
   const checkOutHandler = () => {
-    history.push('/shipping');
+    if (localStorage.getItem('shippingType') === 'Delivery') {
+      history.push('/shipping');
+    } else {
+      history.push('/checkout');
+    }
   };
   return (
     <div>

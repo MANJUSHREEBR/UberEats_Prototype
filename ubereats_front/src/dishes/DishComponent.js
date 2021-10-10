@@ -39,9 +39,9 @@ const DishComponent = ({ history, match }) => {
   const addToCart = () => {
     if (!localStorage.getItem('restId')) {
       localStorage.setItem('restId', dish.restaurant_id);
-      history.push(`/cart/${parseInt(match.params.id)}?qty=${qty}`);
+      history.push(`/cart/${parseInt(match.params.id)}?false&qty=${qty}`);
     } else if (localStorage.getItem('restId') == dish.restaurant_id) {
-      history.push(`/cart/${parseInt(match.params.id)}?qty=${qty}`);
+      history.push(`/cart/${parseInt(match.params.id)}?false&qty=${qty}`);
     } else {
       handleShow();
     }
@@ -59,9 +59,13 @@ const DishComponent = ({ history, match }) => {
     localStorage.setItem('EditDish', JSON.stringify(dish));
     history.push('/edit/dishes');
   };
+  const updateCart = () => {
+    localStorage.setItem('restId', dish.restaurant_id);
+    history.push(`/cart/${parseInt(match.params.id)}?true&qty=${qty}`);
+  };
   return (
     <>
-      <Button className="btn btn-success my-3" onClick={goback}> Go Back</Button>
+      <Button className="btn btn-dark my-3" onClick={goback}> Go Back</Button>
       <Row>
         <Col md={6}>
           <Image src={`${API}/dishes/photo/${match.params.id}`} alt={dish.name} fluid />
@@ -72,8 +76,17 @@ const DishComponent = ({ history, match }) => {
               <h3>{dish.name}</h3>
             </ListGroup.Item>
             <ListGroup.Item>
-              Description:
+              Discription:
+              {' '}
               {dish.description}
+              <hr />
+              Main Ingredients:
+              {' '}
+              { dish.mainingredient}
+              <hr />
+              Dish Type:
+              {' '}
+              {dish.dishtype}
               <hr />
               Price: $
               {dish.price}
@@ -100,11 +113,11 @@ const DishComponent = ({ history, match }) => {
               <Row>
                 <Col>Qty</Col>
                 <Col id="quantity">
-                  <Button className="btn-block bg-success mr-2" disabled={qty <= 1} type="button" onClick={decrement}>
+                  <Button className="btn-block bg-dark mr-2" disabled={qty <= 1} type="button" onClick={decrement}>
                     -
                   </Button>
                   {qty}
-                  <Button id="increment" className="btn-block bg-success" type="button" onClick={increment}>
+                  <Button id="incrementQty" className="btn-block bg-dark" type="button" onClick={increment}>
                     +
                   </Button>
                 </Col>
@@ -148,7 +161,7 @@ const DishComponent = ({ history, match }) => {
           Your cart contains order from another restaurant, please make a new order for this restaurant!
         </Modal.Body>
         <Modal.Footer>
-          <Button className="btn-block" variant="dark" onClick={handleClose}>
+          <Button className="btn-block" variant="dark" onClick={updateCart}>
             New Order
           </Button>
         </Modal.Footer>
