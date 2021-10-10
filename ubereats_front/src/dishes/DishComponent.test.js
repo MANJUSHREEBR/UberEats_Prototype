@@ -1,38 +1,35 @@
-/* eslint-disable no-console */
-/* eslint-disable max-len */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/jsx-filename-extension */
+/* eslint-disable no-global-assign */
 /* eslint-disable no-undef */
-import React from 'react';
-import '@testing-library/jest-dom';
-import Enzyme, {
-  render, configure, simulate, mount,
-} from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/react-in-jsx-scope */
+/* eslint-disable react/jsx-filename-extension */
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 import { useDispatch, useSelector, Provider } from 'react-redux';
-import store from '../js/store';
 import DishComponent from './DishComponent';
+import store from '../js/store';
+import { API } from '../config';
 
-configure({ adapter: new Adapter() });
-
-describe('Testing customer Landing Component', () => {
-  let wrapper;
-  beforeEach(() => {
-    const location = {};
-    const match = { params: ' ' };
-    wrapper = render(<Provider store={store}><DishComponent location={location} match={match} /></Provider>);
-  });
-
-  test('Renders Heading with text', () => {
-    expect(wrapper.find('#quantity').text()).toContain('1');
-  });
-  //   test('Renders the click event to increment quantity', () => {
-  //     wrapper.find('#increment').simulate('click');
-  //     const location = {};
-  //     const match = { params: ' ' };
-  //     const wrap = shallow(<Provider store={store}><DishComponent location={location} match={match} /></Provider>);
-
-//     wrap.find('#incrementQty').simulate('click');
-//     expect(wrap.find('#quantity').text()).toContain('2');
-//   });
+it('Testing Dish Component whether an element is present or not', () => {
+  const history = {};
+  const match = { params: ' ' };
+  render(<Provider store={store}><DishComponent history={history} match={match} /></Provider>);
+  const buttonElement = screen.getByText('+');
+  expect(buttonElement).toBeInTheDocument();
+});
+it('Testing Proper image source value', () => {
+  const history = {};
+  const match = { params: { id: 4 } };
+  const src = `${API}/dishes/photo/${match.params.id}`;
+  render(<Provider store={store}><DishComponent history={history} match={match} /></Provider>);
+  const imageElement = screen.getByRole('img');
+  expect(imageElement.src === src);
+});
+it('Testing initial value', () => {
+  const history = {};
+  const match = { params: { id: 4 } };
+  render(<Provider store={store}><DishComponent history={history} match={match} /></Provider>);
+  const quantityElement = screen.getByTestId('quantity');
+  expect(quantityElement).toBeInTheDocument();
 });

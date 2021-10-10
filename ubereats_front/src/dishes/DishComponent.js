@@ -112,7 +112,7 @@ const DishComponent = ({ history, match }) => {
             <ListGroup.Item>
               <Row>
                 <Col>Qty</Col>
-                <Col id="quantity">
+                <Col data-testid="quantity">
                   <Button className="btn-block bg-dark mr-2" disabled={qty <= 1} type="button" onClick={decrement}>
                     -
                   </Button>
