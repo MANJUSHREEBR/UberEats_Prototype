@@ -7,10 +7,12 @@ The main goal of this application is to develop Uber Eats application, which has
 
 ## 1)Customers:
 •Customers should be able to signup and signin to the application.
+
 •Customers can search for the restaurants and order food from registered restaurants.
 
 ## 2)Restaurants:
 • Restaurants should be able to signup and signin to the application. Restaurants should be able to add/ edit food.
+
 • Restaurants should manage the orders by changing the order status.
 
 ## Requirements 
