@@ -2,7 +2,7 @@
 The Objective of this project is to build a prototype of Uber Eats Web Application using
 HTML5, Bootstrap, React js, Redux, Nodejs and MYSql.
 
-# Goals and Purpose: 
+# Goal: 
 The main goal of this application is to develop Uber Eats application, which has two personas
 
 ## 1)Customers:
